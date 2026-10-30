@@ -1,0 +1,34 @@
+<section class="step" id="s-profile" data-id="profile" hidden>
+ <div class="sh"><span class="big">You</span><div><div class="kick">Welcome</div><h2>Your details</h2><div class="meta">Fill this in once and every prompt updates</div></div></div>
+ <div class="q sec"><p class="qh">About you</p><p class="hint" style="margin:0">Fields marked <span class="req" style="margin:0">*</span> are required. Everything is saved in this browser only.</p></div>
+
+ <div class="q" data-req="name"><label class="ql" for="f-name">Full name <span class="req">*</span></label><div class="hint">Shown as your brand name in the navbar, preloader and footer.</div><input class="in" id="f-name" data-bind="name" placeholder="e.g. Rahul Kumar" autocomplete="name"><div class="er">Please enter your name.</div></div>
+ <div class="q" data-req="role"><label class="ql" for="f-role">Role / job title <span class="req">*</span></label><div class="hint">2–4 words. Example: Java Full Stack Developer.</div><input class="in" id="f-role" data-bind="role" placeholder="e.g. Java Full Stack Developer"><div class="er">Please enter your role.</div></div>
+ <div class="q" data-req="email"><label class="ql" for="f-email">Email <span class="req">*</span></label><div class="hint">Used for the "Hire Me" button and the contact form.</div><input class="in" id="f-email" data-bind="email" type="email" placeholder="you@example.com" autocomplete="email"><div class="er">Please enter a valid email address.</div></div>
+ <div class="q"><div class="row2">
+  <div><label class="ql" for="f-city">City, country</label><input class="in" id="f-city" data-bind="city" placeholder="Bengaluru, India"></div>
+  <div><label class="ql" for="f-phone">Phone (optional)</label><input class="in" id="f-phone" data-bind="phone" placeholder="+91 00000 00000"></div>
+ </div></div>
+
+ <div class="q sec"><p class="qh">Your links</p></div>
+ <div class="q"><div class="row2">
+  <div><label class="ql" for="f-github">GitHub profile</label><input class="in" id="f-github" data-bind="github" placeholder="https://github.com/username"></div>
+  <div><label class="ql" for="f-linkedin">LinkedIn profile</label><input class="in" id="f-linkedin" data-bind="linkedin" placeholder="https://linkedin.com/in/username"></div>
+ </div><div style="height:12px"></div><div class="row2">
+  <div><label class="ql" for="f-instagram">Instagram (optional)</label><input class="in" id="f-instagram" data-bind="instagram" placeholder="https://instagram.com/username"></div>
+  <div><label class="ql" for="f-youtube">YouTube channel (optional)</label><input class="in" id="f-youtube" data-bind="youtube" placeholder="https://youtube.com/@username"></div>
+ </div></div>
+
+ <div class="q sec"><p class="qh">Your story</p></div>
+ <div class="q"><label class="ql" for="f-about">About me (2–3 sentences)</label><div class="hint">Shown in the "Intro" section and revealed word by word as visitors scroll. Leave it empty and the AI will draft it from your answers.</div><textarea class="in" id="f-about" data-bind="about" placeholder="An enthusiastic full-stack developer who loves building modern web apps with React and Node.js..."></textarea></div>
+ <div class="q"><label class="ql" for="f-highlights">Technologies to highlight in your intro (up to 6)</label><div class="hint">Comma-separated. They appear in brighter white inside your intro paragraph.</div><input class="in" id="f-highlights" data-bind="highlights" placeholder="React, Node.js, Python, MongoDB"></div>
+
+ <div class="q sec"><p class="qh">Skills &amp; services</p></div>
+ <div class="q"><label class="ql" for="f-skills">Skills for the scrolling ticker (up to 4 rows)</label><div class="hint">One row per line: <code>Row name: skill, skill, skill</code> (6–9 skills per row looks best).</div><textarea class="in" id="f-skills" data-bind="skills" placeholder="Frontend: React.js, Next.js, TypeScript, Tailwind CSS&#10;Backend: Node.js, Express.js, Python, MongoDB&#10;AI: ChatGPT, Claude, Cursor AI, Prompt Engineering&#10;Tools: Git, GitHub, Docker, Postman, VS Code"></textarea></div>
+ <div class="q"><label class="ql" for="f-services">Services you offer (optional, up to 6)</label><div class="hint">One per line: <code>Title — one-sentence description — capability, capability, capability</code>. Leave empty and the AI will draft 4 services from your skills.</div><textarea class="in" id="f-services" data-bind="services" placeholder="Full Stack Development — I build scalable web applications end to end — React, Node.js, REST APIs, MongoDB"></textarea></div>
+
+ <div class="q sec"><p class="qh">Projects</p></div>
+ <div class="q"><label class="ql" for="f-projects">Projects (up to 4)</label><div class="hint">For each: title — what it does — technologies — live link — GitHub link. Put your best project first. Each one gets a large editorial block with a cover image.</div><textarea class="in" id="f-projects" data-bind="projects" placeholder="1. Instagram AI Automation — chatbot that answers customer DMs and qualifies leads — React, FastAPI, OpenAI — https://my-app.vercel.app — github.com/me/insta-ai"></textarea></div>
+
+ <div class="pn"><button class="prev" type="button">Back</button><button class="next" type="button">Save and continue</button></div>
+</section>

@@ -1,0 +1,12 @@
+{
+  "name": "TAP Academy Portfolio Playbook",
+  "short_name": "TAP Playbook",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#0d87d4",
+  "background_color": "#eef5fb",
+  "display": "standalone",
+  "start_url": "../"
+}

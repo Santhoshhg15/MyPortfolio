@@ -1,0 +1,216 @@
+<main id="main">
+
+<section class="step" id="s-choose" data-id="choose" hidden>
+ <div class="phero">
+  <img class="plogo theme-light-only" src="brand/tap-academy-logo.png" alt="TAP Academy" width="240" height="100"><img class="plogo theme-dark-only" src="brand/tap-academy-logo-dark.png" alt="TAP Academy" width="240" height="100">
+  <p class="pby">TAP Academy Portfolio Playbook</p>
+  <h1>Which portfolio is right for you?</h1>
+  <p class="plead">Each template comes with its own step-by-step AI playbook. Google Antigravity writes the code, ChatGPT makes your images, and Vercel puts your site online.</p>
+  <div class="psteps"><span><b>1</b>Preview the designs</span><span><b>2</b>Choose a template</span><span><b>3</b>Fill in your details once</span><span><b>4</b>Copy and paste each prompt</span></div>
+ </div>
+ <div class="pgrid" id="pgrid"></div>
+ <div class="note">Your details are saved once and fill the prompts of every template. Each template keeps its own progress, so you can switch at any time with the <strong>Templates</strong> button at the top.</div>
+</section>
+
+@@SECTIONS@@
+</main>
+<footer><a href="https://thetapacademy.com/" target="_blank" rel="noopener" aria-label="TAP Academy website"><img class="theme-light-only" src="brand/tap-academy-logo.png" alt="TAP Academy" width="125" height="52"><img class="theme-dark-only" src="brand/tap-academy-logo-dark.png" alt="TAP Academy" width="125" height="52"></a><p class="copy">&copy; <span id="yr">2026</span> TAP Academy. All rights reserved.</p><p>This playbook, its prompts, templates and designs are the property of <a href="https://thetapacademy.com/" target="_blank" rel="noopener">TAP Academy</a> and are provided to TAP Academy students for their own portfolios. Please do not copy or redistribute them without permission.</p><p>Your answers and progress are saved in this browser only. Previews show sample content with placeholder portraits.</p></footer>
+<div class="toast" id="toast" role="status" aria-live="polite">Prompt copied</div>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Template preview"><button class="x" id="lbx" aria-label="Close preview">&#10005;</button><button class="a l" id="lbp" aria-label="Previous">&#8249;</button><img id="lbi" alt=""><div class="cap" id="lbc"></div><a class="btn pri go" id="lbg" href="#choose">Choose this template</a><button class="a r" id="lbn" aria-label="Next">&#8250;</button></div>
+<script>
+(function(){
+var TPLS=@@TPLS@@, TEMPLATES=@@TEMPLATES@@;
+var PK='portfolio-playbook-profile-v2', DK='portfolio-playbook-done-v3', TK='portfolio-playbook-template';
+var P=JSON.parse(localStorage.getItem(PK)||'{}'), done=JSON.parse(localStorage.getItem(DK)||'{}'), cur=localStorage.getItem(TK)||'t1', last={};
+if(!TPLS[cur]) cur='t1';
+var SOFT=['Team Collaboration','Problem Solving','Analytical Thinking','Communication','Leadership','Adaptability','Time Management','Creativity'];
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function saveP(){localStorage.setItem(PK,JSON.stringify(P))}
+function saveD(){localStorage.setItem(DK,JSON.stringify(done))}
+function slug(s){return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+@@SOFTJS@@
+function v(x){return (x&&String(x).trim())?String(x).trim():'(not provided)'}
+function ind(x){return (x&&x.trim())?'\n'+x.trim().split('\n').map(function(l){return '    '+l}).join('\n'):' (not provided)'}
+@@DETAILSJS@@
+var DETAILS={@@DETAILSMAP@@};
+var DEF={name:'[YOUR NAME]',role:'[YOUR ROLE]',email:'[YOUR EMAIL]',repo:'<my-name>-portfolio',liveurl:'<PASTE YOUR VERCEL URL HERE>',city:'[YOUR CITY]',nameuc:'[YOUR NAME IN CAPITALS]',introurl:'[YOUR INTRO VIDEO LINK]',repourl:'[YOUR GITHUB REPO LINK]',details:'⟨ Your details will appear here once you complete the "Your details" form ⟩'};
+function val(k){
+  if(k==='nameuc') return (P.name||'').trim().toUpperCase();
+  if(k==='repo') return P.name?slug(P.name)+'-portfolio':'';
+  if(k==='repourl') return (P.name&&P.github&&P.github.trim())?P.github.trim().replace(/\/+$/,'')+'/'+slug(P.name)+'-portfolio':'';
+  if(k==='details') return DETAILS[cur]();
+  return (P[k]||'').trim();
+}
+function fill(){
+  $$('.tk').forEach(function(s){var k=s.dataset.k,x=val(k);s.textContent=x||DEF[k]||('['+k+']');s.classList.toggle('filled',!!x)});
+  $$('[data-showif]').forEach(function(e){var k=e.dataset.showif,neg=k.charAt(0)==='!';if(neg)k=k.slice(1);var any=k.split('|').some(function(x){return (P[x]||'').trim()});e.hidden=neg?any:!any});
+  var first=(P.name||'').trim().split(/\s+/)[0];
+  $('#chip').classList.toggle('on',!!first); $('#chipn').textContent=first||'';
+}
+$$('[data-bind]').forEach(function(el){
+  var k=el.dataset.bind; if(P[k]!=null) el.value=P[k];
+  el.addEventListener('input',function(){P[k]=el.value;saveP();fill();var q=el.closest('.q');if(q)q.classList.remove('err')});
+});
+function tplOf(id){var m=/^(t\d+)-/.exec(id);return m?m[1]:null}
+function seq(){return TPLS[cur].seq}
+function pos(id){var i=seq().indexOf(id);return i<0?Math.max(0,seq().indexOf(last[cur]||seq()[0])):i}
+function show(id){
+  var t=tplOf(id||'');
+  if(id!=='choose'&&(!t||!TPLS[t]||TPLS[t].all.indexOf(id)<0)) id='choose';
+  if(id!=='choose'){cur=t;localStorage.setItem(TK,cur)}
+  var helpId=cur+'-help';
+  if(id!=='choose'&&id!==helpId) last[cur]=id;
+  document.body.classList.toggle('choosing',id==='choose');
+  fill();
+  $$('.step').forEach(function(s){s.hidden=s.dataset.id!==id});
+  $$('.ni[data-id]').forEach(function(n){var nt=n.dataset.tpl;n.hidden=!!nt&&nt!==cur;n.classList.toggle('active',n.dataset.id===id)});
+  $$('.grp[data-tpl]').forEach(function(g){g.hidden=g.dataset.tpl!==cur});
+  $('#help').hidden=(id==='choose'); $('#steps').hidden=false;
+  if(id==='choose'){
+    $('#pt').textContent='Choose a template'; $('#pp').textContent=''; $('#pb').style.width='0%'; $('#pb2').style.width='0%'; $('#brandn').textContent='Portfolio Playbook';
+  }else{
+    var S=seq(), i=S.indexOf(id), sec=$('#s-'+id), pv=$('.prev',sec), nx=$('.next',sec);
+    if(id===helpId){ if(pv) pv.textContent='Back to my step' }
+    else{ if(pv){pv.textContent=(i===0?'Templates':'Back');pv.disabled=false} if(nx) nx.hidden=(i===S.length-1) }
+    var p=pos(id), n=Math.max(1,S.length-1);
+    $('#pt').textContent=(id===helpId?'Help, ':'')+'Step '+(p+1)+' of '+S.length;
+    $('#pp').textContent=Math.round(p/n*100)+'%'; $('#pb').style.width=(p/n*100)+'%'; $('#pb2').style.width=(p/n*100)+'%';
+    $('#brandn').textContent=TPLS[cur].short;
+  }
+  document.body.classList.remove('nav'); window.scrollTo({top:0});
+}
+function paint(){$$('.ni[data-id]').forEach(function(n){n.classList.toggle('done',!!done[n.dataset.id])})}
+function go(id){if(location.hash.slice(1)===id)show(id);else location.hash=id}
+window.addEventListener('hashchange',function(){show(location.hash.slice(1))});
+function validate(sec){
+  var bad=null;
+  ['name','role','email'].forEach(function(k){
+    var q=$('.q[data-req="'+k+'"]',sec), x=(P[k]||'').trim(), ok=!!x;
+    if(k==='email') ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x);
+    q.classList.toggle('err',!ok); if(!ok&&!bad) bad=q;
+  });
+  if(bad){bad.scrollIntoView({behavior:'smooth',block:'center'});$('.in',bad).focus();return false}
+  return true;
+}
+function next(id){
+  var S=seq();
+  if(id===cur+'-profile'){
+    if(!validate($('#s-'+id))) return;
+    var rf=$('#f-'+cur+'-resume');if(rf&&!(P.resume||'').trim()){P.resume='Resume.pdf';rf.value=P.resume;}
+    saveP(); fill(); toast('Details saved. Every prompt is now personalised.');
+  }
+  done[id]=true; saveD(); paint();
+  var i=S.indexOf(id); if(i<S.length-1) go(S[i+1]);
+}
+$$('.step').forEach(function(sec){
+  var id=sec.dataset.id,pv=$('.prev',sec),nx=$('.next',sec);
+  if(id==='choose') return;
+  if(pv) pv.addEventListener('click',function(){
+    if(id===cur+'-help') go(last[cur]||seq()[0]);
+    else {var i=seq().indexOf(id); if(i<=0) go('choose'); else go(seq()[i-1])}
+  });
+  if(nx) nx.addEventListener('click',function(){next(id)});
+});
+$('#steps').addEventListener('click',function(){document.body.classList.toggle('nav')});
+$('#scrim').addEventListener('click',function(){document.body.classList.remove('nav')});
+$('#help').addEventListener('click',function(){go(cur+'-help')});
+$('#reset').addEventListener('click',function(e){e.preventDefault();if(confirm('Clear your details and progress on this browser?')){localStorage.removeItem(PK);localStorage.removeItem(DK);localStorage.removeItem(TK);location.hash='choose';location.reload()}});
+function toast(t){var e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove('show')},1800)}
+function copyText(t){
+  if(navigator.clipboard&&window.isSecureContext){return navigator.clipboard.writeText(t)}
+  return new Promise(function(res,rej){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy')?res():rej()}catch(e){rej(e)}document.body.removeChild(ta)})
+}
+$$('.cp').forEach(function(b){b.dataset.t=b.textContent;b.addEventListener('click',function(){
+  var code=$('code',b.closest('.prompt')).textContent;
+  copyText(code).then(function(){b.textContent='Copied';b.classList.add('ok');toast('Copied. Paste it into the agent.');setTimeout(function(){b.textContent=b.dataset.t;b.classList.remove('ok')},1800)},function(){toast('Copy did not work. Refresh the page and try again.')})
+})});
+$$('.more').forEach(function(b){b.addEventListener('click',function(){var p=b.closest('.prompt');var o=p.classList.toggle('open');b.textContent=o?'Collapse prompt':'Show full prompt'})});
+document.addEventListener('keydown',function(e){
+  var lb=$('#lb');
+  if(lb.classList.contains('on')){
+    if(e.key==='Escape')lb.classList.remove('on'); if(e.key==='ArrowLeft')lbStep(-1); if(e.key==='ArrowRight')lbStep(1); return;
+  }
+  if(/input|textarea|select/i.test(e.target.tagName))return;
+  var id=location.hash.slice(1),S=seq(),i=S.indexOf(id);
+  if(i<0)return;
+  if(e.key==='ArrowRight'&&id!==cur+'-profile'&&i<S.length-1)next(id);
+  if(e.key==='ArrowLeft'&&i>0)go(S[i-1]);
+});
+
+/* ---------- template chooser (cards, previews, lightbox) ---------- */
+var pgrid=$('#pgrid'), lb=$('#lb'), lbi=$('#lbi'), lbc=$('#lbc'), lbg=$('#lbg'), curLb={t:null,i:0};
+TEMPLATES.forEach(function(t){
+  var card=document.createElement('article');
+  card.className='pcard'+(t.soon?' soon':'');
+  card.style.setProperty('--tacc',t.acc);
+  var gal;
+  if(t.soon){ gal='<div class="soonbox">Preview coming soon</div>'; }
+  else{
+    gal='<div class="gal" role="button" tabindex="0" aria-label="Enlarge preview of '+esc(t.name)+'">'+t.shots.map(function(s,i){return '<img src="'+s[1]+'" alt="'+esc(t.name+': '+s[0])+'" class="'+(i===0?'on':'')+'" loading="'+(i<2?'eager':'lazy')+'">'}).join('')+
+      '<button class="arr prev" aria-label="Previous preview">&#8249;</button><button class="arr next" aria-label="Next preview">&#8250;</button></div>'+
+      '<div class="thumbs">'+t.shots.map(function(s,i){return '<button type="button" class="'+(i===0?'on':'')+'" aria-label="'+esc(s[0])+'"><img src="'+s[1]+'" alt=""></button>'}).join('')+'</div>'+
+      '<p class="gcap">'+esc(t.shots[0][0])+'</p>';
+  }
+  card.innerHTML=gal+'<div class="pbody">'+
+    (t.palette.length?'<div class="ppal" aria-label="Colour palette">'+t.palette.map(function(c){return '<i style="background:'+c+'" title="'+c+'"></i>'}).join('')+'</div>':'')+
+    '<div class="pnm">'+esc(t.n)+'</div><h2>'+esc(t.name)+'</h2><p class="pvibe">'+esc(t.vibe)+'</p>'+
+    '<div class="act">'+(t.soon?'<button class="btn" disabled>Not available yet</button>':
+      '<a class="btn pri" href="#'+t.key+'-start">Choose</a>'+(t.live?'<a class="btn lnk" href="'+t.live+'" target="_blank" rel="noopener">See it live &#8250;</a>':''))+'</div>'+
+    '<div class="pspec">'+
+    (t.features.length?'<h3>What you get</h3><ul class="feat">'+t.features.map(function(f){return '<li>'+esc(f)+'</li>'}).join('')+'</ul>':'')+
+    (t.stack.length?'<h3>Built with</h3><div class="pchips">'+t.stack.map(function(s){return '<span>'+esc(s)+'</span>'}).join('')+'</div>':'')+
+    (t.assets?'<div class="pmeta"><div><b>You will create</b>'+esc(t.assets)+'</div><div><b>Build time</b>'+esc(t.time)+'</div></div>':'')+
+    '</div></div>';
+  pgrid.appendChild(card);
+  if(t.soon) return;
+  var g=card.querySelector('.gal'), imgs=g.querySelectorAll('img'), th=card.querySelectorAll('.thumbs button'), cap=card.querySelector('.gcap'), idx=0, timer;
+  var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function showShot(i){idx=(i+imgs.length)%imgs.length;imgs.forEach(function(im,k){im.classList.toggle('on',k===idx)});th.forEach(function(b,k){b.classList.toggle('on',k===idx)});cap.textContent=t.shots[idx][0]}
+  function auto(){clearInterval(timer);if(!still)timer=setInterval(function(){showShot(idx+1)},4200)}
+  g.querySelector('.prev').addEventListener('click',function(e){e.stopPropagation();showShot(idx-1);auto()});
+  g.querySelector('.next').addEventListener('click',function(e){e.stopPropagation();showShot(idx+1);auto()});
+  th.forEach(function(b,k){b.addEventListener('click',function(){showShot(k);auto()})});
+  g.addEventListener('mouseenter',function(){clearInterval(timer)}); g.addEventListener('mouseleave',auto);
+  g.addEventListener('click',function(){openLb(t,idx)});
+  g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openLb(t,idx)}});
+  auto();
+});
+function openLb(t,i){
+  curLb.t=t;curLb.i=i; lbi.src=t.shots[i][1]; lbi.alt=t.name+': '+t.shots[i][0];
+  lbc.textContent=t.name+': '+t.shots[i][0]+'  ('+(i+1)+' of '+t.shots.length+')';
+  lbg.href='#'+t.key+'-start'; 
+  lb.classList.add('on');
+}
+function lbStep(d){var n=curLb.t.shots.length;openLb(curLb.t,(curLb.i+d+n)%n)}
+$('#lbx').addEventListener('click',function(){lb.classList.remove('on')});
+$('#lbp').addEventListener('click',function(){lbStep(-1)});
+$('#lbn').addEventListener('click',function(){lbStep(1)});
+lbg.addEventListener('click',function(){lb.classList.remove('on')});
+lb.addEventListener('click',function(e){if(e.target===lb)lb.classList.remove('on')});
+
+$('#yr').textContent=new Date().getFullYear();
+/* light (TAP Academy blue) / dark (original black and red) switch, remembered in this browser */
+function paintTheme(){var d=document.documentElement.dataset.theme==='dark',b=$('#theme');b.setAttribute('aria-pressed',d);$('.lbl',b).textContent=d?'Light mode':'Dark mode';$('.ic',b).innerHTML=d?'&#9728;':'&#9790;';document.querySelector('meta[name=theme-color]').content=d?'#07070a':'#0d87d4'}
+$('#theme').addEventListener('click',function(){var t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;localStorage.setItem('tap-playbook-theme',t);paintTheme()});
+paintTheme();
+/* ---------- content protection (deterrent only: a web page cannot fully block browser developer tools) ---------- */
+var BLOCKED='This shortcut is turned off in the TAP Academy playbook.';
+document.addEventListener('contextmenu',function(e){if(!/input|textarea/i.test(e.target.tagName)){e.preventDefault()}});
+document.addEventListener('dragstart',function(e){if(e.target.tagName==='IMG')e.preventDefault()});
+document.addEventListener('keydown',function(e){
+  var k=(e.key||'').toLowerCase(), mod=e.ctrlKey||e.metaKey, bad=false;
+  if(k==='f12') bad=true;
+  if(mod&&e.shiftKey&&['i','j','c','k'].indexOf(k)>=0) bad=true;   // developer tools, console, inspect
+  if(e.metaKey&&e.altKey&&['i','j','c','u'].indexOf(k)>=0) bad=true; // the same on a Mac
+  if(mod&&!e.shiftKey&&['u','s','p'].indexOf(k)>=0) bad=true;       // view source, save page, print
+  if(bad){e.preventDefault();e.stopPropagation();toast(BLOCKED)}
+},true);
+if(/^https?:$/.test(location.protocol)&&!/^(localhost|127\.)/.test(location.hostname)) $('#logout').hidden=false;
+fill();paint();show(location.hash.slice(1)||'choose');
+})();
+</script>
+</body>
+</html>

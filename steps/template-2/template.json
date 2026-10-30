@@ -1,0 +1,12 @@
+{
+  "id": "template-2",
+  "name": "Template 2 \u00e2\u20ac\u201d Cinematic Lime",
+  "short": "Template 2",
+  "profile": "template-2",
+  "createLabel": "Create your portraits",
+  "key": "t2",
+  "reference": "templates/template-2",
+  "linkedinBuilt": "using React, Vite, Tailwind CSS and GSAP, with AI-generated portraits and cinematic scroll animations, deployed on Vercel",
+  "linkedinAttach": "attach your hero portrait (A1) or your intro video (A4)",
+  "emailFields": "(user_name, user_email, user_phone, subject, message)"
+}

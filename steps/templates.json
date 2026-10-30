@@ -1,0 +1,182 @@
+[
+  {
+    "id": "template-1",
+    "n": "Template 1",
+    "name": "Red Studio",
+    "acc": "#ff2a2a",
+    "onacc": "#fff",
+    "vibe": "Bold, friendly and colourful: a red-and-black studio look with your illustrated portrait on a flip-over ID badge, a talking hero video and playful scroll animations.",
+    "palette": [
+      "#ff2a2a",
+      "#0a0a0a",
+      "#ffffff"
+    ],
+    "stack": [
+      "React 19",
+      "Tailwind CSS",
+      "Framer Motion",
+      "AOS",
+      "WebGL cursor"
+    ],
+    "features": [
+      "Full-screen hero with your talking video (play reel)",
+      "Dropping ID badge that flips to a visiting card with QR code",
+      "Scroll-drawn \"My Process\" path and skills grid",
+      "Projects, experience timeline and soft-skills cards",
+      "Fluid WebGL splash-cursor and animated preloader"
+    ],
+    "assets": "Illustrated portrait + talking video",
+    "time": "About 6 hours",
+    "live": "https://santhoshportfolio-eosin.vercel.app",
+    "shots": [
+      [
+        "Hero",
+        "previews/t1-hero.jpg"
+      ],
+      [
+        "About + ID badge",
+        "previews/t1-about.jpg"
+      ],
+      [
+        "Skills",
+        "previews/t1-skills.jpg"
+      ],
+      [
+        "My Process",
+        "previews/t1-process.jpg"
+      ],
+      [
+        "Projects",
+        "previews/t1-projects.jpg"
+      ],
+      [
+        "Contact",
+        "previews/t1-contact.jpg"
+      ],
+      [
+        "Footer",
+        "previews/t1-footer.jpg"
+      ]
+    ],
+    "key": "t1"
+  },
+  {
+    "id": "template-2",
+    "n": "Template 2",
+    "name": "Cinematic Lime",
+    "acc": "#CCFF00",
+    "onacc": "#000",
+    "vibe": "Dark, minimal and editorial: a giant metallic headline that scrambles in, your full-body portrait rising in front of it, an electric-lime services accordion and large case-study project stories.",
+    "palette": [
+      "#050505",
+      "#CCFF00",
+      "#ffffff"
+    ],
+    "stack": [
+      "React 19",
+      "Tailwind CSS",
+      "GSAP",
+      "ScrollTrigger"
+    ],
+    "features": [
+      "Letter-scramble hero: your name becomes PORTFOLIO, then your portrait rises",
+      "Word-by-word scroll-reveal intro with glass card",
+      "Four-row skills ticker moving in alternating directions",
+      "Full-width lime accordion for your services",
+      "Alternating editorial project stories with hover zoom",
+      "Premium contact form and a full-screen cinematic footer"
+    ],
+    "assets": "2 portraits (full-body + studio) + footer glow image",
+    "time": "About 6 hours",
+    "live": "",
+    "shots": [
+      [
+        "Hero",
+        "previews/t2-hero.jpg"
+      ],
+      [
+        "Intro",
+        "previews/t2-intro.jpg"
+      ],
+      [
+        "Services",
+        "previews/t2-services.jpg"
+      ],
+      [
+        "Projects",
+        "previews/t2-projects.jpg"
+      ],
+      [
+        "Contact",
+        "previews/t2-contact.jpg"
+      ],
+      [
+        "Footer",
+        "previews/t2-footer.jpg"
+      ]
+    ],
+    "key": "t2"
+  },
+  {
+    "id": "template-3",
+    "key": "t3",
+    "n": "Template 3",
+    "name": "Signal HUD",
+    "acc": "#ff5b1f",
+    "onacc": "#08090c",
+    "vibe": "Dark, technical and motion-led: a heads-up-display portfolio with a live 3D wireframe core, a name that decodes from random characters, buttery smooth scrolling and a pinned sideways project gallery.",
+    "palette": [
+      "#08090c",
+      "#ff5b1f",
+      "#e8e6df"
+    ],
+    "stack": [
+      "React 19",
+      "Tailwind CSS",
+      "GSAP + ScrollTrigger",
+      "Lenis",
+      "three.js"
+    ],
+    "features": [
+      "Live 3D wireframe centrepiece you can drag to rotate",
+      "Text-decode effect on your name and section labels",
+      "HUD top bar with a live local clock and rotating status",
+      "Count-up stats and skill modules",
+      "Pinned horizontal project gallery with progress line",
+      "Scroll-filled journey timeline, terminal-style contact form and crosshair cursor"
+    ],
+    "assets": "1 monochrome portrait (+ optional project covers)",
+    "time": "About 6 to 7 hours",
+    "live": "",
+    "shots": [
+      [
+        "Hero + 3D core",
+        "previews/t3-hero.jpg"
+      ],
+      [
+        "About",
+        "previews/t3-about.jpg"
+      ],
+      [
+        "Skills",
+        "previews/t3-skills.jpg"
+      ],
+      [
+        "Projects gallery",
+        "previews/t3-projects.jpg"
+      ],
+      [
+        "Journey",
+        "previews/t3-journey.jpg"
+      ],
+      [
+        "Contact",
+        "previews/t3-contact.jpg"
+      ],
+      [
+        "Footer",
+        "previews/t3-footer.jpg"
+      ]
+    ]
+  }
+]

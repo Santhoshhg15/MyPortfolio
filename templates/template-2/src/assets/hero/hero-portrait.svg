@@ -1,0 +1,23 @@
+<svg width="400" height="800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800">
+<defs><linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c58c63"/><stop offset="1" stop-color="#a86f4a"/></linearGradient>
+<linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f1ea"/><stop offset="1" stop-color="#d8d3c6"/></linearGradient>
+<linearGradient id="tr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9b79a"/><stop offset="1" stop-color="#a89a80"/></linearGradient></defs>
+<g>
+<!-- legs -->
+<path d="M120 470 L195 470 L190 790 L125 790 Z" fill="url(#tr)"/><path d="M205 470 L280 470 L275 790 L210 790 Z" fill="url(#tr)"/>
+<path d="M118 790 h80 v10 h-80z M202 790 h80 v10 h-80z" fill="#2a2420"/>
+<!-- shirt -->
+<path d="M95 190 Q200 150 305 190 L330 330 L300 345 L290 270 L285 480 L115 480 L110 270 L100 345 L70 330 Z" fill="url(#sh)"/>
+<path d="M175 185 L200 260 L225 185" fill="none" stroke="#bfb9aa" stroke-width="3"/>
+<!-- arms in pockets -->
+<path d="M70 330 L100 345 L130 470 L105 470 Z" fill="url(#sh)"/><path d="M330 330 L300 345 L270 470 L295 470 Z" fill="url(#sh)"/>
+<rect x="150" y="470" width="100" height="10" fill="#8a7b62"/>
+<!-- neck + head -->
+<rect x="180" y="150" width="40" height="45" rx="10" fill="url(#skin)"/>
+<ellipse cx="200" cy="100" rx="55" ry="68" fill="url(#skin)"/>
+<!-- curly hair -->
+<g fill="#16110e"><circle cx="150" cy="55" r="26"/><circle cx="178" cy="38" r="28"/><circle cx="212" cy="36" r="28"/><circle cx="244" cy="52" r="26"/><circle cx="258" cy="82" r="18"/><circle cx="142" cy="84" r="18"/><circle cx="200" cy="50" r="30"/></g>
+<!-- glasses -->
+<g fill="none" stroke="#d9d9d9" stroke-width="3"><circle cx="177" cy="104" r="17"/><circle cx="224" cy="104" r="17"/><path d="M194 104h14"/></g>
+<path d="M182 140 Q200 150 218 140" fill="none" stroke="#6b3f2a" stroke-width="4" stroke-linecap="round"/>
+</g></svg>

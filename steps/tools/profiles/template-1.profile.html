@@ -1,0 +1,42 @@
+<section class="step" id="s-profile" data-id="profile" hidden>
+ <div class="sh"><span class="big">You</span><div><div class="kick">Welcome</div><h2>Your details</h2><div class="meta">Fill this in once and every prompt updates</div></div></div>
+ <div class="q sec"><p class="qh">About you</p><p class="hint" style="margin:0">Fields marked <span class="req" style="margin:0">*</span> are required. Everything is saved in this browser only.</p></div>
+
+ <div class="q" data-req="name"><label class="ql" for="f-name">Full name <span class="req">*</span></label><div class="hint">Shown as your brand name in the navbar, preloader and footer.</div><input class="in" id="f-name" data-bind="name" placeholder="e.g. Rahul Kumar" autocomplete="name"><div class="er">Please enter your name.</div></div>
+ <div class="q" data-req="role"><label class="ql" for="f-role">Role / job title <span class="req">*</span></label><div class="hint">2–4 words. Example: Java Full Stack Developer.</div><input class="in" id="f-role" data-bind="role" placeholder="e.g. Java Full Stack Developer"><div class="er">Please enter your role.</div></div>
+ <div class="q" data-req="email"><label class="ql" for="f-email">Email <span class="req">*</span></label><div class="hint">Used for the "Hire Me" button and the contact form.</div><input class="in" id="f-email" data-bind="email" type="email" placeholder="you@example.com" autocomplete="email"><div class="er">Please enter a valid email address.</div></div>
+ <div class="q"><div class="row2">
+  <div><label class="ql" for="f-city">City, country</label><input class="in" id="f-city" data-bind="city" placeholder="Bengaluru, India"></div>
+  <div><label class="ql" for="f-phone">Phone (optional)</label><input class="in" id="f-phone" data-bind="phone" placeholder="+91 00000 00000"></div>
+ </div></div>
+
+ <div class="q sec"><p class="qh">Your links</p></div>
+ <div class="q"><div class="row2">
+  <div><label class="ql" for="f-github">GitHub profile</label><input class="in" id="f-github" data-bind="github" placeholder="https://github.com/username"></div>
+  <div><label class="ql" for="f-linkedin">LinkedIn profile</label><input class="in" id="f-linkedin" data-bind="linkedin" placeholder="https://linkedin.com/in/username"></div>
+ </div><div style="height:12px"></div><div class="row2">
+  <div><label class="ql" for="f-instagram">Instagram (optional)</label><input class="in" id="f-instagram" data-bind="instagram" placeholder="https://instagram.com/username"></div>
+  <div><label class="ql" for="f-resume">Resume file name</label><input class="in" id="f-resume" data-bind="resume" placeholder="Resume.pdf"></div>
+ </div></div>
+
+ <div class="q sec"><p class="qh">Your story</p></div>
+ <div class="q"><label class="ql" for="f-summary">One-sentence summary</label><div class="hint">Who are you and what do you do?</div><textarea class="in" id="f-summary" data-bind="summary" placeholder="Final-year CS student who builds full-stack web apps with Java and React."></textarea></div>
+ <div class="q"><label class="ql" for="f-about">About me (2–3 sentences)</label><div class="hint">Your goals, strengths, what you enjoy. Leave empty and the AI will draft it from your answers.</div><textarea class="in" id="f-about" data-bind="about"></textarea></div>
+
+ <div class="q sec"><p class="qh">Skills</p></div>
+ <div class="q"><label class="ql" for="f-skills">Technical skills</label><div class="hint">One group per line: <code>Group: skill, skill, skill</code></div><textarea class="in" id="f-skills" data-bind="skills" placeholder="Programming: Java, Python, JavaScript&#10;Web: HTML, CSS, React, Tailwind CSS&#10;Databases: MySQL, MongoDB&#10;Tools: Git, GitHub, VS Code, Postman"></textarea></div>
+ <div class="q"><label class="ql">Soft skills <span style="color:var(--mut);font-weight:500">(pick up to 4)</span></label><div class="chips" id="soft"></div></div>
+
+ <div class="q sec"><p class="qh">Projects &amp; experience</p></div>
+ <div class="q"><label class="ql" for="f-projects">Projects (up to 3)</label><div class="hint">For each: title — what it does — technologies — GitHub link — live link (or "none"). Put the best one first.</div><textarea class="in" id="f-projects" data-bind="projects" placeholder="1. Food Delivery App — order food online with cart and payments — React, Spring Boot, MySQL — github.com/me/food-app — none"></textarea></div>
+ <div class="q"><label class="ql" for="f-experience">Internships / work experience (optional)</label><div class="hint">Company, role, duration, skills gained, technologies.</div><textarea class="in" id="f-experience" data-bind="experience"></textarea></div>
+ <div class="q"><label class="ql" for="f-activities">Activities, clubs, leadership (optional)</label><textarea class="in" id="f-activities" data-bind="activities"></textarea></div>
+
+ <div class="q sec"><p class="qh">Education</p></div>
+ <div class="q"><div class="row2">
+  <div><label class="ql" for="f-degree">Degree</label><input class="in" id="f-degree" data-bind="degree" placeholder="B.E. Computer Science"></div>
+  <div><label class="ql" for="f-college">College &amp; years</label><input class="in" id="f-college" data-bind="college" placeholder="ABC Institute of Technology, 2021–2025"></div>
+ </div></div>
+
+ <div class="pn"><button class="prev" type="button">Back</button><button class="next" type="button">Save and continue</button></div>
+</section>

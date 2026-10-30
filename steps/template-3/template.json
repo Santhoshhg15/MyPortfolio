@@ -1,0 +1,12 @@
+{
+  "reference": "templates/template-3",
+  "linkedinBuilt": "using React, Vite, Tailwind CSS, GSAP and three.js, with a live 3D centrepiece and smooth scroll animations, deployed on Vercel",
+  "linkedinAttach": "attach a screen recording of your site or your portrait (A1)",
+  "emailFields": "(user_name, user_email, message)",
+  "id": "template-3",
+  "key": "t3",
+  "name": "Template 3 \u2014 Signal HUD",
+  "short": "Template 3",
+  "profile": "template-3",
+  "createLabel": "Create your portrait"
+}

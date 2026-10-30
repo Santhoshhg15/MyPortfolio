@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Portfolio Class · Concept Visualizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000000;--panel:#0a0a0a;--panel2:#111113;--line:#242428;
+  --white:#ffffff;--dim:#9a9aa0;--dim2:#6b6b72;
+  --red:#ff2a2a;--red-dim:#ff2a2a33;--green:#28e07f;--gold:#ffd23f;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--white);font-family:'Inter',system-ui,sans-serif;height:100%;overflow:hidden;-webkit-font-smoothing:antialiased;}
+#app{position:relative;width:100vw;height:100vh;}
+
+.bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(circle at 18% 20%, rgba(255,42,42,0.10), transparent 45%),
+             radial-gradient(circle at 85% 80%, rgba(255,42,42,0.07), transparent 50%),
+             linear-gradient(var(--bg), var(--bg));}
+.bg-fx::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 40%, black 40%, transparent 85%);
+  animation:drift 40s linear infinite;}
+@keyframes drift{from{background-position:0 0;}to{background-position:220px 110px;}}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:20px;padding:16px 28px;background:linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);}
+.brand{font-weight:800;letter-spacing:.3px;font-size:14px;color:var(--dim);}
+.brand span{color:var(--red);}
+.topbar .spacer{flex:1;}
+.scenebar{display:flex;gap:6px;align-items:center;}
+.dot{width:9px;height:9px;border-radius:50%;background:#2a2a2d;cursor:pointer;transition:all .3s var(--ease);}
+.dot.active{background:var(--red);box-shadow:0 0 10px var(--red);transform:scale(1.3);}
+.dot.done{background:#4a4a4f;}
+.fsbtn{border:1px solid var(--line);background:rgba(255,255,255,0.03);color:var(--dim);font-size:12px;font-weight:600;padding:7px 12px;border-radius:7px;cursor:pointer;transition:all .2s;}
+.fsbtn:hover{border-color:var(--red);color:var(--white);}
+
+.stage{position:relative;z-index:10;width:100%;height:100%;}
+.scene{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:90px 6vw 60px;opacity:0;}
+.scene.active{display:flex;}
+.scene.enter{animation:sceneIn .55s var(--ease) forwards;}
+@keyframes sceneIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+.kicker{color:var(--red);font-weight:700;letter-spacing:2.5px;font-size:12.5px;text-transform:uppercase;margin-bottom:10px;opacity:0;animation:kIn .5s var(--ease) forwards;}
+@keyframes kIn{to{opacity:1;}}
+.scene h1{font-size:clamp(26px,3.6vw,44px);font-weight:800;letter-spacing:-0.5px;text-align:center;line-height:1.08;margin-bottom:40px;opacity:0;animation:kIn .6s var(--ease) .05s forwards;}
+.scene h1 em{color:var(--red);font-style:normal;}
+.body{width:100%;max-width:1180px;flex:1;display:flex;align-items:center;justify-content:center;position:relative;}
+
+.reveal{opacity:0;transform:translateY(16px) scale(.9);transition:opacity .5s var(--ease), transform .5s var(--ease);}
+.reveal.revealed{opacity:1;transform:translateY(0) scale(1);}
+.reveal.bounce.revealed{animation:bounceIn .6s var(--ease);}
+@keyframes bounceIn{0%{transform:scale(.3);opacity:0;}60%{transform:scale(1.14);opacity:1;}100%{transform:scale(1);}}
+path.arc,path.lineref{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .8s var(--ease);}
+path.arc.revealed,path.lineref.revealed{stroke-dashoffset:0;}
+
+.railwrap{position:fixed;left:0;right:0;bottom:0;height:3px;background:#161618;z-index:50;}
+.rail{height:100%;background:linear-gradient(90deg,var(--red),#ff6a4a);width:0%;transition:width .4s var(--ease);}
+.hint{position:fixed;bottom:16px;right:24px;z-index:50;color:var(--dim2);font-size:11.5px;letter-spacing:.3px;font-family:'JetBrains Mono',monospace;}
+.hint kbd{background:#19191c;border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:var(--dim);}
+
+/* ---- generic icon badge ---- */
+.badge{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,var(--panel2),#000);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:46px;position:relative;}
+.badge.glow{border-color:var(--red);box-shadow:0 0 36px -6px var(--red-dim);}
+.badge.green{border-color:var(--green);box-shadow:0 0 30px -6px #28e07f55;}
+.tag{margin-top:10px;font-size:10.5px;letter-spacing:2px;font-weight:700;color:var(--dim2);text-align:center;text-transform:uppercase;}
+.sealed{position:relative;}
+.sealed::after{content:'🔒';position:absolute;bottom:-6px;right:-6px;font-size:20px;filter:drop-shadow(0 0 6px #000);}
+.checkpop{position:absolute;top:-8px;right:-8px;width:30px;height:30px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:14px;color:#000;transform:scale(0);transition:transform .35s var(--ease);}
+.ico-item.revealed .checkpop{transform:scale(1);}
+
+/* ============ SCENE 0 : TITLE ============ */
+#s0 .body{flex-direction:column;}
+.title-main{font-size:clamp(38px,6vw,78px);font-weight:900;text-align:center;letter-spacing:-1px;}
+.title-main .r{color:var(--red);}
+.title-sub{margin-top:18px;font-size:clamp(15px,1.8vw,20px);color:var(--dim);text-align:center;}
+.title-tag{margin-top:40px;padding:12px 26px;border:1px solid var(--line);border-radius:100px;color:var(--white);font-weight:600;font-size:14px;background:rgba(255,42,42,0.06);}
+.title-tag b{color:var(--red);}
+
+/* ============ SCENE 1 : AGENT LOOP ============ */
+.vs-row{display:flex;gap:70px;margin-bottom:56px;align-items:center;}
+.handbox{position:relative;}
+.handbox .grab{position:absolute;font-size:22px;transition:all .6s var(--ease);}
+.handbox .grab.file{top:-30px;left:-40px;}
+.handbox .grab.term{bottom:-30px;left:-44px;}
+.handbox.revealed .grab.file{top:4px;left:-18px;}
+.handbox.revealed .grab.term{bottom:4px;left:-18px;}
+.arrowbig{font-size:30px;color:var(--dim2);}
+.loopstage{position:relative;width:420px;height:420px;}
+.loopstage svg{position:absolute;inset:0;width:100%;height:100%;}
+.loopstage svg path.arc{fill:none;stroke:var(--red);stroke-width:3;stroke-linecap:round;}
+.loopstage svg .motionpath{opacity:0;transition:opacity .4s;}
+.loopstage svg .motionpath.show{opacity:1;}
+.loopstage svg circle.traveler{fill:var(--red);filter:drop-shadow(0 0 8px var(--red));}
+.lbadge{position:absolute;transform:translate(-50%,-50%);}
+.lbadge.top{top:10%;left:50%;} .lbadge.right{top:50%;left:90%;} .lbadge.bottom{top:90%;left:50%;} .lbadge.left{top:50%;left:10%;}
+
+/* ============ SCENE 2 : PROMPT ============ */
+.bluecard{position:relative;width:520px;height:340px;border:1px dashed var(--line);border-radius:20px;background:rgba(255,255,255,0.015);}
+.stamp{position:absolute;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.stamp .ic{font-size:40px;}
+.stamp.tl{top:26px;left:34px;} .stamp.br{bottom:26px;right:34px;} .stamp.bl{bottom:26px;left:34px;}
+.swatch-pos{position:absolute;top:26px;right:34px;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.swatch{width:54px;height:54px;border-radius:12px;background:var(--red);box-shadow:0 0 30px -4px var(--red-dim);}
+.hexcap{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim2);}
+
+/* ============ SCENE 3 : CONTEXT ============ */
+.ctx-row{display:flex;gap:80px;align-items:center;}
+.ctxbox{width:260px;height:260px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,0.02);position:relative;display:flex;align-items:center;justify-content:center;gap:16px;box-shadow:inset 0 0 40px -10px var(--red-dim);}
+.ctxbox .slot{font-size:40px;}
+.ghostwrap{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.ghost{font-size:58px;animation:glitchShake 1.8s infinite;filter:drop-shadow(0 0 14px var(--red));}
+.ghost.revealed{color:var(--red);}
+@keyframes glitchShake{0%,100%{transform:translate(0,0);}10%{transform:translate(-3px,1px);}20%{transform:translate(2px,-2px);}30%{transform:translate(-2px,2px);}40%{transform:translate(3px,0);}50%{transform:translate(0,0);}}
+
+/* ============ SCENE 4 : HARNESS ============ */
+.car-wrap{display:flex;flex-direction:column;align-items:center;gap:40px;}
+.car{position:relative;width:520px;height:220px;}
+.cbadge{position:absolute;transform:translate(-50%,-50%);}
+.cbadge.engine{left:50%;top:8%;} .cbadge.w1{left:14%;top:64%;} .cbadge.w2{left:86%;top:64%;}
+.cbadge.dash{left:50%;top:80%;} .cbadge.brake{left:92%;top:30%;}
+.minicars{display:flex;gap:30px;}
+.minicar{width:140px;height:70px;border-radius:30px 30px 10px 10px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:26px;}
+.minicar.a{background:linear-gradient(145deg,#1a0d0d,#000);border-color:var(--red-dim);}
+.minicar.b{background:linear-gradient(145deg,#0d1a14,#000);border-color:#28e07f55;}
+
+/* ============ SCENE 5 : FIX ============ */
+.phone{width:300px;height:460px;border:3px solid var(--line);border-radius:36px;position:relative;background:var(--panel2);overflow:hidden;}
+.pportrait{position:absolute;width:120px;height:120px;border-radius:50%;background:linear-gradient(145deg,#2a2a2e,#111);border:2px solid var(--line);left:50%;top:150px;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;font-size:40px;transition:all .9s var(--ease);z-index:2;}
+.pportrait.revealed{top:320px;width:84px;height:84px;font-size:28px;}
+.pbutton{position:absolute;width:200px;height:50px;border-radius:30px;background:var(--red);left:50%;top:180px;transform:translate(-50%,-50%);z-index:1;display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:13px;letter-spacing:1px;}
+.mag{position:absolute;font-size:46px;left:50%;top:165px;transform:translate(-50%,-50%) scale(0);transition:transform .4s var(--ease);z-index:3;}
+.mag.revealed{transform:translate(-50%,-50%) scale(1);}
+.warnico{position:absolute;font-size:30px;left:50%;top:165px;transform:translate(-50%,-50%) scale(0);transition:transform .35s var(--ease);z-index:3;}
+.warnico.revealed{transform:translate(-50%,-50%) scale(1);animation:pingWarn 1s ease-in-out infinite;}
+@keyframes pingWarn{0%,100%{opacity:1;}50%{opacity:.4;}}
+.fence{position:absolute;inset:8px;border:2px dashed var(--dim2);border-radius:28px;opacity:0;transition:opacity .5s var(--ease);}
+.fence.revealed{opacity:1;}
+
+/* ============ SCENE 6 : MCP ============ */
+.mcpstage{position:relative;width:560px;height:480px;}
+.mcpstage svg{position:absolute;inset:0;width:100%;height:100%;}
+.mcpstage svg path.lineref{fill:none;stroke:var(--red);stroke-width:2.5;}
+.mcpstage svg circle.traveler{fill:var(--red);filter:drop-shadow(0 0 6px var(--red));opacity:0;transition:opacity .3s;}
+.mcpstage svg circle.traveler.show{opacity:1;}
+.hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,var(--panel2),#000);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:44px;z-index:2;box-shadow:0 0 50px -10px var(--red-dim);animation:hubPulse 2.4s ease-in-out infinite;}
+@keyframes hubPulse{0%,100%{box-shadow:0 0 50px -10px var(--red-dim);}50%{box-shadow:0 0 70px -6px var(--red-dim);}}
+.mnode{position:absolute;width:88px;height:88px;transform:translate(-50%,-50%);border-radius:50%;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:34px;z-index:2;}
+.mnode.tl{top:8%;left:12%;} .mnode.tr{top:8%;left:88%;} .mnode.bl{top:92%;left:12%;} .mnode.br{top:92%;left:88%;}
+
+/* ============ SCENE 7 : AGENTIC/RULES/SECRETS ============ */
+.trio{display:flex;gap:90px;align-items:center;}
+.swapwrap{position:relative;width:110px;height:110px;}
+.swapwrap .a,.swapwrap .b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:46px;transition:opacity .6s var(--ease), transform .6s var(--ease);}
+.swapwrap .b{opacity:0;transform:scale(.6) rotate(-20deg);}
+.swapwrap.revealed .a{opacity:0;transform:scale(.6) rotate(20deg);}
+.swapwrap.revealed .b{opacity:1;transform:scale(1) rotate(0);}
+.book{font-size:46px;display:inline-block;transition:transform .5s var(--ease);}
+.book.revealed{transform:rotateY(25deg) scale(1.1);}
+.lockwrap{position:relative;width:110px;height:110px;display:flex;align-items:center;justify-content:center;}
+.lockwrap .key{font-size:44px;}
+.lockwrap .lockico{position:absolute;font-size:44px;opacity:0;transform:scale(2) rotate(0);transition:all .4s var(--ease);}
+.lockwrap.revealed .lockico{opacity:1;transform:scale(1);animation:shake .4s .4s;}
+@keyframes shake{0%,100%{transform:translateX(0) scale(1);}25%{transform:translateX(-4px) scale(1);}75%{transform:translateX(4px) scale(1);}}
+.banbadge{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.banbadge .stack{position:relative;width:70px;height:70px;}
+.banbadge .gh{font-size:40px;}
+.banbadge .no{position:absolute;inset:0;font-size:60px;opacity:0;transform:scale(1.6);transition:all .35s var(--ease);color:var(--red);}
+.banbadge.revealed .no{opacity:1;transform:scale(1);}
+
+/* ============ SCENE 8 : VERIFY ============ */
+.quotewrap{position:relative;width:200px;height:140px;display:flex;align-items:center;justify-content:center;font-size:60px;}
+.wrongstamp{position:absolute;font-size:34px;color:var(--red);font-weight:900;border:4px solid var(--red);border-radius:12px;padding:8px 16px;transform:rotate(-10deg) scale(0);transition:transform .4s var(--ease);letter-spacing:1px;}
+.wrongstamp.revealed{transform:rotate(-10deg) scale(1);}
+.checkrow{display:flex;gap:40px;margin-top:50px;}
+.ico-item{position:relative;}
+.ico-item .b{width:90px;height:90px;border-radius:22px;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:36px;}
+
+/* ============ SCENE 9 : PIPELINE ============ */
+.pipewrap{display:flex;flex-direction:column;align-items:center;gap:26px;}
+.pipestage{position:relative;width:700px;height:150px;}
+.pipestage svg{position:absolute;inset:0;width:100%;height:100%;}
+.pipestage svg path.lineref{fill:none;stroke:var(--line);stroke-width:2;}
+.pipestage svg path.lineref.liveline{stroke:var(--red);}
+.pipestage svg circle.traveler{fill:var(--red);filter:drop-shadow(0 0 6px var(--red));opacity:0;transition:opacity .3s;}
+.pipestage svg circle.traveler.show{opacity:1;}
+.pbadge{position:absolute;top:50%;transform:translate(-50%,-50%);}
+.pbadge.n1{left:6%;} .pbadge.n2{left:36%;} .pbadge.n3{left:66%;} .pbadge.n4{left:94%;}
+.loopback{position:absolute;top:8%;right:0;left:0;height:1px;}
+
+/* ============ SCENE 10 : RECAP ============ */
+.recapgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;}
+.rbadge{width:140px;height:140px;border-radius:28px;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:56px;filter:grayscale(1) brightness(.5);transition:all .5s var(--ease);}
+.rbadge.revealed{filter:grayscale(0) brightness(1);border-color:var(--gold);box-shadow:0 0 40px -8px #ffd23f66;transform:scale(1.08);}
+
+/* ---------- overview ---------- */
+.overview{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.92);backdrop-filter:blur(8px);display:none;grid-template-columns:repeat(4,1fr);gap:18px;padding:90px 60px;overflow:auto;}
+.overview.open{display:grid;}
+.ocard{border:1px solid var(--line);border-radius:14px;padding:20px;cursor:pointer;background:var(--panel2);transition:all .25s var(--ease);}
+.ocard:hover{border-color:var(--red);transform:translateY(-3px);}
+.ocard .idx{color:var(--red);font-weight:800;font-size:12px;letter-spacing:1.5px;margin-bottom:6px;}
+.ocard .ti{font-weight:700;font-size:15px;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="bg-fx"></div>
+
+  <div class="topbar">
+    <div class="brand">AI•PORTFOLIO <span>// CONCEPT VISUALIZER</span></div>
+    <div class="spacer"></div>
+    <div class="scenebar" id="dots"></div>
+    <div class="spacer"></div>
+    <button class="fsbtn" id="fsbtn">⛶ Fullscreen</button>
+  </div>
+
+  <main class="stage" id="stage">
+
+    <!-- SCENE 0 -->
+    <section class="scene" id="s0" data-title="Title">
+      <div class="body">
+        <div class="step reveal" data-reveal="t0a"></div>
+        <div class="step reveal" data-reveal="t0b"></div>
+        <div class="step reveal" data-reveal="t0c"></div>
+        <div id="t0a" class="reveal title-main">Build Your Portfolio<br>Website with <span class="r">AI</span></div>
+        <div id="t0b" class="reveal title-sub">A 2-Hour Live Class — Antigravity · GitHub · Vercel</div>
+        <div id="t0c" class="reveal title-tag">By the end: live on the internet, <b>zero lines typed by you.</b></div>
+      </div>
+    </section>
+
+    <!-- SCENE 1: AGENT LOOP -->
+    <section class="scene" id="s1" data-title="AI Agent">
+      <div class="kicker">Block 1</div>
+      <h1>What is an AI <em>Agent</em>?</h1>
+      <div class="body" style="flex-direction:column;gap:10px;">
+        <div class="step" data-reveal="sealbox"></div>
+        <div class="step" data-reveal="handbox"></div>
+        <div class="step" data-reveal="lnThink"></div>
+        <div class="step" data-reveal="lnAct,arc1"></div>
+        <div class="step" data-reveal="lnObs,arc2"></div>
+        <div class="step" data-reveal="lnRep,arc3,arc4,travelpath"></div>
+
+        <div class="vs-row">
+          <div id="sealbox" class="reveal bounce badge sealed">💬</div>
+          <div class="arrowbig">vs</div>
+          <div id="handbox" class="reveal bounce handbox badge glow">
+            🤖
+            <span class="grab file">📄</span>
+            <span class="grab term">⌨️</span>
+          </div>
+        </div>
+
+        <div class="loopstage">
+          <svg viewBox="0 0 400 400">
+            <path id="arc1" class="arc" d="M 200,40 A 160,160 0 0,1 360,200" pathLength="1"/>
+            <path id="arc2" class="arc" d="M 360,200 A 160,160 0 0,1 200,360" pathLength="1"/>
+            <path id="arc3" class="arc" d="M 200,360 A 160,160 0 0,1 40,200" pathLength="1"/>
+            <path id="arc4" class="arc" d="M 40,200 A 160,160 0 0,1 200,40" pathLength="1"/>
+            <g id="travelpath" class="motionpath">
+              <path id="fullloop" d="M 200,40 A 160,160 0 1,1 199.99,40" fill="none" stroke="none"/>
+              <circle class="traveler" r="7">
+                <animateMotion dur="3.5s" repeatCount="indefinite">
+                  <mpath href="#fullloop"/>
+                </animateMotion>
+              </circle>
+            </g>
+          </svg>
+          <div id="lnThink" class="reveal bounce lbadge top badge glow">🧠</div>
+          <div id="lnAct" class="reveal bounce lbadge right badge glow">⚡</div>
+          <div id="lnObs" class="reveal bounce lbadge bottom badge glow">👁️</div>
+          <div id="lnRep" class="reveal bounce lbadge left badge glow">🔁</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 2: PROMPT -->
+    <section class="scene" id="s2" data-title="Good Prompt">
+      <div class="kicker">Block 2</div>
+      <h1>Anatomy of a Good <em>Prompt</em></h1>
+      <div class="body">
+        <div class="step" data-reveal="stGoal"></div>
+        <div class="step" data-reveal="stSpec"></div>
+        <div class="step" data-reveal="stCons"></div>
+        <div class="step" data-reveal="stCheck"></div>
+
+        <div class="bluecard">
+          <div id="stGoal" class="reveal bounce stamp tl"><span class="ic">🎯</span><span class="tag">Goal</span></div>
+          <div id="stSpec" class="reveal bounce swatch-pos"><span class="swatch"></span><span class="hexcap">#ff2a2a</span></div>
+          <div id="stCons" class="reveal bounce stamp bl"><span class="ic">🚧</span><span class="tag">Constraints</span></div>
+          <div id="stCheck" class="reveal bounce stamp br"><span class="ic">✅</span><span class="tag">Check</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 3: CONTEXT -->
+    <section class="scene" id="s3" data-title="Context & Hallucination">
+      <div class="kicker">Block 3</div>
+      <h1>Context & <em>Hallucination</em></h1>
+      <div class="body">
+        <div class="step" data-reveal="f1"></div>
+        <div class="step" data-reveal="f2"></div>
+        <div class="step" data-reveal="f3"></div>
+        <div class="step" data-reveal="ghost"></div>
+
+        <div class="ctx-row">
+          <div class="ctxbox">
+            <div id="f1" class="reveal bounce slot">👤</div>
+            <div id="f2" class="reveal bounce slot">💻</div>
+            <div id="f3" class="reveal bounce slot">🎓</div>
+          </div>
+          <div class="arrowbig">→</div>
+          <div class="ghostwrap">
+            <div id="ghost" class="reveal ghost">👻</div>
+            <div class="tag">Hallucinated</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 4: HARNESS -->
+    <section class="scene" id="s4" data-title="The Harness">
+      <div class="kicker">Block 4</div>
+      <h1>The <em>Harness</em></h1>
+      <div class="body">
+        <div class="car-wrap">
+          <div class="step" data-reveal="peng"></div>
+          <div class="step" data-reveal="pw1,pw2"></div>
+          <div class="step" data-reveal="pdash"></div>
+          <div class="step" data-reveal="pbrake"></div>
+          <div class="step" data-reveal="mc1,mc2"></div>
+
+          <div class="car">
+            <div id="peng" class="reveal bounce cbadge engine badge glow">⚙️</div>
+            <div id="pw1" class="reveal bounce cbadge w1 badge">🛞</div>
+            <div id="pw2" class="reveal bounce cbadge w2 badge">🛞</div>
+            <div id="pdash" class="reveal bounce cbadge dash badge">🎛️</div>
+            <div id="pbrake" class="reveal bounce cbadge brake badge">🛑</div>
+          </div>
+          <div class="minicars">
+            <div id="mc1" class="reveal minicar a">🚗</div>
+            <div id="mc2" class="reveal minicar b">🚙</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 5: FIX -->
+    <section class="scene" id="s5" data-title="Fix-It Formula">
+      <div class="kicker">Checkpoint</div>
+      <h1>How to Ask for a <em>Fix</em></h1>
+      <div class="body">
+        <div class="step" data-reveal="mag"></div>
+        <div class="step" data-reveal="warnico"></div>
+        <div class="step" data-reveal="pportrait"></div>
+        <div class="step" data-reveal="fence"></div>
+
+        <div class="phone">
+          <div class="pbutton">CONTACT ME</div>
+          <div id="pportrait" class="reveal pportrait">🙂</div>
+          <div id="mag" class="mag">🔍</div>
+          <div id="warnico" class="warnico">⚠️</div>
+          <div id="fence" class="fence"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 6: MCP -->
+    <section class="scene" id="s6" data-title="MCP">
+      <div class="kicker">Block 5</div>
+      <h1>MCP — <em>USB-C</em> for AI</h1>
+      <div class="body" style="flex-direction:column;">
+        <div class="step" data-reveal="hub"></div>
+        <div class="step" data-reveal="mGH,lineGH,travGH"></div>
+        <div class="step" data-reveal="mFig,lineFig,travFig"></div>
+        <div class="step" data-reveal="mDB,lineDB,travDB"></div>
+        <div class="step" data-reveal="mDrv,lineDrv,travDrv"></div>
+
+        <div class="mcpstage">
+          <svg viewBox="0 0 560 480">
+            <path id="lineGH" class="lineref" d="M 280,240 L 100,80" pathLength="1"/>
+            <path id="lineFig" class="lineref" d="M 280,240 L 460,80" pathLength="1"/>
+            <path id="lineDB" class="lineref" d="M 280,240 L 100,400" pathLength="1"/>
+            <path id="lineDrv" class="lineref" d="M 280,240 L 460,400" pathLength="1"/>
+            <circle id="travGH" class="traveler" r="6"><animateMotion dur="2.2s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear"><mpath href="#lineGH"/></animateMotion></circle>
+            <circle id="travFig" class="traveler" r="6"><animateMotion dur="2.4s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear"><mpath href="#lineFig"/></animateMotion></circle>
+            <circle id="travDB" class="traveler" r="6"><animateMotion dur="2.6s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear"><mpath href="#lineDB"/></animateMotion></circle>
+            <circle id="travDrv" class="traveler" r="6"><animateMotion dur="2.8s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear"><mpath href="#lineDrv"/></animateMotion></circle>
+          </svg>
+          <div id="hub" class="reveal bounce hub">🔌</div>
+          <div id="mGH" class="reveal bounce mnode tl">🐙</div>
+          <div id="mFig" class="reveal bounce mnode tr">🎨</div>
+          <div id="mDB" class="reveal bounce mnode bl">🗄️</div>
+          <div id="mDrv" class="reveal bounce mnode br">☁️</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 7: AGENTIC/RULES/SECRETS -->
+    <section class="scene" id="s7" data-title="Agentic AI, Rules & Secrets">
+      <div class="kicker">Block 6</div>
+      <h1>Agentic AI, Rules & <em>Secrets</em></h1>
+      <div class="body" style="flex-direction:column;">
+        <div class="step" data-reveal="swap"></div>
+        <div class="step" data-reveal="bookel"></div>
+        <div class="step" data-reveal="lockel"></div>
+        <div class="step" data-reveal="banel"></div>
+
+        <div class="trio">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <div id="swap" class="swapwrap"><span class="a">🧑‍💼</span><span class="b">🤖</span></div>
+            <div class="tag">Agentic AI</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <div id="bookel" class="book">📘</div>
+            <div class="tag">Rules File</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <div id="lockel" class="lockwrap"><span class="key">🔑</span><span class="lockico">🔒</span></div>
+            <div class="tag">Secrets</div>
+          </div>
+          <div id="banel" class="banbadge">
+            <div class="stack"><span class="gh">🐙</span><span class="no">🚫</span></div>
+            <div class="tag">Never Commit Keys</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 8: VERIFY -->
+    <section class="scene" id="s8" data-title="Verify Everything">
+      <div class="kicker">Block 7</div>
+      <h1><em>Verify</em> Everything</h1>
+      <div class="body" style="flex-direction:column;">
+        <div class="step" data-reveal="wrongstamp"></div>
+        <div class="step" data-reveal="k1"></div>
+        <div class="step" data-reveal="k2"></div>
+        <div class="step" data-reveal="k3"></div>
+        <div class="step" data-reveal="k4"></div>
+
+        <div class="quotewrap">🤖<div id="wrongstamp" class="wrongstamp">WRONG</div></div>
+        <div class="checkrow">
+          <div id="k1" class="reveal bounce ico-item"><div class="b">👆</div><div class="checkpop">✓</div></div>
+          <div id="k2" class="reveal bounce ico-item"><div class="b">📱</div><div class="checkpop">✓</div></div>
+          <div id="k3" class="reveal bounce ico-item"><div class="b">🔍🐛</div><div class="checkpop">✓</div></div>
+          <div id="k4" class="reveal bounce ico-item"><div class="b">🔨</div><div class="checkpop">✓</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 9: PIPELINE -->
+    <section class="scene" id="s9" data-title="Git & CI/CD">
+      <div class="kicker">Block 8</div>
+      <h1>Git & <em>CI/CD</em></h1>
+      <div class="body">
+        <div class="pipewrap">
+          <div class="step" data-reveal="pn1"></div>
+          <div class="step" data-reveal="pn2,seg1"></div>
+          <div class="step" data-reveal="pn3,seg2"></div>
+          <div class="step" data-reveal="pn4,seg3,travmain,loopline,traveloop"></div>
+
+          <div class="pipestage">
+            <svg viewBox="0 0 700 150">
+              <path id="seg1" class="lineref liveline" d="M 42,75 L 252,75" pathLength="1"/>
+              <path id="seg2" class="lineref liveline" d="M 252,75 L 462,75" pathLength="1"/>
+              <path id="seg3" class="lineref liveline" d="M 462,75 L 658,75" pathLength="1"/>
+              <path id="mainpath" d="M 42,75 L 658,75" fill="none" stroke="none"/>
+              <circle id="travmain" class="traveler" r="6"><animateMotion dur="3s" repeatCount="indefinite"><mpath href="#mainpath"/></animateMotion></circle>
+              <path id="loopline" class="lineref" stroke-dasharray="6 6" d="M 658,60 C 500,-10 200,-10 42,60"/>
+              <circle id="traveloop" class="traveler" r="5"><animateMotion dur="2.5s" repeatCount="indefinite"><mpath href="#loopline"/></animateMotion></circle>
+            </svg>
+            <div id="pn1" class="reveal bounce pbadge n1 badge">💻</div>
+            <div id="pn2" class="reveal bounce pbadge n2 badge">🔀</div>
+            <div id="pn3" class="reveal bounce pbadge n3 badge">🐙</div>
+            <div id="pn4" class="reveal bounce pbadge n4 badge glow">▲</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 10: RECAP -->
+    <section class="scene" id="s10" data-title="Recap">
+      <div class="kicker">Wrap-up</div>
+      <h1>What You Actually <em>Learned</em></h1>
+      <div class="body">
+        <div class="step" data-reveal="r1"></div>
+        <div class="step" data-reveal="r2"></div>
+        <div class="step" data-reveal="r3"></div>
+        <div class="step" data-reveal="r4"></div>
+        <div class="step" data-reveal="r5"></div>
+        <div class="step" data-reveal="r6"></div>
+
+        <div class="recapgrid">
+          <div id="r1" class="reveal rbadge">🔁</div>
+          <div id="r2" class="reveal rbadge">🎯</div>
+          <div id="r3" class="reveal rbadge">🧠</div>
+          <div id="r4" class="reveal rbadge">🚗</div>
+          <div id="r5" class="reveal rbadge">🔌</div>
+          <div id="r6" class="reveal rbadge">✅</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="railwrap"><div class="rail" id="rail"></div></div>
+  <div class="hint"><kbd>click</kbd> / <kbd>space</kbd> / <kbd>→</kbd> next &nbsp;·&nbsp; <kbd>←</kbd> back &nbsp;·&nbsp; <kbd>esc</kbd> overview</div>
+
+  <div class="overview" id="overview"></div>
+</div>
+
+<script>
+const scenes = Array.from(document.querySelectorAll('.scene'));
+const sceneTitles = scenes.map(s => s.dataset.title || 'Scene');
+let sceneIdx = 0;
+let stepIdx = 0;
+
+function stepsOf(scene){ return Array.from(scene.querySelectorAll('.step')); }
+
+function buildDots(){
+  const wrap = document.getElementById('dots');
+  wrap.innerHTML = '';
+  scenes.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot';
+    d.addEventListener('click', () => gotoScene(i, true));
+    wrap.appendChild(d);
+  });
+}
+function refreshDots(){
+  const dots = document.querySelectorAll('#dots .dot');
+  dots.forEach((d,i) => {
+    d.classList.toggle('active', i === sceneIdx);
+    d.classList.toggle('done', i < sceneIdx);
+  });
+  const total = scenes.length;
+  const steps = stepsOf(scenes[sceneIdx]).length || 1;
+  const pct = ((sceneIdx + stepIdx/steps) / total) * 100;
+  document.getElementById('rail').style.width = pct + '%';
+}
+function revealIds(idsAttr){
+  idsAttr.split(',').map(s=>s.trim()).filter(Boolean).forEach(id => {
+    const el = document.getElementById(id);
+    if(el){ el.classList.add('revealed'); el.classList.add('show'); }
+  });
+}
+function hideIds(idsAttr){
+  idsAttr.split(',').map(s=>s.trim()).filter(Boolean).forEach(id => {
+    const el = document.getElementById(id);
+    if(el){ el.classList.remove('revealed'); el.classList.remove('show'); }
+  });
+}
+function showScene(i){
+  scenes.forEach((s, idx) => {
+    s.classList.remove('active','enter');
+    if(idx === i){ s.classList.add('active'); requestAnimationFrame(()=> s.classList.add('enter')); }
+  });
+}
+function gotoScene(i, resetSteps){
+  sceneIdx = Math.max(0, Math.min(scenes.length-1, i));
+  stepIdx = resetSteps ? 0 : stepIdx;
+  showScene(sceneIdx);
+  scenes[sceneIdx].querySelectorAll('.reveal,[class*="trav"],.lineref,.arc').forEach(el => { el.classList.remove('revealed'); el.classList.remove('show'); });
+  const steps = stepsOf(scenes[sceneIdx]);
+  for(let k=0; k<stepIdx; k++){ revealIds(steps[k].dataset.reveal); }
+  refreshDots();
+}
+function next(){
+  const steps = stepsOf(scenes[sceneIdx]);
+  if(stepIdx < steps.length){
+    revealIds(steps[stepIdx].dataset.reveal);
+    stepIdx++;
+    refreshDots();
+  } else if(sceneIdx < scenes.length - 1){
+    sceneIdx++; stepIdx = 0;
+    showScene(sceneIdx);
+    refreshDots();
+  }
+}
+function prev(){
+  if(stepIdx > 0){
+    stepIdx--;
+    const steps = stepsOf(scenes[sceneIdx]);
+    hideIds(steps[stepIdx].dataset.reveal);
+    refreshDots();
+  } else if(sceneIdx > 0){
+    sceneIdx--;
+    const steps = stepsOf(scenes[sceneIdx]);
+    stepIdx = steps.length;
+    showScene(sceneIdx);
+    steps.forEach(st => revealIds(st.dataset.reveal));
+    refreshDots();
+  }
+}
+function toggleOverview(){
+  const ov = document.getElementById('overview');
+  if(ov.classList.contains('open')){ ov.classList.remove('open'); return; }
+  ov.innerHTML = '';
+  scenes.forEach((s,i) => {
+    const c = document.createElement('div');
+    c.className = 'ocard';
+    c.innerHTML = `<div class="idx">SCENE ${i.toString().padStart(2,'0')}</div><div class="ti">${sceneTitles[i]}</div>`;
+    c.addEventListener('click', () => { gotoScene(i, true); ov.classList.remove('open'); });
+    ov.appendChild(c);
+  });
+  ov.classList.add('open');
+}
+document.getElementById('stage').addEventListener('click', (e) => {
+  if(document.getElementById('overview').classList.contains('open')) return;
+  next();
+});
+window.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape'){ toggleOverview(); return; }
+  if(document.getElementById('overview').classList.contains('open')) return;
+  if(e.key === 'ArrowRight' || e.key === ' '){ e.preventDefault(); next(); }
+  if(e.key === 'ArrowLeft'){ e.preventDefault(); prev(); }
+});
+document.getElementById('fsbtn').addEventListener('click', () => {
+  if(!document.fullscreenElement){ document.documentElement.requestFullscreen(); }
+  else{ document.exitFullscreen(); }
+});
+buildDots();
+showScene(0);
+refreshDots();
+</script>
+</body>
+</html>

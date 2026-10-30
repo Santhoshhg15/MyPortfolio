@@ -1,0 +1,38 @@
+<section class="step" id="s-profile" data-id="profile" hidden>
+ <div class="sh"><span class="big">You</span><div><div class="kick">Welcome</div><h2>Your details</h2><div class="meta">Fill this in once and every prompt updates</div></div></div>
+ <div class="q sec"><p class="qh">About you</p><p class="hint" style="margin:0">Fields marked <span class="req" style="margin:0">*</span> are required. Everything is saved in this browser only.</p></div>
+
+ <div class="q" data-req="name"><label class="ql" for="f-name">Full name <span class="req">*</span></label><div class="hint">Shown as your brand name in the navbar, preloader and footer.</div><input class="in" id="f-name" data-bind="name" placeholder="e.g. Rahul Kumar" autocomplete="name"><div class="er">Please enter your name.</div></div>
+ <div class="q" data-req="role"><label class="ql" for="f-role">Role / job title <span class="req">*</span></label><div class="hint">2–4 words. Example: Java Full Stack Developer.</div><input class="in" id="f-role" data-bind="role" placeholder="e.g. Java Full Stack Developer"><div class="er">Please enter your role.</div></div>
+ <div class="q" data-req="email"><label class="ql" for="f-email">Email <span class="req">*</span></label><div class="hint">Used for the "Hire Me" button and the contact form.</div><input class="in" id="f-email" data-bind="email" type="email" placeholder="you@example.com" autocomplete="email"><div class="er">Please enter a valid email address.</div></div>
+ <div class="q"><div class="row2">
+  <div><label class="ql" for="f-city">City, country</label><input class="in" id="f-city" data-bind="city" placeholder="Bengaluru, India"></div>
+  <div><label class="ql" for="f-phone">Phone (optional)</label><input class="in" id="f-phone" data-bind="phone" placeholder="+91 00000 00000"></div>
+ </div></div>
+
+ <div class="q sec"><p class="qh">Your links</p></div>
+ <div class="q"><div class="row2">
+  <div><label class="ql" for="f-github">GitHub profile</label><input class="in" id="f-github" data-bind="github" placeholder="https://github.com/username"></div>
+  <div><label class="ql" for="f-linkedin">LinkedIn profile</label><input class="in" id="f-linkedin" data-bind="linkedin" placeholder="https://linkedin.com/in/username"></div>
+ </div><div style="height:12px"></div><div class="row2">
+  <div><label class="ql" for="f-instagram">Instagram (optional)</label><input class="in" id="f-instagram" data-bind="instagram" placeholder="https://instagram.com/username"></div>
+  <div><label class="ql" for="f-availability">Availability line</label><input class="in" id="f-availability" data-bind="availability" placeholder="Open to internships &amp; full-time roles"></div>
+ </div></div>
+
+ <div class="q sec"><p class="qh">Your story</p></div>
+ <div class="q"><label class="ql" for="f-intro">One-line intro for the hero</label><div class="hint">What you build, in one sentence.</div><input class="in" id="f-intro" data-bind="intro" placeholder="I design and build fast, reliable web products — from database to pixel."></div>
+ <div class="q"><label class="ql" for="f-status">Status lines for the top bar (3)</label><div class="hint">One per line, max 5 words each. They rotate next to the live clock.</div><textarea class="in" id="f-status" data-bind="status" placeholder="Building with React &amp; Node.js&#10;Learning system design&#10;Shipping side projects weekly"></textarea></div>
+ <div class="q"><label class="ql" for="f-about">About me (2–4 sentences)</label><div class="hint">Leave it empty and the AI will draft it from your answers.</div><textarea class="in" id="f-about" data-bind="about"></textarea></div>
+ <div class="q"><label class="ql" for="f-stats">3 numbers about you</label><div class="hint">One per line: <code>number + label</code>, for example <code>12+ Projects shipped</code>. Use real numbers only.</div><textarea class="in" id="f-stats" data-bind="stats" placeholder="12+ Projects shipped&#10;8 Technologies used daily&#10;500+ DSA problems solved"></textarea></div>
+
+ <div class="q sec"><p class="qh">Skills</p></div>
+ <div class="q"><label class="ql" for="f-skills">Skill modules (up to 4)</label><div class="hint">One group per line: <code>Group: skill, skill, skill</code></div><textarea class="in" id="f-skills" data-bind="skills" placeholder="Frontend: React, JavaScript, TypeScript, Tailwind CSS&#10;Backend: Node.js, Express, Java, Spring Boot&#10;Data: MySQL, MongoDB&#10;Tools: Git, Docker, Postman"></textarea></div>
+
+ <div class="q sec"><p class="qh">Projects</p></div>
+ <div class="q"><label class="ql" for="f-projects">Projects (up to 4)</label><div class="hint">For each: title — what it does — technologies — year — live link — GitHub link. Put your best project first. Each one gets a card in the sliding project gallery.</div><textarea class="in" id="f-projects" data-bind="projects" placeholder="1. Instagram AI Automation — chatbot that answers customer DMs and qualifies leads — React, FastAPI, OpenAI — https://my-app.vercel.app — github.com/me/insta-ai"></textarea></div>
+
+ <div class="q sec"><p class="qh">Journey</p></div>
+ <div class="q"><label class="ql" for="f-journey">Timeline entries (2–4)</label><div class="hint">One per line: <code>period — role or degree — organisation — one sentence</code>. Your TAP Academy placement training is added as the latest entry.</div><textarea class="in" id="f-journey" data-bind="journey" placeholder="2025 — Web Development Intern — Startup Name — Built dashboard features in React&#10;2021–2025 — B.E. Computer Science — ABC College — DBMS, OS and networks"></textarea></div>
+
+ <div class="pn"><button class="prev" type="button">Back</button><button class="next" type="button">Save and continue</button></div>
+</section>
