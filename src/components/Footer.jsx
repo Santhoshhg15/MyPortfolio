@@ -1,4 +1,4 @@
-import { personalInfo, socialLinks, footerContent } from '../data/portfolioData';
+import { personalInfo, socialLinks, footerContent, academy } from '../data/portfolioData';
 
 const Footer = () => {
   return (
@@ -36,6 +36,12 @@ const Footer = () => {
           <a href="#contact" className="underline hover:text-white transition-colors underline-offset-4 decoration-1 font-bold">Contact</a>
           <p className="text-white/60 font-mono text-[9px] md:text-[10px]">
             {footerContent.copyright}
+          </p>
+          <p className="text-white/60 font-mono text-[9px] md:text-[10px]">
+            Trained at{' '}
+            <a href={academy.url} target="_blank" rel="noopener" className="underline hover:text-white transition-colors underline-offset-4">
+              {academy.name}
+            </a>
           </p>
         </div>
         

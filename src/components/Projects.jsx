@@ -1,4 +1,12 @@
+import { useCallback, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { projects, socialLinks } from '../data/portfolioData';
+import { parseYouTube, thumbnailUrl } from '../utils/youtube';
+import VideoModal from './VideoModal';
+
+// Optional silent hover previews: src/assets/projects/<project id>-preview.mp4
+const previews = import.meta.glob('../assets/projects/*-preview.mp4', { eager: true, import: 'default' });
+const previewFor = (id) => Object.entries(previews).find(([path]) => path.endsWith(`/${id}-preview.mp4`))?.[1];
 
 const GitHubIcon = () => (
   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -12,118 +20,184 @@ const ExternalLinkIcon = () => (
   </svg>
 );
 
-const ProjectCard = ({ project, aosDelay }) => (
-  <div 
-    data-aos="fade-up"
-    data-aos-delay={aosDelay}
-    className={`relative rounded-2xl p-[1px] group transition-all duration-500 ${
-      project.isFlagship 
-        ? 'bg-gradient-to-br from-red-500/50 via-white/10 to-red-500/30 hover:from-red-500 hover:via-red-400/30 hover:to-red-500/60' 
-        : 'bg-white/10 hover:bg-white/20'
-    }`}
-  >
-    <div className={`rounded-2xl p-6 md:p-8 h-full backdrop-blur-md transition-all duration-500 ${
-      project.isFlagship 
-        ? 'bg-[#0f0f0f]/95 group-hover:bg-[#0f0f0f]/90' 
-        : 'bg-[#111111]/90 group-hover:bg-[#111111]/80'
-    }`}>
-      {/* Badge */}
-      {project.badge && (
-        <span className="inline-block text-xs font-bold tracking-widest uppercase text-red-400 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20 mb-4">
-          {project.badge}
-        </span>
+// Small video window on a project card: thumbnail, optional silent preview on hover, opens the big player on click
+const VideoWindow = ({ project, video, onPlay }) => {
+  const preview = previewFor(project.id);
+  const canHover = typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches;
+  const [hovering, setHovering] = useState(false);
+
+  const playPreview = (e) => {
+    if (!preview || !canHover) return;
+    setHovering(true);
+    const el = e.currentTarget.querySelector('video');
+    el?.play().catch(() => {});
+  };
+  const stopPreview = (e) => {
+    if (!preview || !canHover) return;
+    setHovering(false);
+    const el = e.currentTarget.querySelector('video');
+    if (el) {
+      el.pause();
+      el.currentTime = 0;
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={onPlay}
+      onMouseEnter={playPreview}
+      onMouseLeave={stopPreview}
+      aria-label={`Play ${project.title} explanation video`}
+      className="relative group/vid w-full md:w-[42%] shrink-0 aspect-video rounded-xl overflow-hidden border border-white/15 hover:border-red-500/50 transition cursor-pointer bg-black"
+    >
+      <img
+        src={thumbnailUrl(video.id)}
+        alt={`${project.title} demo video thumbnail`}
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      {preview && (
+        <video
+          src={preview}
+          muted
+          loop
+          playsInline
+          preload="none"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${hovering ? 'opacity-100' : 'opacity-0'}`}
+        />
       )}
+      <span className="absolute inset-x-0 bottom-0 flex items-center gap-2 px-3 py-2.5 bg-gradient-to-t from-black/85 to-transparent">
+        <span className="w-6 h-6 rounded-full bg-[#ff2a2a] flex items-center justify-center group-hover/vid:scale-110 transition-transform">
+          <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+        </span>
+        <span className="text-xs font-bold uppercase tracking-wider text-white">Watch explanation</span>
+      </span>
+    </button>
+  );
+};
 
-      {/* Number + Title */}
-      <div className="flex items-baseline gap-4 mb-4">
-        <span className="text-5xl font-black text-white/10 font-serif italic">{project.number}</span>
-        <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight">{project.title}</h3>
-      </div>
+const ProjectCard = ({ project, aosDelay, onPlay }) => {
+  const video = parseYouTube(project.videoUrl);
 
-      {/* Description */}
-      <p className="text-white/60 text-sm md:text-base leading-relaxed mb-6 max-w-2xl font-medium">
-        {project.description}
-      </p>
+  return (
+    <div
+      data-aos="fade-up"
+      data-aos-delay={aosDelay}
+      className={`relative rounded-2xl p-[1px] group transition-all duration-500 ${
+        project.isFlagship
+          ? 'bg-gradient-to-br from-red-500/50 via-white/10 to-red-500/30 hover:from-red-500 hover:via-red-400/30 hover:to-red-500/60'
+          : 'bg-white/10 hover:bg-white/20'
+      }`}
+    >
+      <div className={`rounded-2xl p-6 md:p-8 h-full backdrop-blur-md transition-all duration-500 ${
+        project.isFlagship
+          ? 'bg-[#0f0f0f]/95 group-hover:bg-[#0f0f0f]/90'
+          : 'bg-[#111111]/90 group-hover:bg-[#111111]/80'
+      }`}>
+        <div className={video ? 'flex flex-col md:flex-row gap-8 md:items-center' : ''}>
+          <div className={video ? 'md:w-[58%]' : ''}>
+            {/* Badge */}
+            {project.badge && (
+              <span className="inline-block text-xs font-bold tracking-widest uppercase text-red-400 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20 mb-4">
+                {project.badge}
+              </span>
+            )}
 
-      {/* Tech Tags */}
-      <div className="flex flex-wrap gap-2 mb-8">
-        {project.techTags.map((tag) => (
-          <span 
-            key={tag}
-            className="px-3 py-1 text-xs font-bold text-white/70 bg-white/5 rounded-full border border-white/10 hover:bg-red-500/20 hover:border-red-500/30 hover:text-red-300 transition-all duration-300 cursor-default"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
+            {/* Number + Title */}
+            <div className="flex items-baseline gap-4 mb-4">
+              <span className="text-5xl font-black text-white/10 font-serif italic">{project.number}</span>
+              <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight">{project.title}</h3>
+            </div>
 
-      {/* Action Buttons */}
-      <div className="flex flex-wrap gap-3">
-        {/* GitHub */}
-        {project.links.github && (
-          <a 
-            href={project.links.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold hover:bg-white hover:text-black transition-all duration-300 group/btn"
-          >
-            <GitHubIcon />
-            GitHub
-          </a>
-        )}
+            {/* Description */}
+            <p className="text-white/60 text-sm md:text-base leading-relaxed mb-6 max-w-2xl font-medium">
+              {project.description}
+            </p>
 
-        {/* Live Demo (single) */}
-        {project.links.demo !== undefined && (
-          <a 
-            href={project.links.demo || '#'}
-            target={project.links.demo ? "_blank" : undefined}
-            rel={project.links.demo ? "noopener noreferrer" : undefined}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
-              project.links.demo 
-                ? 'bg-[#ff2a2a] text-white hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)]' 
-                : 'bg-white/5 text-white/40 border border-white/10 cursor-not-allowed'
-            }`}
-          >
-            <ExternalLinkIcon />
-            {project.links.demo ? 'Live Demo' : 'Demo Coming Soon'}
-          </a>
-        )}
+            {/* Tech Tags */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              {project.techTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1 text-xs font-bold text-white/70 bg-white/5 rounded-full border border-white/10 hover:bg-red-500/20 hover:border-red-500/30 hover:text-red-300 transition-all duration-300 cursor-default"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
 
-        {/* Frontend Demo (Karigar) */}
-        {project.links.frontendDemo && (
-          <a 
-            href={project.links.frontendDemo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff2a2a] text-white text-sm font-semibold hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)] transition-all duration-300"
-          >
-            <ExternalLinkIcon />
-            Frontend Demo
-          </a>
-        )}
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-3">
+              {project.links.github && (
+                <a
+                  href={project.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold hover:bg-white hover:text-black transition-all duration-300"
+                >
+                  <GitHubIcon />
+                  GitHub
+                </a>
+              )}
 
-        {/* Backend API (Karigar) */}
-        {project.links.backendApi && (
-          <a 
-            href={project.links.backendApi}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold hover:bg-white/20 transition-all duration-300"
-          >
-            <ExternalLinkIcon />
-            Backend API
-          </a>
-        )}
+              {project.links.demo !== undefined && (
+                <a
+                  href={project.links.demo || '#'}
+                  target={project.links.demo ? '_blank' : undefined}
+                  rel={project.links.demo ? 'noopener noreferrer' : undefined}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    project.links.demo
+                      ? 'bg-[#ff2a2a] text-white hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)]'
+                      : 'bg-white/5 text-white/40 border border-white/10 cursor-not-allowed'
+                  }`}
+                >
+                  <ExternalLinkIcon />
+                  {project.links.demo ? 'Live Demo' : 'Demo Coming Soon'}
+                </a>
+              )}
+
+              {project.links.frontendDemo && (
+                <a
+                  href={project.links.frontendDemo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff2a2a] text-white text-sm font-semibold hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)] transition-all duration-300"
+                >
+                  <ExternalLinkIcon />
+                  Frontend Demo
+                </a>
+              )}
+
+              {project.links.backendApi && (
+                <a
+                  href={project.links.backendApi}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold hover:bg-white/20 transition-all duration-300"
+                >
+                  <ExternalLinkIcon />
+                  Backend API
+                </a>
+              )}
+            </div>
+          </div>
+
+          {video && <VideoWindow project={project} video={video} onPlay={onPlay} />}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Projects = () => {
+  const [activeVideo, setActiveVideo] = useState(null);
+  const closeVideo = useCallback(() => setActiveVideo(null), []);
+
   return (
     <section id="projects" className="bg-[#0a0a0a] pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:80px_80px]">
       <div className="max-w-6xl mx-auto">
-        
+
         {/* Header */}
         <div data-aos="fade-up" className="mb-16 md:mb-20">
           <div className="inline-block border border-white/20 rounded-full px-5 py-1.5 text-sm text-white/60 font-bold mb-8 shadow-sm bg-white/5 backdrop-blur-sm">
@@ -140,10 +214,11 @@ const Projects = () => {
         {/* Project Cards */}
         <div className="flex flex-col gap-6 md:gap-8">
           {projects.map((project, index) => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
+            <ProjectCard
+              key={project.id}
+              project={project}
               aosDelay={String((index + 1) * 100)}
+              onPlay={() => setActiveVideo(project)}
             />
           ))}
         </div>
@@ -164,6 +239,17 @@ const Projects = () => {
           </a>
         </div>
       </div>
+
+      <AnimatePresence>
+        {activeVideo && (
+          <VideoModal
+            key={activeVideo.id}
+            url={activeVideo.videoUrl}
+            title={activeVideo.title}
+            onClose={closeVideo}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 };

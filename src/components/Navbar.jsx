@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { personalInfo } from '../data/portfolioData';
+import { personalInfo, introVideo } from '../data/portfolioData';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,9 +18,10 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = ['Home', 'About', 'Skills', 'Projects', 'Contact'];
+  // The Intro link only appears when an intro video link is set in portfolioData.js
+  const navLinks = ['Home', 'About', ...(introVideo.youtubeUrl ? ['Intro'] : []), 'Skills', 'Projects', 'Contact'];
 
-  const hireMeMailto = `mailto:srihari8286@gmail.com?subject=Hiring Inquiry – Portfolio&body=Hello Santhosh HG,%0D%0A%0D%0AI came across your portfolio and would like to discuss an opportunity with you.%0D%0A%0D%0ALooking forward to hearing from you.%0D%0ABest Regards,`;
+  const hireMeMailto = `mailto:${personalInfo.emails.primary}?subject=Hiring Inquiry – Portfolio&body=Hello ${personalInfo.name},%0D%0A%0D%0AI came across your portfolio and would like to discuss an opportunity with you.%0D%0A%0D%0ALooking forward to hearing from you.%0D%0ABest Regards,`;
 
   return (
     <nav 
@@ -28,7 +29,7 @@ const Navbar = () => {
         isOpen 
           ? 'bg-[#ff2a2a] py-4'
           : isScrolled 
-            ? 'bg-transparent py-4' 
+            ? 'bg-black/60 backdrop-blur-md py-4' 
             : 'bg-transparent py-6'
       }`}
     >

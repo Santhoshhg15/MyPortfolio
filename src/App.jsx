@@ -2,6 +2,7 @@ import Preloader from './components/Preloader'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
+import IntroVideo from './components/IntroVideo'
 import TechnicalSkills from './components/TechnicalSkills'
 import Services from './components/Services'
 import Projects from './components/Projects'
@@ -26,6 +27,7 @@ function App() {
       <Navbar />
       <Hero />
       <About />
+      <IntroVideo />
       <TechnicalSkills />
       <Services />
       <Projects />

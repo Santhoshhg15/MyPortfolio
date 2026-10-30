@@ -1,16 +1,49 @@
-# React + Vite
+# Santhosh HG — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An animated single-page developer portfolio for Santhosh HG, Senior Technical Trainer and Developer.
 
-Currently, two official plugins are available:
+**Live site:** https://santhoshportfolio-eosin.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech stack
 
-## React Compiler
+- React 19
+- Vite
+- Tailwind CSS 4
+- Framer Motion
+- AOS (animate on scroll)
+- EmailJS (contact form)
+- WebGL fluid cursor (SplashCursor)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run locally
 
-## Expanding the ESLint configuration
+```bash
+npm install
+npm run dev       # http://localhost:5173
+npm run build     # production build -> dist/
+npm run lint
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Customise
+
+All content (name, links, skills, projects, videos) lives in `src/data/portfolioData.js`. Components only read from that file.
+
+- `introVideo.youtubeUrl`: YouTube link for the "Meet Me in Person" section (below About). Leave it empty to hide the section.
+- `videoUrl` on a project: YouTube link shown inside that project's card.
+
+## Environment variables
+
+The contact form sends mail through EmailJS. Create a `.env.local` file (it is git-ignored) with:
+
+```
+VITE_EMAILJS_SERVICE_ID=
+VITE_EMAILJS_TEMPLATE_ID=
+VITE_EMAILJS_PUBLIC_KEY=
+```
+
+Without these, the form opens the visitor's email app with the message filled in.
+
+## Learn more
+
+See [docs/PROJECT_GUIDE.md](docs/PROJECT_GUIDE.md) for the full tech stack, architecture and a step-by-step build order.
+
+Built during the placement training program at [TAP Academy](https://thetapacademy.com/) (full-stack development, AI and augmented reality training).

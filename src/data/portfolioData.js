@@ -20,6 +20,19 @@ export const personalInfo = {
   resumeUrl: "/Santhosh_Resume.pdf",
 };
 
+// Self-introduction video shown below the About section. Leave youtubeUrl empty ("") to hide the section.
+export const introVideo = {
+  badge: "Video Introduction",
+  heading: "Meet Me in Person",
+  description: "A quick hello: who I am, what I teach and what I build.",
+  youtubeUrl: "https://www.youtube.com/watch?v=RyiMbdB8QI8",
+};
+
+export const academy = {
+  name: "TAP Academy",
+  url: "https://thetapacademy.com/",
+};
+
 export const socialLinks = {
   github: "https://github.com/Santhoshhg15",
   linkedin: "https://linkedin.com/in/santhosh-hg",
@@ -54,22 +67,22 @@ export const skillsContent = {
     {
       number: "01",
       title: "Research",
-      text: "Analyzing target parameters, user scenarios, and distributed system requirements to establish solid system architecture foundations.",
+      text: "Understanding the problem, the users and the requirements, then choosing the right architecture and technology stack before writing code.",
     },
     {
       number: "02",
       title: "Design",
-      text: "Structuring data flows, modeling algorithm pipelines, and designing secure, robust communication endpoints for edge and cloud.",
+      text: "Planning data models, REST API contracts and UI flows so the application stays clean, secure and easy to scale.",
     },
     {
       number: "03",
       title: "Develop",
-      text: "Engineering core logic, training predictive models, and connecting microservices using modern technology stacks and patterns.",
+      text: "Building the full stack with Java, Python and React, and integrating AI features with LLMs and Agentic AI where they add value.",
     },
     {
       number: "04",
       title: "Deploy",
-      text: "Conducting integration tests, optimizing latency, and orchestrating virtual environments for final staging and validation.",
+      text: "Testing, optimizing performance and shipping to production with Git-based workflows and cloud hosting.",
     },
   ],
   endText: "Ready to ship!",
@@ -140,10 +153,10 @@ export const internshipsList = [
 
 // Santhosh HG's Soft Skills Data
 export const softSkillsList = [
-  { name: "Team Collaboration", icon: "🤝", desc: "Collaborating across multiple fields, building IoT systems, and playing regional sports in sync." },
-  { name: "Problem Solving", icon: "🧩", desc: "Breaking down complex engineering tasks and anomaly detection models into clean, modular pieces." },
-  { name: "Analytical Thinking", icon: "📈", desc: "Analyzing network packet captures, cyber threat vectors, and data matrices with precision." },
-  { name: "Communication", icon: "💬", desc: "Articulating technical designs clearly, documenting test workflows, and presenting project logic." }
+  { name: "Team Collaboration", icon: "🤝", desc: "Working with trainers, mentors and students across 800+ colleges to deliver programs together." },
+  { name: "Problem Solving", icon: "🧩", desc: "Breaking complex engineering problems and DSA challenges into clean, modular steps." },
+  { name: "Analytical Thinking", icon: "📈", desc: "Analyzing code, data and performance bottlenecks with precision before choosing a solution." },
+  { name: "Communication", icon: "💬", desc: "Explaining technical concepts clearly to learners at every level and mentoring 50,000+ students." }
 ];
 
 // Santhosh HG's Projects Data
@@ -157,6 +170,7 @@ export const projects = [
       "Developed an interactive UML diagram visualizer for creating and visualizing object-oriented programming concepts using React 19, TypeScript, React Flow, and ELK.js.",
     techTags: ["React 19", "TypeScript", "React Flow", "Tailwind CSS", "Zustand", "Vite"],
     links: { github: null, demo: "https://uml-visualizer.vercel.app/" },
+    videoUrl: "https://www.youtube.com/watch?v=RyiMbdB8QI8",
     isFlagship: true,
   },
   {
@@ -168,6 +182,7 @@ export const projects = [
       "Developing an interactive DSA visualization platform that demonstrates data structures and algorithms through step-by-step execution.",
     techTags: ["React 19", "TypeScript", "Vite", "Zustand", "Express", "Node.js"],
     links: { github: null, demo: "https://dsa-visualizer-pearl.vercel.app/" },
+    videoUrl: "https://www.youtube.com/watch?v=hGrWrhVfgr0",
     isFlagship: false,
   }
 ];
@@ -175,29 +190,13 @@ export const projects = [
 // Santhosh HG's Certificates List
 export const certificates = {
   featured: [
-    {
-      name: "Regional Level Volleyball Certificate",
-      issuer: "Kendriya Vidyalaya AFS, Sulur",
-      icon: "🏐",
-    },
-    {
-      name: "Software Engineering Virtual Experience",
-      issuer: "JPMorgan Chase (Forage)",
-      icon: "☕",
-    },
-    {
-      name: "Networking Engineer Intern Credentials",
-      issuer: "Cisco Academy",
-      icon: "🌐",
-    },
-    {
-      name: "Cyber Security Analyst Credentials",
-      issuer: "Cisco Academy",
-      icon: "🛡️",
-    }
+    { name: "Add your certificate name", issuer: "Issuer", icon: "🏅" },
+    { name: "Add your certificate name", issuer: "Issuer", icon: "🎓" },
+    { name: "Add your certificate name", issuer: "Issuer", icon: "💻" },
+    { name: "Add your certificate name", issuer: "Issuer", icon: "🛡️" }
   ],
   viewAllUrl:
-    "https://linkedin.com/in/sri-hari-v-908a51291/",
+    "https://linkedin.com/in/santhosh-hg",
 };
 
 // Education metadata (fallback reference)
