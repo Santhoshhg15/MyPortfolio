@@ -1,0 +1,44 @@
+[
+  {
+    "clip": "clip-01.mp4",
+    "poster": "clip-01.jpg",
+    "start": 0.0,
+    "end": 3.6,
+    "note": "Robot badge appears and claims \"DONE\" (speech bubble checkmark)"
+  },
+  {
+    "clip": "clip-02.mp4",
+    "poster": "clip-02.jpg",
+    "start": 3.6,
+    "end": 5.6,
+    "note": "Red WRONG stamp slams down over the robot's claim and settles"
+  },
+  {
+    "clip": "clip-03.mp4",
+    "poster": "clip-03.jpg",
+    "start": 5.6,
+    "end": 7.0,
+    "note": "CLICK checklist icon pops in with green checkmark"
+  },
+  {
+    "clip": "clip-04.mp4",
+    "poster": "clip-04.jpg",
+    "start": 7.0,
+    "end": 8.4,
+    "note": "TEST (phone) checklist icon pops in with green checkmark"
+  },
+  {
+    "clip": "clip-05.mp4",
+    "poster": "clip-05.jpg",
+    "start": 8.4,
+    "end": 9.8,
+    "note": "ERRORS (bug search) checklist icon pops in with green checkmark"
+  },
+  {
+    "clip": "clip-06.mp4",
+    "poster": "clip-06.jpg",
+    "start": 9.8,
+    "end": 15.0,
+    "note": "BUILD (wrench) checklist icon pops in with green checkmark; final state holds"
+  }
+]

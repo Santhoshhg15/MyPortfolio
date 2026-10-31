@@ -1,0 +1,37 @@
+[
+  {
+    "clip": "clip-01.mp4",
+    "poster": "clip-01.jpg",
+    "start": 0.0,
+    "end": 1.0,
+    "note": "CODE node appears"
+  },
+  {
+    "clip": "clip-02.mp4",
+    "poster": "clip-02.jpg",
+    "start": 1.0,
+    "end": 2.3,
+    "note": "Line draws to COMMIT node, which appears"
+  },
+  {
+    "clip": "clip-03.mp4",
+    "poster": "clip-03.jpg",
+    "start": 2.3,
+    "end": 3.6,
+    "note": "Line draws to GITHUB node, which appears"
+  },
+  {
+    "clip": "clip-04.mp4",
+    "poster": "clip-04.jpg",
+    "start": 3.6,
+    "end": 5.0,
+    "note": "Line draws to LIVE node, which glows"
+  },
+  {
+    "clip": "clip-05.mp4",
+    "poster": "clip-05.jpg",
+    "start": 5.0,
+    "end": 16.0,
+    "note": "Loop-back arc + auto-redeploy label draw in; dot travels continuously CODE to LIVE while a second dot loops LIVE back to CODE"
+  }
+]

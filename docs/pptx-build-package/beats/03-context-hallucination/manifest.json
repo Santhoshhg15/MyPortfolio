@@ -1,0 +1,44 @@
+[
+  {
+    "clip": "clip-01.mp4",
+    "poster": "clip-01.jpg",
+    "start": 0.0,
+    "end": 1.3,
+    "note": "Context box appears, labelled CONTEXT"
+  },
+  {
+    "clip": "clip-02.mp4",
+    "poster": "clip-02.jpg",
+    "start": 1.3,
+    "end": 2.5,
+    "note": "NAME + ROLE icon flies in and bounces into place"
+  },
+  {
+    "clip": "clip-03.mp4",
+    "poster": "clip-03.jpg",
+    "start": 2.5,
+    "end": 3.7,
+    "note": "REAL PROJECT icon flies in and bounces into place"
+  },
+  {
+    "clip": "clip-04.mp4",
+    "poster": "clip-04.jpg",
+    "start": 3.7,
+    "end": 4.6,
+    "note": "TRAINING icon flies in and bounces into place"
+  },
+  {
+    "clip": "clip-05.mp4",
+    "poster": "clip-05.jpg",
+    "start": 4.6,
+    "end": 6.8,
+    "note": "Ghost icon appears outside the box, dim and glitching"
+  },
+  {
+    "clip": "clip-06.mp4",
+    "poster": "clip-06.jpg",
+    "start": 6.8,
+    "end": 15.0,
+    "note": "Ghost solidifies red and labels HALLUCINATED, continues to shake"
+  }
+]

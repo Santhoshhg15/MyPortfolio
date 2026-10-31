@@ -67,17 +67,21 @@ invents something and holds it like it's true."
 
 ## Scene 4 — The Harness (Block 4)
 **On screen, in order:**
-1. An empty car outline fades in.
-2. A glowing ⚙️ badge drops into the engine position.
-3. Two 🛞 badges slide in from the left.
-4. A 🎛️ badge drops into the dashboard position.
-5. A 🛑 badge slides in from the right.
-6. Two miniature car silhouettes in different colours fade in side-by-side below, same
-   engine glow, different shapes.
+1. An empty cart fades in, no horse yet.
+2. A 🐎 horse trots in and straps snap taut; a glowing ⚙️ MODEL badge pops in.
+3. Current flows down the wire; a 🧰 TOOLS badge straps onto the cart.
+4. The wire glows toward the horse's head; a 🏮 CONTEXT badge settles in.
+5. The wire glows toward the driver's bench; a 🎗️ PERMISSIONS (reins) badge settles in.
+6. The fully harnessed horse and cart hold, then fade out.
+7. Kicker text: SAME HORSE. DIFFERENT HARNESS.
+8. Flash — a light racing cart (Antigravity) appears with the same glowing horse.
+9. Flash — a sturdy farm cart (Cursor) appears with the same glowing horse.
+10. Flash — an ornate royal carriage (Claude Code) appears with the same glowing horse; all
+    three hold.
 
-**Say (brief):** "Same glowing engine every time — that's the model. Wheels, dashboard,
-brakes — tools, context, permissions — that's the harness. Different shape, same engine:
-that's why Antigravity and Cursor feel different."
+**Say (brief):** "Same glowing horse every time — that's the model. Tools, context,
+permissions — that's the harness strapped onto the cart. Same horse, three different carts:
+that's why Antigravity, Cursor and Claude Code feel different."
 
 ---
 
@@ -151,14 +155,14 @@ That loop-back arrow is Vercel rebuilding itself the moment you push again."
 ---
 
 ## Scene 10 — Wrap-up Recap
-**On screen:** six icon badges in a grid (🔁 🎯 🧠 🚗 🔌 ✅), dim at first. Each click lights
+**On screen:** six icon badges in a grid (🔁 🎯 🧠 🐎 🔌 ✅), dim at first. Each click lights
 one badge gold, full brightness, pulsing once.
 
 **You ask out loud, badge by badge** (same six questions as the full class script):
 1. 🔁 — What is an agent?
 2. 🎯 — What makes a good prompt?
 3. 🧠 — What's context / hallucination?
-4. 🚗 — What's a harness?
+4. 🐎 — What's a harness?
 5. 🔌 — What's MCP?
 6. ✅ — Who checks the AI's work?
 

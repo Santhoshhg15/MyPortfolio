@@ -120,14 +120,15 @@ path.arc.revealed,path.lineref.revealed{stroke-dashoffset:0;}
 
 /* ============ SCENE 4 : HARNESS ============ */
 .car-wrap{display:flex;flex-direction:column;align-items:center;gap:40px;}
-.car{position:relative;width:520px;height:220px;}
+.car{position:relative;width:560px;height:220px;}
 .cbadge{position:absolute;transform:translate(-50%,-50%);}
-.cbadge.engine{left:50%;top:8%;} .cbadge.w1{left:14%;top:64%;} .cbadge.w2{left:86%;top:64%;}
-.cbadge.dash{left:50%;top:80%;} .cbadge.brake{left:92%;top:30%;}
+.cbadge.horse{left:12%;top:40%;} .cbadge.tools{left:58%;top:64%;} .cbadge.context{left:44%;top:18%;}
+.cbadge.permissions{left:78%;top:30%;}
 .minicars{display:flex;gap:30px;}
-.minicar{width:140px;height:70px;border-radius:30px 30px 10px 10px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:26px;}
+.minicar{width:150px;height:70px;border-radius:14px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;gap:8px;}
 .minicar.a{background:linear-gradient(145deg,#1a0d0d,#000);border-color:var(--red-dim);}
 .minicar.b{background:linear-gradient(145deg,#0d1a14,#000);border-color:#28e07f55;}
+.minicar.c{background:linear-gradient(145deg,#1a160d,#000);border-color:#e0c04f55;}
 
 /* ============ SCENE 5 : FIX ============ */
 .phone{width:300px;height:460px;border:3px solid var(--line);border-radius:36px;position:relative;background:var(--panel2);overflow:hidden;}
@@ -328,22 +329,22 @@ path.arc.revealed,path.lineref.revealed{stroke-dashoffset:0;}
       <h1>The <em>Harness</em></h1>
       <div class="body">
         <div class="car-wrap">
-          <div class="step" data-reveal="peng"></div>
-          <div class="step" data-reveal="pw1,pw2"></div>
-          <div class="step" data-reveal="pdash"></div>
-          <div class="step" data-reveal="pbrake"></div>
-          <div class="step" data-reveal="mc1,mc2"></div>
+          <div class="step" data-reveal="phorse"></div>
+          <div class="step" data-reveal="ptools"></div>
+          <div class="step" data-reveal="pcontext"></div>
+          <div class="step" data-reveal="ppermissions"></div>
+          <div class="step" data-reveal="mc1,mc2,mc3"></div>
 
           <div class="car">
-            <div id="peng" class="reveal bounce cbadge engine badge glow">⚙️</div>
-            <div id="pw1" class="reveal bounce cbadge w1 badge">🛞</div>
-            <div id="pw2" class="reveal bounce cbadge w2 badge">🛞</div>
-            <div id="pdash" class="reveal bounce cbadge dash badge">🎛️</div>
-            <div id="pbrake" class="reveal bounce cbadge brake badge">🛑</div>
+            <div id="phorse" class="reveal bounce cbadge horse badge glow">🐎</div>
+            <div id="ptools" class="reveal bounce cbadge tools badge">🧰</div>
+            <div id="pcontext" class="reveal bounce cbadge context badge">🏮</div>
+            <div id="ppermissions" class="reveal bounce cbadge permissions badge">🎗️</div>
           </div>
           <div class="minicars">
-            <div id="mc1" class="reveal minicar a">🚗</div>
-            <div id="mc2" class="reveal minicar b">🚙</div>
+            <div id="mc1" class="reveal minicar a">🐎 🏎️</div>
+            <div id="mc2" class="reveal minicar b">🐎 🛻</div>
+            <div id="mc3" class="reveal minicar c">🐎 🎠</div>
           </div>
         </div>
       </div>
@@ -498,7 +499,7 @@ path.arc.revealed,path.lineref.revealed{stroke-dashoffset:0;}
           <div id="r1" class="reveal rbadge">🔁</div>
           <div id="r2" class="reveal rbadge">🎯</div>
           <div id="r3" class="reveal rbadge">🧠</div>
-          <div id="r4" class="reveal rbadge">🚗</div>
+          <div id="r4" class="reveal rbadge">🐎</div>
           <div id="r5" class="reveal rbadge">🔌</div>
           <div id="r6" class="reveal rbadge">✅</div>
         </div>

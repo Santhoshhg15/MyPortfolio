@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=3840, height=2160" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <style>
+      :root {
+        --ground: #000000;
+        --ink: #ffffff;
+        --dim: #b3b3b9;
+        --dim2: #6b6b72;
+        --red: #ff2a2a;
+        --panel: #111113;
+        --font-display: "Inter", sans-serif;
+        --c-tools: #22d3ee;
+        --c-context: #a78bfa;
+        --c-perms: #ffb020;
+        --c-engine: #ff2a2a;
+        --leather: #9a7452;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 3840px;
+        height: 2160px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-display);
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .bgfx {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 20% 15%, rgba(255, 42, 42, 0.1), transparent 45%),
+          radial-gradient(circle at 85% 85%, rgba(255, 42, 42, 0.07), transparent 50%);
+      }
+
+      /* ---- title ---- */
+      .h1 {
+        position: absolute;
+        top: 120px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 64px;
+        letter-spacing: -1px;
+      }
+      .h1 em {
+        color: var(--red);
+        font-style: normal;
+      }
+
+      /* ---- badges ---- */
+      .badge-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .badge {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #242428;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 2;
+      }
+      .badge.glow-engine {
+        border-color: var(--c-engine);
+        box-shadow: 0 0 80px -8px rgba(255, 42, 42, 0.88);
+      }
+      .badge.glow-tools {
+        border-color: var(--c-tools);
+        box-shadow: 0 0 70px -10px rgba(34, 211, 238, 0.71);
+      }
+      .badge.glow-context {
+        border-color: var(--c-context);
+        box-shadow: 0 0 70px -10px rgba(167, 139, 250, 0.71);
+      }
+      .badge.glow-perms {
+        border-color: var(--c-perms);
+        box-shadow: 0 0 70px -10px rgba(255, 176, 32, 0.71);
+      }
+      .badge svg {
+        width: 64px;
+        height: 64px;
+      }
+      .badge-sm {
+        width: 100px;
+        height: 100px;
+      }
+      .badge-sm svg {
+        width: 44px;
+        height: 44px;
+      }
+      .ic-engine {
+        color: var(--c-engine);
+      }
+      .ic-tools {
+        color: var(--c-tools);
+      }
+      .ic-context {
+        color: var(--c-context);
+      }
+      .ic-perms {
+        color: var(--c-perms);
+      }
+      .label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 18px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: 3px;
+        color: var(--ink);
+        text-align: center;
+      }
+
+      /* power-up ring burst, sits behind the badge, same center */
+      .ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 3px solid currentColor;
+        transform: translate(-50%, -50%) scale(0.6);
+        opacity: 0;
+        z-index: 1;
+        pointer-events: none;
+      }
+      .ring.sm {
+        width: 100px;
+        height: 100px;
+      }
+      .ring-engine {
+        color: var(--c-engine);
+      }
+      .ring-tools {
+        color: var(--c-tools);
+      }
+      .ring-context {
+        color: var(--c-context);
+      }
+      .ring-perms {
+        color: var(--c-perms);
+      }
+
+      /* mini badge for the small carts */
+      .mini-badge {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid var(--c-engine);
+        box-shadow: 0 0 34px -4px rgba(255, 42, 42, 0.98);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .mini-badge svg {
+        width: 20px;
+        height: 20px;
+      }
+      .mini-label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 14px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: 2px;
+        color: var(--dim);
+        text-align: center;
+      }
+      .mini-flash {
+        position: absolute;
+        inset: -20px;
+        border-radius: 24px;
+        background: #ffffff;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* ---- rig (horse + cart) ---- */
+      .rig-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .rig-line {
+        fill: none;
+        stroke: var(--dim);
+        stroke-width: 5;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
+      .rig-fill {
+        fill: var(--dim);
+        stroke: none;
+      }
+      .strap {
+        fill: none;
+        stroke: var(--leather);
+        stroke-width: 6;
+        stroke-linecap: round;
+        opacity: 0;
+      }
+      .mini-cart-line {
+        fill: none;
+        stroke-width: 4;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
+
+      /* ---- circuit lines + travelling current ---- */
+      svg.circuit {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      svg.circuit path.wire {
+        fill: none;
+        stroke-width: 5;
+        stroke-linecap: round;
+        stroke-dasharray: 1 1;
+        stroke-dashoffset: 1;
+        filter: drop-shadow(0 0 10px currentColor);
+      }
+      #wireToolsL {
+        stroke: var(--c-tools);
+        color: var(--c-tools);
+      }
+      #wireContext {
+        stroke: var(--c-context);
+        color: var(--c-context);
+      }
+      #wirePerms {
+        stroke: var(--c-perms);
+        color: var(--c-perms);
+      }
+      svg.circuit circle.pulse {
+        filter: drop-shadow(0 0 12px currentColor);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="15.5" data-width="3840" data-height="2160">
+    <div id="stage" style="position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform: scale(2); transform-origin: top left;">
+      <div class="bgfx" data-layout-ignore></div>
+
+      <!-- TITLE: persists whole clip -->
+      <div id="titleGroup" class="clip" data-start="0" data-duration="15.5" data-track-index="0">
+        <div id="h1" class="h1" style="opacity: 0">The <em>Harness</em></div>
+      </div>
+
+      <!-- RIG: cart appears first (empty), then the horse arrives and the straps snap taut -->
+      <div id="rigGroup" class="clip" data-start="0.3" data-duration="9.9" data-track-index="1">
+        <div class="rig-wrap" style="left: 960px; top: 530px">
+          <svg id="rigSvg" width="900" height="400" viewBox="0 0 900 400" style="opacity: 0">
+            <!-- cart: platform + wheels + shaft -->
+            <rect class="rig-line" x="20" y="260" width="200" height="50" rx="8" />
+            <circle class="rig-line" cx="70" cy="330" r="45" />
+            <circle class="rig-line" cx="170" cy="330" r="45" />
+            <line class="rig-line" x1="220" y1="280" x2="340" y2="268" />
+
+            <!-- harness straps: cart shaft to horse collar -->
+            <path id="strap1" class="strap" d="M340,268 L430,245" />
+            <path id="strap2" class="strap" d="M340,278 L430,262" />
+
+            <!-- horse: body, legs, neck, head, mane, tail -->
+            <g id="horseGroup" style="opacity: 0">
+              <path
+                class="rig-line"
+                d="M440,200 Q420,200 420,220 L420,260 Q420,280 440,280 L680,280 Q700,280 700,260 L700,215 Q700,200 680,200 Z"
+              />
+              <line class="rig-line" x1="460" y1="280" x2="460" y2="360" />
+              <line class="rig-line" x1="500" y1="280" x2="500" y2="360" />
+              <line class="rig-line" x1="630" y1="280" x2="630" y2="360" />
+              <line class="rig-line" x1="665" y1="280" x2="665" y2="360" />
+              <path class="rig-line" d="M690,205 Q755,160 800,140" />
+              <circle class="rig-line" cx="805" cy="138" r="40" />
+              <path class="rig-fill" d="M792,102 L808,74 L818,104 Z" />
+              <line class="rig-line" x1="842" y1="152" x2="868" y2="158" />
+              <path class="rig-line" d="M715,182 L703,166 M732,172 L722,155 M749,163 L740,147" />
+              <path class="rig-line" d="M420,215 Q388,245 398,285 Q408,318 385,338" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- CIRCUIT: model -> every part, draws in just before each badge lands, then carries a travelling pulse -->
+      <div id="circuitGroup" class="clip" data-start="1.8" data-duration="8.4" data-track-index="1">
+        <svg class="circuit" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+          <path id="wireToolsL" class="wire" d="M1070,565 L630,555" pathLength="1" />
+          <path id="wireContext" class="wire" d="M1070,565 L1350,495" pathLength="1" />
+          <path id="wirePerms" class="wire" d="M1070,565 L830,440" pathLength="1" />
+          <circle id="pulseToolsL" class="pulse" r="7" fill="var(--c-tools)" style="color: var(--c-tools); opacity: 0" />
+          <circle id="pulseContext" class="pulse" r="7" fill="var(--c-context)" style="color: var(--c-context); opacity: 0" />
+          <circle id="pulsePerms" class="pulse" r="7" fill="var(--c-perms)" style="color: var(--c-perms); opacity: 0" />
+        </svg>
+      </div>
+
+      <!-- MODEL badge: the horse's own glow, on its body -->
+      <div id="engineGroup" class="clip" data-start="2.0" data-duration="8.2" data-track-index="2">
+        <div id="engineWrap" class="badge-wrap" style="left: 1070px; top: 565px" data-layout-allow-overflow>
+          <div id="ringEngine" class="ring sm ring-engine"></div>
+          <div id="engineBadge" class="badge badge-sm glow-engine">
+            <svg class="ic-engine" viewBox="0 0 64 64"><use href="#ic-spark" /></svg>
+          </div>
+          <div id="engineLabel" class="label" style="opacity: 0">MODEL</div>
+        </div>
+      </div>
+
+      <!-- TOOLS badge: toolbox strapped to the cart -->
+      <div id="toolsGroup" class="clip" data-start="4.0" data-duration="6.2" data-track-index="2">
+        <div id="wheelWrapL" class="badge-wrap" style="left: 630px; top: 555px">
+          <div id="ringToolsL" class="ring ring-tools"></div>
+          <div id="wheelBadgeL" class="badge glow-tools">
+            <svg class="ic-tools" viewBox="0 0 64 64"><use href="#ic-toolbox" /></svg>
+          </div>
+          <div id="toolsLabel" class="label" style="opacity: 0">TOOLS</div>
+        </div>
+      </div>
+
+      <!-- CONTEXT badge: lantern hanging near the horse's head -->
+      <div id="contextGroup" class="clip" data-start="5.8" data-duration="4.4" data-track-index="2">
+        <div id="contextWrap" class="badge-wrap" style="left: 1350px; top: 495px" data-layout-allow-overflow>
+          <div id="ringContext" class="ring sm ring-context"></div>
+          <div id="contextBadge" class="badge badge-sm glow-context">
+            <svg class="ic-context" viewBox="0 0 64 64"><use href="#ic-lantern" /></svg>
+          </div>
+          <div id="contextLabel" class="label" style="opacity: 0">CONTEXT</div>
+        </div>
+      </div>
+
+      <!-- PERMISSIONS badge: reins near the driver's bench -->
+      <div id="permsGroup" class="clip" data-start="7.6" data-duration="2.6" data-track-index="2">
+        <div id="permsWrap" class="badge-wrap" style="left: 830px; top: 440px" data-layout-allow-overflow>
+          <div id="ringPerms" class="ring sm ring-perms"></div>
+          <div id="permsBadge" class="badge badge-sm glow-perms">
+            <svg class="ic-perms" viewBox="0 0 64 64"><use href="#ic-reins" /></svg>
+          </div>
+          <div id="permsLabel" class="label" style="opacity: 0">PERMISSIONS</div>
+        </div>
+      </div>
+
+      <!-- FADE OUT assembled rig view before mini comparison -->
+      <div id="fadeOutGroup" class="clip" data-start="9.6" data-duration="0.7" data-track-index="3"></div>
+
+      <!-- MINI CARTS: same horse, three different harnesses -->
+      <div id="miniGroup" class="clip" data-start="10.3" data-duration="5.2" data-track-index="4">
+        <div id="miniKicker" class="mini-kicker" style="position: absolute; left: 0; top: 560px; width: 100%; text-align: center; color: var(--dim); font-weight: 700; letter-spacing: 3px; font-size: 28px; text-transform: uppercase; opacity: 0">
+          SAME HORSE. DIFFERENT HARNESS.
+        </div>
+
+        <!-- mini A: racing cart -- Antigravity -->
+        <div class="rig-wrap" id="miniAWrap" style="left: 440px; top: 700px">
+          <div id="flashA" class="mini-flash"></div>
+          <svg id="miniVehA" width="340" height="170" viewBox="0 0 900 400" style="opacity: 0">
+            <rect class="mini-cart-line" style="stroke: var(--c-tools)" x="140" y="235" width="560" height="40" rx="6" />
+            <circle class="mini-cart-line" style="stroke: var(--c-tools)" cx="230" cy="310" r="68" />
+            <circle class="mini-cart-line" style="stroke: var(--c-tools)" cx="650" cy="310" r="68" />
+            <line class="mini-cart-line" style="stroke: var(--c-tools)" x1="700" y1="235" x2="760" y2="150" />
+          </svg>
+          <div id="miniEngineA" class="mini-badge" style="position: absolute; left: 450px; top: 190px; opacity: 0">
+            <svg class="ic-engine" viewBox="0 0 64 64"><use href="#ic-spark" /></svg>
+          </div>
+          <div id="miniLabelA" class="mini-label" style="position: absolute; left: 340px; top: 150px; opacity: 0">ANTIGRAVITY</div>
+        </div>
+
+        <!-- mini B: farm cart -- Cursor -->
+        <div class="rig-wrap" id="miniBWrap" style="left: 960px; top: 700px">
+          <div id="flashB" class="mini-flash"></div>
+          <svg id="miniVehB" width="340" height="170" viewBox="0 0 900 400" style="opacity: 0">
+            <rect class="mini-cart-line" style="stroke: var(--c-perms)" x="90" y="190" width="620" height="90" rx="4" />
+            <line class="mini-cart-line" style="stroke: var(--c-perms)" x1="90" y1="225" x2="710" y2="225" />
+            <path class="mini-cart-line" style="stroke: var(--c-perms)" d="M160,190 L190,155 L230,190 M330,190 L360,155 L400,190 M500,190 L530,155 L570,190" />
+            <circle class="mini-cart-line" style="stroke: var(--c-perms)" cx="220" cy="310" r="58" />
+            <circle class="mini-cart-line" style="stroke: var(--c-perms)" cx="610" cy="310" r="58" />
+          </svg>
+          <div id="miniEngineB" class="mini-badge" style="position: absolute; left: 380px; top: 155px; opacity: 0">
+            <svg class="ic-engine" viewBox="0 0 64 64"><use href="#ic-spark" /></svg>
+          </div>
+          <div id="miniLabelB" class="mini-label" style="position: absolute; left: 260px; top: 150px; opacity: 0">CURSOR</div>
+        </div>
+
+        <!-- mini C: royal carriage -- Claude Code -->
+        <div class="rig-wrap" id="miniCWrap" style="left: 1480px; top: 700px">
+          <div id="flashC" class="mini-flash"></div>
+          <svg id="miniVehC" width="340" height="170" viewBox="0 0 900 400" style="opacity: 0">
+            <path class="mini-cart-line" style="stroke: var(--c-context)" d="M110,210 L110,280 L690,280 L690,210 Q690,130 400,120 Q110,130 110,210 Z" />
+            <circle class="mini-cart-line" style="stroke: var(--c-context)" cx="400" cy="210" r="42" />
+            <circle class="mini-cart-line" style="stroke: var(--c-context)" cx="200" cy="320" r="42" />
+            <circle class="mini-cart-line" style="stroke: var(--c-context)" cx="330" cy="320" r="42" />
+            <circle class="mini-cart-line" style="stroke: var(--c-context)" cx="470" cy="320" r="42" />
+            <circle class="mini-cart-line" style="stroke: var(--c-context)" cx="600" cy="320" r="42" />
+          </svg>
+          <div id="miniEngineC" class="mini-badge" style="position: absolute; left: 150px; top: 165px; opacity: 0">
+            <svg class="ic-engine" viewBox="0 0 64 64"><use href="#ic-spark" /></svg>
+          </div>
+          <div id="miniLabelC" class="mini-label" style="position: absolute; left: 10px; top: 150px; opacity: 0">CLAUDE CODE</div>
+        </div>
+      </div>
+
+      <!-- icon sprite, no timing -->
+      <svg style="display: none" aria-hidden="true">
+        <defs>
+          <symbol id="ic-spark" viewBox="0 0 64 64">
+            <path
+              d="M32 6c7 11-5 15-5 24a9 9 0 0 0 18 0c0-4-2-7-2-11 5 4 7 10 7 15a18 18 0 0 1-36 0c0-14 11-18 18-28z"
+              fill="currentColor"
+            />
+          </symbol>
+          <symbol id="ic-toolbox" viewBox="0 0 64 64">
+            <rect x="8" y="26" width="48" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M22 26v-6a10 10 0 0 1 20 0v6" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <line x1="8" y1="39" x2="56" y2="39" stroke="currentColor" stroke-width="3.5" />
+            <rect x="27" y="35" width="10" height="8" rx="1.5" fill="currentColor" />
+          </symbol>
+          <symbol id="ic-lantern" viewBox="0 0 64 64">
+            <path d="M22 20h20l4 10v18a4 4 0 0 1-4 4H22a4 4 0 0 1-4-4V30z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+            <path d="M27 20v-6a5 5 0 0 1 10 0v6" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="32" cy="38" r="6" fill="currentColor" />
+          </symbol>
+          <symbol id="ic-reins" viewBox="0 0 64 64">
+            <path d="M12 14c12 8 12 28 20 36M52 14c-12 8-12 28-20 36" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+            <circle cx="32" cy="52" r="7" fill="none" stroke="currentColor" stroke-width="3.5" />
+          </symbol>
+        </defs>
+      </svg>
+    </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = { duration: 0.45, ease: "back.out(1.9)" };
+      const fade = { duration: 0.4, ease: "power2.out" };
+      const ringBurst = { scale: 2.5, opacity: 0, duration: 0.55, ease: "power2.out" };
+
+      function burst(ringSel, t) {
+        tl.fromTo(ringSel, { scale: 0.6, opacity: 0.9 }, ringBurst, t);
+      }
+      function wireDraw(sel, t, dur = 0.35) {
+        tl.fromTo(sel, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: dur, ease: "power2.inOut" }, t);
+      }
+      function travel(id, x1, y1, x2, y2, t, dur) {
+        tl.fromTo("#" + id, { opacity: 0 }, { opacity: 1, duration: 0.2 }, t);
+        const o = { p: 0 };
+        tl.to(
+          o,
+          {
+            p: 1,
+            duration: dur,
+            ease: "none",
+            repeat: 3,
+            yoyo: true,
+            onUpdate: function () {
+              const el = document.getElementById(id);
+              if (el) {
+                el.setAttribute("cx", (x1 + (x2 - x1) * o.p).toFixed(2));
+                el.setAttribute("cy", (y1 + (y2 - y1) * o.p).toFixed(2));
+              }
+            },
+          },
+          t,
+        );
+      }
+
+      // title
+      tl.fromTo("#h1", { opacity: 0, y: -10 }, { opacity: 1, y: 0, ...fade }, 0.2);
+
+      // rig fades in: empty cart first
+      tl.fromTo("#rigSvg", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.9, ease: "power2.out" }, 0.4);
+
+      // MODEL: the horse trots in, straps snap taut, ring burst on its body
+      tl.fromTo("#horseGroup", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 1.5);
+      tl.fromTo(["#strap1", "#strap2"], { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.85);
+      tl.fromTo("#engineBadge", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, ...pop }, 2.0);
+      burst("#ringEngine", 2.0);
+      tl.fromTo("#engineLabel", { opacity: 0 }, { opacity: 1, ...fade }, 2.5);
+
+      // circuit: model -> tools wire draws in just before the toolbox lands
+      wireDraw("#wireToolsL", 3.55, 0.4);
+
+      // TOOLS: toolbox straps onto the cart, with a burst
+      tl.fromTo("#wheelBadgeL", { opacity: 0, scale: 0.4, x: -50 }, { opacity: 1, scale: 1, x: 0, ...pop }, 4.0);
+      burst("#ringToolsL", 4.0);
+      tl.fromTo("#toolsLabel", { opacity: 0 }, { opacity: 1, ...fade }, 4.5);
+      travel("pulseToolsL", 1070, 565, 630, 555, 4.4, 0.55);
+
+      // circuit: model -> context wire draws in just before the lantern lands
+      wireDraw("#wireContext", 5.4, 0.35);
+
+      // CONTEXT: lantern settles near the horse's head
+      tl.fromTo("#contextBadge", { opacity: 0, y: -40, scale: 0.4 }, { opacity: 1, y: 0, scale: 1, ...pop }, 5.8);
+      burst("#ringContext", 5.8);
+      tl.fromTo("#contextLabel", { opacity: 0 }, { opacity: 1, ...fade }, 6.3);
+      travel("pulseContext", 1070, 565, 1350, 495, 6.2, 0.4);
+
+      // circuit: model -> permissions wire draws in just before the reins land
+      wireDraw("#wirePerms", 7.2, 0.35);
+
+      // PERMISSIONS: reins settle near the driver's bench
+      tl.fromTo("#permsBadge", { opacity: 0, scale: 0.4, x: 50 }, { opacity: 1, scale: 1, x: 0, ...pop }, 7.6);
+      burst("#ringPerms", 7.6);
+      tl.fromTo("#permsLabel", { opacity: 0 }, { opacity: 1, ...fade }, 8.05);
+      travel("pulsePerms", 1070, 565, 830, 440, 8.0, 0.4);
+
+      // hold the fully harnessed rig, then fade the whole assembly out
+      tl.to(
+        [
+          "#rigSvg", "#engineBadge", "#engineLabel", "#wheelBadgeL", "#toolsLabel",
+          "#contextBadge", "#contextLabel", "#permsBadge", "#permsLabel",
+          "#wireToolsL", "#wireContext", "#wirePerms",
+          "#pulseToolsL", "#pulseContext", "#pulsePerms",
+        ],
+        { opacity: 0, duration: 0.6, ease: "power2.in" },
+        9.6,
+      );
+
+      // mini comparison: same horse, three different harnesses
+      tl.fromTo("#miniKicker", { opacity: 0 }, { opacity: 1, ...fade }, 10.3);
+
+      function miniReveal(vehSel, engineSel, labelSel, flashSel, t) {
+        tl.fromTo(vehSel, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, t);
+        tl.fromTo(flashSel, { opacity: 0.85 }, { opacity: 0, duration: 0.3, ease: "power2.out", immediateRender: false }, t);
+        tl.fromTo(
+          engineSel,
+          { opacity: 0, scale: 0.3, xPercent: -50, yPercent: -50 },
+          { opacity: 1, scale: 1, xPercent: -50, yPercent: -50, duration: 0.35, ease: "back.out(2.2)" },
+          t + 0.12,
+        );
+        tl.fromTo(labelSel, { opacity: 0 }, { opacity: 1, duration: 0.3 }, t + 0.3);
+      }
+
+      miniReveal("#miniVehA", "#miniEngineA", "#miniLabelA", "#flashA", 10.7);
+      miniReveal("#miniVehB", "#miniEngineB", "#miniLabelB", "#flashB", 11.15);
+      miniReveal("#miniVehC", "#miniEngineC", "#miniLabelC", "#flashC", 11.6);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

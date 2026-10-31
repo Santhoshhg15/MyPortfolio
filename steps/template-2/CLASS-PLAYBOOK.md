@@ -1,10 +1,10 @@
 # AI-Driven Class Playbook — Template 2: Cinematic Dark Portfolio (GSAP)
 
-**How this class works:** nobody types code. For every step you (1) say a few words to the class, (2) copy the prompt, (3) paste it into the **Antigravity agent chat**, (4) check the result in the browser. Installation, libraries, files, Git and deployment are all done *by the AI agent* from the prompts below.
+**How this works:** nobody types code. For every step you (1) read the short intro, (2) copy the prompt, (3) paste it into the **Antigravity agent chat**, (4) check the result in the browser. Installation, libraries, files, Git and deployment are all done *by the AI agent* from the prompts below.
 
 **What you are building:** a cinematic, editorial developer portfolio. A huge metallic "PORTFOLIO" headline that scrambles in letter by letter, your full-body portrait rising from the bottom of the screen, a word-by-word scroll-reveal intro, a scrolling skills ticker, a full-width electric-lime services accordion, large editorial project stories, a premium contact form and a cinematic footer. Black, white and gray, with a single electric-lime (#CCFF00) accent.
 
-Before you begin, the class needs these free websites open in browser tabs:
+Before you begin, open these free websites in browser tabs:
 
 | Tool | Used for | Link |
 |---|---|---|
@@ -14,7 +14,7 @@ Before you begin, the class needs these free websites open in browser tabs:
 | **Vercel** | Publishing the live website | https://vercel.com/ |
 | EmailJS *(Step 9)* | Making the contact form send email | https://www.emailjs.com/ |
 
-> Sign in to all of them with a Google or GitHub account **before class**. A few steps (logins, downloading a generated image) are done by clicking in the browser — the playbook tells you exactly when.
+> Sign in to all of them with a Google or GitHub account **before you start**. A few steps (logins, downloading a generated image) are done by clicking in the browser — the playbook tells you exactly when.
 
 ## Quick map
 
@@ -759,7 +759,7 @@ Add explanation videos to the project blocks. Only projects whose `video` field 
 
 **Say to the class:** "A static website cannot send email by itself. EmailJS sends it from the browser. Even without keys the form still works by opening your email app."
 
-**Do on the website (2 minutes, with the instructor):**
+**Do on the website (about 2 minutes):**
 1. Open https://www.emailjs.com/ → sign up (free).
 2. **Email Services → Add New Service → Gmail** → connect → copy the **Service ID**.
 3. **Email Templates → Create New Template**: Subject `Portfolio message: {{subject}}`; Content: `From: {{user_name}} ({{user_email}}, {{user_phone}})` and `{{message}}`; set *To email* to your own email → Save → copy the **Template ID**.
@@ -908,7 +908,7 @@ Publish this project to GitHub as a PUBLIC repository.
 2. Name the repository `<my-name>-portfolio` in lowercase with hyphens (for example `rahul-kumar-portfolio`). Confirm the name with me before creating.
 3. Before pushing, double-check that `.env.local` and node_modules are NOT tracked.
 4. Create it and push the `main` branch: `gh repo create <name> --public --source=. --remote=origin --push` (rename the branch to main first if needed).
-5. Set the repository description to "Personal portfolio website built with React, Vite and Tailwind CSS during TAP Academy placement training" and add the topics: tap-academy, tap-academy-student, placement-training, augmented-reality, portfolio, portfolio-website, react, vite, tailwindcss, framer-motion, developer-portfolio (use `gh repo edit --add-topic ...`).
+5. Set the repository description to "Personal portfolio website built with React, Vite and Tailwind CSS during TAP Academy placement training, Bangalore" and add the topics: tap-academy, tap-academy-student, tap-academy-bangalore, placement-training, augmented-reality, animation, visualization, quality-teaching, portfolio, portfolio-website, react, vite, tailwindcss, framer-motion, developer-portfolio (use `gh repo edit --add-topic ...`).
 6. Print the repository URL.
 ````
 
@@ -931,7 +931,7 @@ Deploy this project to Vercel and give me the live URL.
 5. Print the final production URL and open it in the browser. Check that the preloader, hero video, all sections and the contact form work on the live site.
 ````
 
-**Check:** a `https://….vercel.app` link opens your portfolio. **Send it to the instructor.**
+**Check:** a `https://….vercel.app` link opens your portfolio. **Send it to your trainer.**
 
 ---
 
@@ -958,7 +958,7 @@ My live website URL is <PASTE YOUR VERCEL URL HERE>. Update everything that stil
 
 **Say to the class:** "A new website is invisible until Google visits it. Search Console tells Google your site exists, so it shows up in search within days instead of weeks."
 
-**Do on the website (with the instructor):**
+**Do on the website:**
 1. Open https://search.google.com/search-console and sign in with your Google account.
 2. **Add property** → choose **URL prefix** → paste your live link (for example `https://your-name-portfolio.vercel.app/`) → **Continue**.
 3. Under **Other verification methods**, open **HTML tag** and **copy the whole `<meta name="google-site-verification" ...>` tag**. Keep this tab open.
@@ -981,31 +981,73 @@ My verification tag:
 
 ---
 
-## Step 17 · LinkedIn launch post
+## Step 17 · LinkedIn launch: profile, post and first comment
 
-**Say to the class:** "Recruiters search LinkedIn every day, and Google shows LinkedIn posts in its results. Your launch post is how people find your new website."
+**Say to the class:** "Recruiters search LinkedIn every day, and Google shows LinkedIn posts in its results. Your launch takes one click: your caption, hashtags and links are already written below, and LinkedIn opens with your post typed. Read it once, add your screen recording, tag TAP Academy and post."
 
-**Where:** open https://chatgpt.com/ → paste the prompt → copy the version you like → open https://www.linkedin.com/ → **Start a post** → paste → attach your hero portrait (A1) or your intro video (A4) → where the text says @TAP Academy, retype `@TAP Academy` and pick the official page from the list so it gets tagged → **Post**.
+**Do:** open the TAP Academy page https://www.linkedin.com/company/thetapacademy/ and click **Follow**. You will tag this page in your post.
 
-**Prompt (paste in ChatGPT):**
+**Do:** record your website with your screen recorder, scrolling from the top to the bottom (about 30 to 60 seconds), the way you learned in class. You will attach it to your post.
+
+**Do (for more reach):** post on the same day as your classmates, keep #TAPAcademy and #QualityTeaching in your post, tag the TAP Academy page, and comment on your classmates' posts in the first hour. LinkedIn decides what trends, but a shared hashtag posted together by the whole batch gives everyone the best chance.
+
+[[linkedin-post]]
+
+**Optional: want the AI to write your profile text (headline, About, Education) and more post versions?** Open your project in **Google Antigravity**, paste the prompt below into the agent chat, then **read each question the agent asks and answer it in the chat**. Reply with a number when it shows a list. **In a hurry?** Reply `use defaults for everything` and the agent uses a ready-made set of TAP Academy points. You can still read and change the text before you post.
+
+**Prompt — LinkedIn launch kit** *(paste in the Antigravity agent chat)*:
 
 ````text
-Write a LinkedIn post announcing my new portfolio website. Write it in my own natural voice, in simple professional English, 90–130 words, first person, no exaggerated claims, at most 2 emojis.
+You are my LinkedIn launch coach. My portfolio website is finished and live. Help me create my LinkedIn launch text by interviewing me. Use simple English, ask ONE group of questions at a time, show choices as numbered lists, and wait for my answer before you move on. Never invent facts, numbers or achievements.
 
-Facts to use:
-- My name: [YOUR NAME]
-- My role: [YOUR ROLE]
-- My city: [YOUR CITY]
-- What I built: a personal portfolio website using React, Vite, Tailwind CSS and GSAP, with AI-generated portraits and cinematic scroll animations, deployed on Vercel
-- Where: during the placement training program at TAP Academy (write "@TAP Academy" exactly once in the text so I can tag the page)
-- Live website: <PASTE YOUR VERCEL URL HERE>
-- Source code: [YOUR GITHUB REPO LINK]
+SHORTCUT: if I reply "default" or "skip" to any question, do not ask it again and use the default for that question (the defaults are written below). If I reply "use defaults for everything", stop asking and use every default.
 
-Structure: a 1-line hook, 2–3 short sentences about what I built and learned, the two links on separate lines, one line inviting recruiters to connect, then these hashtags on the last line: #TAPAcademy #PlacementTraining #PortfolioWebsite #ReactJS #WebDevelopment #OpenToWork
-Give me 2 different versions so I can choose.
+STEP 1 - What you can already find out
+Read package.json, README.md and src/data/portfolioData.js, and run `git remote get-url origin`. Show me what you found: my name, my role, my city, what I built (the tech stack), my live website link and my GitHub repository link. Then ask: "Is this correct? Tell me anything to change or add." If the live website link is missing, ask me for it.
+Default: accept what you found.
+
+STEP 2 - My learning at TAP Academy, Bangalore
+Ask: "Which of these are true for you? Reply with the numbers (for example 1, 3, 4), or type your own sentence, or both."
+1. TAP Academy teaches with animations and visualization, so even difficult topics become easy to see.
+2. Learning with augmented reality made the concepts memorable. I could actually see how things work.
+3. The quality of teaching is very high, and every doubt gets answered patiently.
+4. I built real, hands-on projects, like this portfolio website, not just theory.
+5. The training is placement focused and prepares you for real interviews.
+6. The trainers are supportive and the learning environment keeps me motivated.
+7. In my opinion, TAP Academy is one of the most trusted names in tech training in Bangalore.
+8. I would recommend TAP Academy to anyone serious about starting a tech career.
+9. My journey at TAP Academy gave me the confidence to build and publish my own website.
+10. I want to write my own sentence.
+If I choose 10, ask me for my sentence and use it word for word.
+Default (if I skip, reply "default", or do not choose): use points 1, 2, 4 and 5. These four are plain facts about the training. Use points 3, 6, 7, 8 and 9 (opinions and recommendations) only if I choose them myself.
+
+STEP 3 - Style
+Ask these three questions together:
+a) "How should the post sound? 1) Professional  2) Friendly  3) Excited and energetic"
+b) "Do you want to thank a trainer or mention anyone by name in the post? (optional, type the name or say no)"
+c) "Will you attach a screen recording of your website to the post? (yes or no)"
+Defaults: a) 1 (Professional), b) no, c) yes.
+
+STEP 4 - Write the text
+After my answers, write all three parts. Use only the TAP Academy points I confirmed. Write opinions as my own experience, for example "In my experience...".
+A) PROFILE: 2 headline options (maximum 220 characters: my role, "Student at TAP Academy" and two of my skill keywords, separated by " | "); an ABOUT text (maximum 90 words) that ends with my website link on its own line; and a description (35 to 50 words) for an Education or Training entry called "TAP Academy, Bangalore".
+B) LAUNCH POST: 2 different versions (120 to 160 words each, not counting the hashtag line) in the style I chose, first person, at most 3 emojis. Include a 1-line hook, what I built and learned, my TAP Academy experience, a mention of the screen recording if I said yes, my website link and my GitHub link on separate lines, one line inviting recruiters and engineers to connect, and "@TAP Academy" written exactly once so I can tag the page. End with ONE final line of 15 to 20 hashtags, in this order, written exactly like this:
+   1. Brand: #TAPAcademy #TAPAcademyBangalore #BestInstitute #BestCoaching #BestTrainers #Top1TrainingInstituteinBangalore. These campaign hashtags are required in every post.
+   2. What makes the teaching special: #AugmentedReality #Animation #Visualization #QualityTeaching #GoodTeaching
+   3. Technical reach: choose up to 6 that fit what I built from #WebDevelopment #FullStackDeveloper #SoftwareDevelopment #SoftwareEngineer #Programming #Coding #LearnToCode #DSA #DataStructures #GenerativeAI #AI #OpenToWork, and add up to 3 hashtags for the technologies that really appear in my project (read package.json and the skills in src/data/portfolioData.js), for example #ReactJS #JavaScript #TailwindCSS #Java #SpringBoot #Python #NodeJS #FramerMotion. Never add a technology I did not use.
+   4. Career reach: #PlacementTraining #Freshers #TechCareers #CareerGrowth #Bangalore #BengaluruTech
+   If the total is more than 20, remove hashtags from group 4 first, then from group 3. Never remove group 1 or group 2.
+C) FIRST COMMENT: 3 different versions (35 to 55 words each), first person, at most 1 emoji. Use natural words such as great, amazing or awesome only where they fit what I confirmed. Use "I recommend it to everyone" (or any recommendation) ONLY if I chose point 8. Write "@TAP Academy" once and end with #TAPAcademy #BestInstitute #BestCoaching #BestTrainers #Top1TrainingInstituteinBangalore.
+
+STEP 5 - Save and review
+Save all of it to a file named linkedin-launch.md in the project root, add linkedin-launch.md to .gitignore, and also show the full text in the chat. Then ask which versions I like and offer to change the tone or length.
 ````
 
-**Check:** your post is live, the TAP Academy page is tagged (shown as a blue name) and both links are clickable.
+**Where (posting):** open https://www.linkedin.com/ → **Start a post** → paste your favourite launch post → click **Add media** and attach your screen recording → where the text says @TAP Academy, delete those words, type `@TAP Academy` again and pick the official page from the list so it turns blue → **Post**.
+
+**Then:** right after posting, paste your favourite comment as the first comment under your own post, retyping `@TAP Academy` the same way. Finally, update your profile: paste the headline into **Edit profile → Headline**, the About text into **About**, and the Education entry under **Add profile section → Education** with the school name TAP Academy.
+
+**Check:** your post is live with your screen recording, TAP Academy is tagged (blue name), the hashtags and both links work, and your first comment is under it. Your headline now says "Student at TAP Academy".
 
 ---
 

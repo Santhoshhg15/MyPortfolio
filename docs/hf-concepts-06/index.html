@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=3840, height=2160" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <style>
+      :root {
+        --ground: #000000;
+        --ink: #ffffff;
+        --dim: #9a9aa0;
+        --dim2: #6b6b72;
+        --red: #ff2a2a;
+        --panel: #111113;
+        --font-display: "Inter", sans-serif;
+        --c-github: #22d3ee;
+        --c-figma: #a78bfa;
+        --c-database: #ffb020;
+        --c-drive: #34d399;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 3840px;
+        height: 2160px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-display);
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .bgfx {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 20% 15%, rgba(255, 42, 42, 0.1), transparent 45%),
+          radial-gradient(circle at 85% 85%, rgba(255, 42, 42, 0.07), transparent 50%);
+      }
+
+      /* ---- title ---- */
+      .h1 {
+        position: absolute;
+        top: 112px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 64px;
+        letter-spacing: -1px;
+      }
+      .h1 em {
+        color: var(--red);
+        font-style: normal;
+      }
+
+      /* ---- hub ---- */
+      .hub-wrap {
+        position: absolute;
+        left: 960px;
+        top: 540px;
+        transform: translate(-50%, -50%);
+        width: 240px;
+        height: 240px;
+      }
+      .hub-glow {
+        position: absolute;
+        inset: -22px;
+        border-radius: 50%;
+        border: 3px solid var(--red);
+        box-shadow: 0 0 70px rgba(255, 42, 42, 0.65);
+        opacity: 0;
+      }
+      .hub-badge {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 3px solid var(--red);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 90px -10px rgba(255, 42, 42, 0.7);
+      }
+      .hub-badge svg {
+        width: 104px;
+        height: 104px;
+        color: var(--red);
+      }
+      .hub-label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 24px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: 4px;
+        color: var(--red);
+        text-align: center;
+      }
+
+      /* ---- node badges ---- */
+      .badge-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .badge {
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #242428;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .badge svg {
+        width: 72px;
+        height: 72px;
+      }
+      .badge.glow-github {
+        border-color: var(--c-github);
+        box-shadow: 0 0 60px -8px rgba(34, 211, 238, 0.7);
+      }
+      .badge.glow-figma {
+        border-color: var(--c-figma);
+        box-shadow: 0 0 60px -8px rgba(167, 139, 250, 0.7);
+      }
+      .badge.glow-database {
+        border-color: var(--c-database);
+        box-shadow: 0 0 60px -8px rgba(255, 176, 32, 0.7);
+      }
+      .badge.glow-drive {
+        border-color: var(--c-drive);
+        box-shadow: 0 0 60px -8px rgba(52, 211, 153, 0.7);
+      }
+      .ic-github {
+        color: var(--c-github);
+      }
+      .ic-figma {
+        color: var(--c-figma);
+      }
+      .ic-database {
+        color: var(--c-database);
+      }
+      .ic-drive {
+        color: var(--c-drive);
+      }
+      .label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 22px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: 2px;
+        color: var(--ink);
+        text-align: center;
+      }
+
+      svg.wires {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      svg.wires path.wire {
+        fill: none;
+        stroke-width: 6;
+        stroke-linecap: round;
+        stroke-dasharray: 1 1;
+        pathLength: 1;
+      }
+      #wireGithub {
+        stroke: var(--c-github);
+      }
+      #wireFigma {
+        stroke: var(--c-figma);
+      }
+      #wireDatabase {
+        stroke: var(--c-database);
+      }
+      #wireDrive {
+        stroke: var(--c-drive);
+      }
+      circle.traveldot {
+        opacity: 0;
+      }
+      #dotGithub {
+        fill: var(--c-github);
+        filter: drop-shadow(0 0 14px var(--c-github));
+      }
+      #dotFigma {
+        fill: var(--c-figma);
+        filter: drop-shadow(0 0 14px var(--c-figma));
+      }
+      #dotDatabase {
+        fill: var(--c-database);
+        filter: drop-shadow(0 0 14px var(--c-database));
+      }
+      #dotDrive {
+        fill: var(--c-drive);
+        filter: drop-shadow(0 0 14px var(--c-drive));
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="17" data-width="3840" data-height="2160">
+    <div id="stage" style="position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform: scale(2); transform-origin: top left;">
+      <div class="bgfx" data-layout-ignore></div>
+
+      <!-- TITLE: persists whole clip -->
+      <div id="titleGroup" class="clip" data-start="0" data-duration="17" data-track-index="0">
+        <div id="h1" class="h1" style="opacity: 0">MCP &mdash; <em>USB-C</em> for AI</div>
+      </div>
+
+      <!-- WIRES + TRAVELLING DOTS -->
+      <div id="wireGroup" class="clip" data-start="1.0" data-duration="16" data-track-index="1">
+        <svg class="wires" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+          <path id="wireGithub" class="wire" d="M 861.7,490.8 L 556,337.9" />
+          <path id="wireFigma" class="wire" d="M 1058.3,490.8 L 1364,337.9" />
+          <path id="wireDatabase" class="wire" d="M 863.3,592.4 L 554.7,759.5" />
+          <path id="wireDrive" class="wire" d="M 1056.7,592.4 L 1365.3,759.5" />
+
+          <circle id="dotGithub" class="traveldot" r="10" cx="861.7" cy="490.8" />
+          <circle id="dotFigma" class="traveldot" r="10" cx="1058.3" cy="490.8" />
+          <circle id="dotDatabase" class="traveldot" r="10" cx="863.3" cy="592.4" />
+          <circle id="dotDrive" class="traveldot" r="10" cx="1056.7" cy="592.4" />
+        </svg>
+      </div>
+
+      <!-- HUB -->
+      <div id="hubGroup" class="clip" data-start="0.6" data-duration="16.4" data-track-index="2">
+        <div class="hub-wrap">
+          <div id="hubGlow" class="hub-glow"></div>
+          <div id="hubBadge" class="hub-badge" style="opacity: 0">
+            <svg viewBox="0 0 64 64"><use href="#ic-plug" /></svg>
+          </div>
+          <div id="hubLabel" class="hub-label" style="opacity: 0">MCP</div>
+        </div>
+      </div>
+
+      <!-- NODES -->
+      <div id="nodeGroup" class="clip" data-start="1.3" data-duration="15.7" data-track-index="3">
+        <div class="badge-wrap" style="left: 480px; top: 300px">
+          <div id="nGithub" class="badge glow-github" style="opacity: 0">
+            <svg class="ic-github" viewBox="0 0 64 64"><use href="#ic-github" /></svg>
+          </div>
+          <div id="lGithub" class="label" style="opacity: 0">GITHUB</div>
+        </div>
+        <div class="badge-wrap" style="left: 1440px; top: 300px">
+          <div id="nFigma" class="badge glow-figma" style="opacity: 0">
+            <svg class="ic-figma" viewBox="0 0 64 64"><use href="#ic-figma" /></svg>
+          </div>
+          <div id="lFigma" class="label" style="opacity: 0">FIGMA</div>
+        </div>
+        <div class="badge-wrap" style="left: 480px; top: 800px">
+          <div id="nDatabase" class="badge glow-database" style="opacity: 0">
+            <svg class="ic-database" viewBox="0 0 64 64"><use href="#ic-database" /></svg>
+          </div>
+          <div id="lDatabase" class="label" style="opacity: 0">DATABASE</div>
+        </div>
+        <div class="badge-wrap" style="left: 1440px; top: 800px">
+          <div id="nDrive" class="badge glow-drive" style="opacity: 0">
+            <svg class="ic-drive" viewBox="0 0 64 64"><use href="#ic-drive" /></svg>
+          </div>
+          <div id="lDrive" class="label" style="opacity: 0">DRIVE</div>
+        </div>
+      </div>
+
+      <!-- icon sprite, no timing -->
+      <svg style="display: none" aria-hidden="true">
+        <defs>
+          <symbol id="ic-plug" viewBox="0 0 64 64">
+            <path d="M24 24V10M40 24V10" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+            <rect x="10" y="24" width="44" height="18" rx="7" fill="none" stroke="currentColor" stroke-width="4" />
+            <path d="M32 42v12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+          </symbol>
+          <symbol id="ic-github" viewBox="0 0 64 64">
+            <circle cx="18" cy="14" r="7" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="18" cy="50" r="7" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="46" cy="32" r="7" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M18 21v22" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M18 32c0-6 5-7 14-7h7" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+          </symbol>
+          <symbol id="ic-figma" viewBox="0 0 64 64">
+            <path d="M32 8 L50 50 L32 40 L14 50 Z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+            <circle cx="32" cy="8" r="3.5" fill="currentColor" />
+          </symbol>
+          <symbol id="ic-database" viewBox="0 0 64 64">
+            <ellipse cx="32" cy="16" rx="22" ry="8" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M10 16v32c0 4.4 9.8 8 22 8s22-3.6 22-8V16" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M10 32c0 4.4 9.8 8 22 8s22-3.6 22-8" fill="none" stroke="currentColor" stroke-width="3.5" />
+          </symbol>
+          <symbol id="ic-drive" viewBox="0 0 64 64">
+            <path
+              d="M46 44H19a12 12 0 0 1-1-23.9A16 16 0 0 1 48 22a10 10 0 0 1-2 22z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linejoin="round"
+            />
+          </symbol>
+        </defs>
+      </svg>
+    </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = { duration: 0.45, ease: "back.out(1.9)" };
+      const fade = { duration: 0.4, ease: "power2.out" };
+
+      // title
+      tl.fromTo("#h1", { opacity: 0, y: -10 }, { opacity: 1, y: 0, ...fade }, 0.1);
+
+      // hub pop-in
+      tl.fromTo("#hubBadge", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, ...pop }, 0.6);
+      tl.fromTo("#hubLabel", { opacity: 0 }, { opacity: 1, ...fade }, 0.9);
+
+      // hub pulse glow: finite yoyo tween, never repeat:-1
+      tl.fromTo(
+        "#hubGlow",
+        { opacity: 0.35, scale: 0.92 },
+        { opacity: 0.85, scale: 1.08, duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 19 },
+        0.95,
+      );
+
+      // ---- spoke helper data: [hub-edge x,y] -> [node-edge x,y] ----
+      const spokes = {
+        github: { sx: 861.7, sy: 490.8, ex: 556, ey: 337.9 },
+        figma: { sx: 1058.3, sy: 490.8, ex: 1364, ey: 337.9 },
+        database: { sx: 863.3, sy: 592.4, ex: 554.7, ey: 759.5 },
+        drive: { sx: 1056.7, sy: 592.4, ex: 1365.3, ey: 759.5 },
+      };
+
+      function addSpoke(key, wireId, nodeId, labelId, dotId, lineStart, dotStart, dotEnd) {
+        const sp = spokes[key];
+        tl.fromTo(`#${wireId}`, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut" }, lineStart);
+        tl.fromTo(`#${nodeId}`, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, ...pop }, lineStart + 0.6);
+        tl.fromTo(`#${labelId}`, { opacity: 0 }, { opacity: 1, ...fade }, lineStart + 0.8);
+        tl.fromTo(`#${dotId}`, { opacity: 0 }, { opacity: 1, duration: 0.3 }, dotStart);
+
+        const phase = { p: 0 };
+        const speed = 2.618; // rad/s -> ~2.4s per round trip
+        const duration = dotEnd - dotStart;
+        tl.to(
+          phase,
+          {
+            p: speed * duration,
+            duration: duration,
+            ease: "none",
+            onUpdate: function () {
+              const t = (Math.sin(phase.p) + 1) / 2;
+              const x = sp.sx + (sp.ex - sp.sx) * t;
+              const y = sp.sy + (sp.ey - sp.sy) * t;
+              const dot = document.getElementById(dotId);
+              if (dot) {
+                dot.setAttribute("cx", x.toFixed(2));
+                dot.setAttribute("cy", y.toFixed(2));
+              }
+            },
+          },
+          dotStart,
+        );
+      }
+
+      const END = 17;
+      addSpoke("github", "wireGithub", "nGithub", "lGithub", "dotGithub", 1.3, 2.3, END);
+      addSpoke("figma", "wireFigma", "nFigma", "lFigma", "dotFigma", 3.1, 4.1, END);
+      addSpoke("database", "wireDatabase", "nDatabase", "lDatabase", "dotDatabase", 4.9, 5.9, END);
+      addSpoke("drive", "wireDrive", "nDrive", "lDrive", "dotDrive", 6.7, 7.7, END);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

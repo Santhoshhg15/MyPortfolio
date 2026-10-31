@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=3840, height=2160" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <style>
+      :root {
+        --ground: #000000;
+        --ink: #ffffff;
+        --dim: #acacb2;
+        --dim2: #82828a;
+        --red: #ff2a2a;
+        --green: #34d399;
+        --panel: #111113;
+        --font-display: "Inter", sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 3840px;
+        height: 2160px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-display);
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .bgfx {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 18% 20%, rgba(52, 211, 153, 0.08), transparent 45%),
+          radial-gradient(circle at 85% 75%, rgba(255, 42, 42, 0.08), transparent 50%);
+      }
+
+      /* ---- title ---- */
+      .h1 {
+        position: absolute;
+        top: 120px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 64px;
+        letter-spacing: -1px;
+      }
+      .h1 em {
+        color: var(--red);
+        font-style: normal;
+      }
+
+      /* ---- context box ---- */
+      .ctx-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .ctx-box {
+        width: 640px;
+        height: 740px;
+        border-radius: 28px;
+        border: 3px dashed var(--green);
+        background: radial-gradient(circle at 50% 40%, rgba(52, 211, 153, 0.06), transparent 70%);
+        box-shadow: 0 0 80px -10px rgba(52, 211, 153, 0.41);
+        position: relative;
+      }
+      .ctx-kicker {
+        position: absolute;
+        top: -58px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: 5px;
+        color: var(--green);
+        text-align: center;
+      }
+
+      /* ---- badges (facts inside box) ---- */
+      .badge-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .badge {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #242428;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .badge.glow-good {
+        border-color: var(--green);
+        box-shadow: 0 0 60px -8px rgba(52, 211, 153, 0.7);
+      }
+      .badge svg {
+        width: 64px;
+        height: 64px;
+      }
+      .ic-white {
+        color: #ffffff;
+      }
+      .ic-red {
+        color: var(--red);
+      }
+      .label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 16px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: 2px;
+        color: var(--dim);
+        text-align: center;
+      }
+      .label.on {
+        color: var(--ink);
+      }
+      .label.red {
+        color: var(--red);
+      }
+
+      /* ---- ghost / hallucination ---- */
+      .ghost-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .ghost-badge {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #5c5c62;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .ghost-glow {
+        position: absolute;
+        inset: -20px;
+        border-radius: 50%;
+        box-shadow: 0 0 80px -8px rgba(255, 42, 42, 0.82);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .ghost-badge svg {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        z-index: 1;
+      }
+      .ic-ghost-dim {
+        color: #8c8c93;
+      }
+      .ghost-kicker {
+        position: absolute;
+        top: -58px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: 5px;
+        color: var(--dim2);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="3840" data-height="2160">
+    <div id="stage" style="position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform: scale(2); transform-origin: top left;">
+      <div class="bgfx" data-layout-ignore></div>
+
+      <!-- TITLE: persists whole clip -->
+      <div id="titleGroup" class="clip" data-start="0" data-duration="15" data-track-index="0">
+        <div id="h1" class="h1">Context &amp; <em>Hallucination</em></div>
+      </div>
+
+      <!-- CONTEXT BOX: persists after it appears -->
+      <div id="ctxGroup" class="clip" data-start="0.6" data-duration="14.4" data-track-index="1">
+        <div class="ctx-wrap" style="left: 620px; top: 670px">
+          <div id="ctxBox" class="ctx-box"></div>
+          <div id="ctxKicker" class="ctx-kicker" style="opacity: 0">CONTEXT</div>
+        </div>
+
+        <!-- facts land inside the box -->
+        <div class="badge-wrap" style="left: 620px; top: 420px">
+          <div id="factName" class="badge glow-good" style="opacity: 0">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-person" /></svg>
+          </div>
+          <div id="factNameLabel" class="label on" style="opacity: 0" data-layout-allow-overflow>NAME + ROLE</div>
+        </div>
+
+        <div class="badge-wrap" style="left: 620px; top: 650px">
+          <div id="factProject" class="badge glow-good" style="opacity: 0">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-laptop" /></svg>
+          </div>
+          <div id="factProjectLabel" class="label on" style="opacity: 0" data-layout-allow-overflow>REAL PROJECT</div>
+        </div>
+
+        <div class="badge-wrap" style="left: 620px; top: 880px">
+          <div id="factTraining" class="badge glow-good" style="opacity: 0">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-grad" /></svg>
+          </div>
+          <div id="factTrainingLabel" class="label on" style="opacity: 0" data-layout-allow-overflow>TRAINING</div>
+        </div>
+      </div>
+
+      <!-- HALLUCINATION: ghost icon on the right -->
+      <div id="ghostGroup" class="clip" data-start="4.2" data-duration="10.8" data-track-index="2">
+        <div class="ghost-wrap" id="ghostWrap" style="left: 1360px; top: 650px">
+          <div id="ghostBadge" class="ghost-badge" style="opacity: 0">
+            <div id="ghostGlow" class="ghost-glow"></div>
+            <svg id="ghostIcon" class="ic-ghost-dim" viewBox="0 0 64 64"><use href="#ic-ghost" /></svg>
+          </div>
+          <div id="ghostKicker" class="ghost-kicker" style="opacity: 0">?</div>
+          <div id="ghostLabel" class="label" style="opacity: 0" data-layout-allow-overflow>HALLUCINATED</div>
+        </div>
+      </div>
+
+      <!-- icon sprite, no timing -->
+      <svg style="display: none" aria-hidden="true">
+        <defs>
+          <symbol id="ic-person" viewBox="0 0 64 64">
+            <circle cx="32" cy="20" r="11" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path
+              d="M12 54c0-13 9-21 20-21s20 8 20 21"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+            />
+          </symbol>
+          <symbol id="ic-laptop" viewBox="0 0 64 64">
+            <rect x="12" y="14" width="40" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M6 48h52l-5 8H11l-5-8z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+            <path d="M22 27h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          </symbol>
+          <symbol id="ic-grad" viewBox="0 0 64 64">
+            <path d="M32 12 4 24l28 12 28-12-28-12z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+            <path d="M16 29v14c0 4 7 9 16 9s16-5 16-9V29" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M58 24v16" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+          </symbol>
+          <symbol id="ic-ghost" viewBox="0 0 64 64">
+            <path
+              d="M14 54V28c0-10 8-18 18-18s18 8 18 18v26l-7-6-6 6-5-6-5 6-6-6-7 6z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linejoin="round"
+            />
+            <circle cx="25" cy="28" r="3" fill="currentColor" />
+            <circle cx="39" cy="28" r="3" fill="currentColor" />
+          </symbol>
+        </defs>
+      </svg>
+    </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = { duration: 0.45, ease: "back.out(1.9)" };
+      const fade = { duration: 0.4, ease: "power2.out" };
+      const bounce = { duration: 0.7, ease: "bounce.out" };
+
+      // title: present from frame 0 (so the opening frame isn't empty), with a small settle-in motion
+      tl.fromTo("#h1", { y: -10 }, { y: 0, ...fade }, 0.05);
+
+      // context box appears
+      tl.fromTo("#ctxBox", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, 0.6);
+      tl.fromTo("#ctxKicker", { opacity: 0, y: -8 }, { opacity: 1, y: 0, ...fade }, 0.9);
+
+      // fact 1: NAME + ROLE flies in from top-left and bounces into place
+      tl.fromTo(
+        "#factName",
+        { opacity: 0, scale: 0.6, x: -260, y: -220 },
+        { opacity: 1, scale: 1, x: 0, y: 0, ...bounce },
+        1.3,
+      );
+      tl.fromTo("#factNameLabel", { opacity: 0 }, { opacity: 1, ...fade }, 1.9);
+
+      // fact 2: REAL PROJECT flies in from the top and bounces into place
+      tl.fromTo(
+        "#factProject",
+        { opacity: 0, scale: 0.6, x: 300, y: -260 },
+        { opacity: 1, scale: 1, x: 0, y: 0, ...bounce },
+        2.5,
+      );
+      tl.fromTo("#factProjectLabel", { opacity: 0 }, { opacity: 1, ...fade }, 3.1);
+
+      // fact 3: TRAINING flies in from bottom-left and bounces into place
+      tl.fromTo(
+        "#factTraining",
+        { opacity: 0, scale: 0.6, x: -300, y: 260 },
+        { opacity: 1, scale: 1, x: 0, y: 0, ...bounce },
+        3.7,
+      );
+      tl.fromTo("#factTrainingLabel", { opacity: 0 }, { opacity: 1, ...fade }, 4.3);
+
+      // ghost appears on the right, dim and uncertain
+      tl.fromTo("#ghostBadge", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, ...pop }, 4.6);
+      tl.fromTo("#ghostKicker", { opacity: 0 }, { opacity: 1, ...fade }, 4.9);
+
+      // deterministic jitter driven by timeline time, two phases:
+      // phase A (5.0 - 6.8s): visible glitch while uncertain (dim/grey)
+      // phase B (6.8s onward): settles to a small continuous shake once "solid" (red)
+      const ghostWrap = document.getElementById("ghostWrap");
+      const baseLeft = 1360;
+      const baseTop = 650;
+      const jitter = { t: 0 };
+      tl.to(
+        jitter,
+        {
+          t: 15,
+          duration: 10.4,
+          ease: "none",
+          onUpdate: function () {
+            const time = jitter.t + 4.6; // absolute timeline seconds
+            const solid = time >= 6.8;
+            const amp = solid ? 3.5 : 14; // px amplitude: big glitch before solidifying, tiny shake after
+            const dx = amp * Math.sin(time * 23.0) + (solid ? 0 : amp * 0.5 * Math.cos(time * 41.0));
+            const dy = amp * Math.cos(time * 19.0) + (solid ? 0 : amp * 0.5 * Math.sin(time * 37.0));
+            if (ghostWrap) {
+              ghostWrap.style.left = (baseLeft + dx).toFixed(2) + "px";
+              ghostWrap.style.top = (baseTop + dy).toFixed(2) + "px";
+            }
+          },
+        },
+        4.6,
+      );
+
+      // ghost solidifies to red at 6.8s: pure property tweens (color + border + glow),
+      // so the state is a function of timeline time regardless of seek direction.
+      tl.fromTo("#ghostIcon", { color: "#8c8c93" }, { color: "#ff2a2a", duration: 0.35, ease: "power2.in" }, 6.8);
+      tl.fromTo("#ghostBadge", { borderColor: "#5c5c62" }, { borderColor: "#ff2a2a", duration: 0.35, ease: "power2.in" }, 6.8);
+      tl.fromTo("#ghostGlow", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.in" }, 6.8);
+      tl.fromTo("#ghostLabel", { opacity: 0, color: "#acacb2" }, { opacity: 1, color: "#ff2a2a", ...fade }, 6.9);
+      tl.fromTo("#ghostKicker", { color: "#82828a" }, { color: "#ff2a2a", duration: 0.35, ease: "power2.in" }, 6.8);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

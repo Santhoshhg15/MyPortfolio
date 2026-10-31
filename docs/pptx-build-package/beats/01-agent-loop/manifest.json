@@ -1,0 +1,44 @@
+[
+  {
+    "clip": "clip-01.mp4",
+    "poster": "clip-01.jpg",
+    "start": 0.0,
+    "end": 1.3,
+    "note": "A boxed speech-bubble icon appears, sealed"
+  },
+  {
+    "clip": "clip-02.mp4",
+    "poster": "clip-02.jpg",
+    "start": 1.3,
+    "end": 4.3,
+    "note": "Agent icon appears; hands pull in a doc and keys"
+  },
+  {
+    "clip": "clip-03.mp4",
+    "poster": "clip-03.jpg",
+    "start": 4.3,
+    "end": 5.8,
+    "note": "Brain badge appears at top of a circle"
+  },
+  {
+    "clip": "clip-04.mp4",
+    "poster": "clip-04.jpg",
+    "start": 5.8,
+    "end": 7.2,
+    "note": "Circle draws a quarter-arc; ACT badge lands at right"
+  },
+  {
+    "clip": "clip-05.mp4",
+    "poster": "clip-05.jpg",
+    "start": 7.2,
+    "end": 8.6,
+    "note": "Another quarter-arc draws; OBSERVE badge lands at bottom"
+  },
+  {
+    "clip": "clip-06.mp4",
+    "poster": "clip-06.jpg",
+    "start": 8.6,
+    "end": 18.0,
+    "note": "Final arc closes; REPEAT badge lands, dot orbits forever"
+  }
+]

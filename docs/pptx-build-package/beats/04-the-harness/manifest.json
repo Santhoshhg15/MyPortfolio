@@ -1,0 +1,72 @@
+[
+  {
+    "clip": "clip-01.mp4",
+    "poster": "clip-01.jpg",
+    "start": 0.0,
+    "end": 2.0,
+    "note": "Title 'The Harness' + an empty cart fades in, no horse yet"
+  },
+  {
+    "clip": "clip-02.mp4",
+    "poster": "clip-02.jpg",
+    "start": 2.0,
+    "end": 4.0,
+    "note": "The horse trots in, straps snap taut; MODEL badge pops in with a power-up burst"
+  },
+  {
+    "clip": "clip-03.mp4",
+    "poster": "clip-03.jpg",
+    "start": 4.0,
+    "end": 5.8,
+    "note": "Current flows down the wire; TOOLS toolbox badge straps onto the cart, label appears"
+  },
+  {
+    "clip": "clip-04.mp4",
+    "poster": "clip-04.jpg",
+    "start": 5.8,
+    "end": 7.6,
+    "note": "Wire glows toward the horse's head; CONTEXT lantern badge settles in, label appears"
+  },
+  {
+    "clip": "clip-05.mp4",
+    "poster": "clip-05.jpg",
+    "start": 7.6,
+    "end": 9.6,
+    "note": "Wire glows toward the driver's bench; PERMISSIONS reins badge settles in, label appears"
+  },
+  {
+    "clip": "clip-06.mp4",
+    "poster": "clip-06.jpg",
+    "start": 9.6,
+    "end": 10.3,
+    "note": "Fully harnessed horse and cart hold, then the whole assembly fades out"
+  },
+  {
+    "clip": "clip-07.mp4",
+    "poster": "clip-07.jpg",
+    "start": 10.3,
+    "end": 10.7,
+    "note": "Kicker text fades in: SAME HORSE. DIFFERENT HARNESS."
+  },
+  {
+    "clip": "clip-08.mp4",
+    "poster": "clip-08.jpg",
+    "start": 10.7,
+    "end": 11.15,
+    "note": "Flash! A light racing cart (Antigravity) appears with the same glowing horse"
+  },
+  {
+    "clip": "clip-09.mp4",
+    "poster": "clip-09.jpg",
+    "start": 11.15,
+    "end": 11.6,
+    "note": "Flash! A sturdy farm cart (Cursor) appears with the same glowing horse"
+  },
+  {
+    "clip": "clip-10.mp4",
+    "poster": "clip-10.jpg",
+    "start": 11.6,
+    "end": 15.5,
+    "note": "Flash! An ornate royal carriage (Claude Code) appears with the same glowing horse; all three hold"
+  }
+]

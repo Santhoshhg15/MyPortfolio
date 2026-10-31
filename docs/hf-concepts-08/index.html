@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=3840, height=2160" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <style>
+      :root {
+        --ground: #000000;
+        --ink: #ffffff;
+        --dim: #adadb4;
+        --dim2: #6b6b72;
+        --red: #ff2a2a;
+        --green: #34d399;
+        --panel: #111113;
+        --font-display: "Inter", sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 3840px;
+        height: 2160px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-display);
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .bgfx {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 20% 15%, rgba(255, 42, 42, 0.08), transparent 45%),
+          radial-gradient(circle at 85% 85%, rgba(52, 211, 153, 0.06), transparent 50%);
+      }
+
+      /* ---- title ---- */
+      .h1 {
+        position: absolute;
+        top: 112px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 64px;
+        letter-spacing: -1px;
+      }
+      .h1 em {
+        color: var(--red);
+        font-style: normal;
+      }
+
+      /* ---- badges ---- */
+      .badge-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .badge {
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #242428;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .badge svg {
+        width: 72px;
+        height: 72px;
+      }
+      .ic-white {
+        color: #ffffff;
+      }
+      .ic-green {
+        color: var(--green);
+      }
+      .label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 22px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 22px;
+        letter-spacing: 3px;
+        color: var(--ink);
+        text-align: center;
+      }
+
+      /* ---- small / overlay badges ---- */
+      .mini-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .small-badge {
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #242428;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .small-badge svg {
+        width: 44px;
+        height: 44px;
+      }
+      .minilabel {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 14px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: 2px;
+        color: var(--dim);
+        text-align: center;
+      }
+
+      .checkbadge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: #000;
+        border: 3px solid var(--green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 22px -4px rgba(52, 211, 153, 0.88);
+      }
+      .checkbadge svg {
+        width: 30px;
+        height: 30px;
+      }
+
+      /* ---- WRONG stamp ---- */
+      .stamp-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .stamp {
+        width: 480px;
+        height: 160px;
+        border: 9px solid var(--red);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 90px -8px rgba(255, 42, 42, 0.9), inset 0 0 30px -6px rgba(255, 42, 42, 0.6);
+        background: rgba(255, 42, 42, 0.05);
+      }
+      .stamp span {
+        color: var(--red);
+        font-weight: 800;
+        font-size: 84px;
+        letter-spacing: 10px;
+        text-transform: uppercase;
+        text-shadow: 0 0 30px rgba(255, 42, 42, 0.92);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="3840" data-height="2160">
+    <div id="stage" style="position:absolute; top:0; left:0; width:1920px; height:1080px; transform: scale(2); transform-origin: top left;">
+      <div class="bgfx" data-layout-ignore></div>
+
+      <!-- TITLE -->
+      <div id="titleGroup" class="clip" data-start="0" data-duration="15" data-track-index="0">
+        <div id="h1" class="h1" style="opacity: 0"><em>Verify</em> Everything</div>
+      </div>
+
+      <!-- ROBOT CLAIMS "DONE" -->
+      <div id="robotGroup" class="clip" data-start="0.6" data-duration="14.4" data-track-index="1">
+        <div class="badge-wrap" style="left: 960px; top: 430px">
+          <div id="robotBadge" class="badge" style="opacity: 0">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-robot" /></svg>
+          </div>
+          <div id="robotLabel" class="label" style="opacity: 0">AGENT</div>
+        </div>
+
+        <div class="mini-wrap" style="left: 1320px; top: 250px">
+          <div id="speechBadge" class="small-badge" style="opacity: 0">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-speechcheck" /></svg>
+          </div>
+          <div id="doneLabel" class="minilabel" style="opacity: 0" data-layout-allow-overflow>"DONE"</div>
+        </div>
+
+        <!-- the contradiction -->
+        <div class="stamp-wrap" style="left: 960px; top: 430px">
+          <div id="wrongStamp" class="stamp" style="opacity: 0">
+            <span>WRONG</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VERIFICATION CHECKLIST -->
+      <div id="checklistGroup" class="clip" data-start="5.6" data-duration="9.4" data-track-index="2">
+        <div class="badge-wrap" style="left: 480px; top: 800px">
+          <div id="clickBadge" class="badge" style="opacity: 0">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-cursor" /></svg>
+            <div id="clickCheck" class="checkbadge" style="opacity: 0">
+              <svg class="ic-green" viewBox="0 0 64 64"><use href="#ic-check" /></svg>
+            </div>
+          </div>
+          <div id="clickLabel" class="label" style="opacity: 0">CLICK</div>
+        </div>
+
+        <div class="badge-wrap" style="left: 820px; top: 800px">
+          <div id="testBadge" class="badge" style="opacity: 0">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-phone" /></svg>
+            <div id="testCheck" class="checkbadge" style="opacity: 0">
+              <svg class="ic-green" viewBox="0 0 64 64"><use href="#ic-check" /></svg>
+            </div>
+          </div>
+          <div id="testLabel" class="label" style="opacity: 0">TEST</div>
+        </div>
+
+        <div class="badge-wrap" style="left: 1160px; top: 800px">
+          <div id="errBadge" class="badge" style="opacity: 0">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-bugsearch" /></svg>
+            <div id="errCheck" class="checkbadge" style="opacity: 0">
+              <svg class="ic-green" viewBox="0 0 64 64"><use href="#ic-check" /></svg>
+            </div>
+          </div>
+          <div id="errLabel" class="label" style="opacity: 0">ERRORS</div>
+        </div>
+
+        <div class="badge-wrap" style="left: 1500px; top: 800px">
+          <div id="buildBadge" class="badge" style="opacity: 0">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-wrench" /></svg>
+            <div id="buildCheck" class="checkbadge" style="opacity: 0">
+              <svg class="ic-green" viewBox="0 0 64 64"><use href="#ic-check" /></svg>
+            </div>
+          </div>
+          <div id="buildLabel" class="label" style="opacity: 0">BUILD</div>
+        </div>
+      </div>
+
+      <!-- icon sprite, no timing -->
+      <svg style="display: none" aria-hidden="true">
+        <defs>
+          <symbol id="ic-robot" viewBox="0 0 64 64">
+            <rect x="12" y="20" width="40" height="30" rx="8" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="24" cy="35" r="4" fill="currentColor" />
+            <circle cx="40" cy="35" r="4" fill="currentColor" />
+            <path d="M32 20v-8" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="32" cy="9" r="3" fill="currentColor" />
+            <path d="M18 50v6M46 50v6" stroke="currentColor" stroke-width="3.5" />
+          </symbol>
+
+          <symbol id="ic-speechcheck" viewBox="0 0 64 64">
+            <path
+              d="M8 14h40a4 4 0 0 1 4 4v22a4 4 0 0 1-4 4H26l-10 10v-10H8a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linejoin="round"
+            />
+            <path d="M14 27l9 9 17-18" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          </symbol>
+
+          <symbol id="ic-check" viewBox="0 0 64 64">
+            <path d="M14 33l12 12 24-26" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+          </symbol>
+
+          <symbol id="ic-cursor" viewBox="0 0 64 64">
+            <path
+              d="M15 8 L15 50 L25 41 L31 55 L39 52 L33 38 L47 36 Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linejoin="round"
+            />
+            <path d="M6 4 L11 11 M22 2 L21 9 M2 19 L9 21" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          </symbol>
+
+          <symbol id="ic-phone" viewBox="0 0 64 64">
+            <rect x="18" y="6" width="28" height="52" rx="7" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <line x1="26" y1="14" x2="38" y2="14" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+            <circle cx="32" cy="51" r="2.5" fill="currentColor" />
+          </symbol>
+
+          <symbol id="ic-bugsearch" viewBox="0 0 64 64">
+            <circle cx="26" cy="26" r="15" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <line x1="37" y1="37" x2="54" y2="54" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+            <ellipse cx="26" cy="27" rx="6" ry="9" fill="none" stroke="currentColor" stroke-width="2.5" />
+            <path
+              d="M18 20l-4-4M34 20l4-4M18 34l-4 4M34 34l4 4M26 18v-4M26 36v4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </symbol>
+
+          <symbol id="ic-wrench" viewBox="0 0 64 64">
+            <circle cx="46" cy="18" r="11" fill="none" stroke="currentColor" stroke-width="4.5" />
+            <path d="M39 25 L15 49" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" />
+            <path d="M11 53a6 6 0 1 0 8-8" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" />
+          </symbol>
+        </defs>
+      </svg>
+    </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = { duration: 0.5, ease: "back.out(1.9)" };
+      const fade = { duration: 0.3, ease: "power2.out" };
+
+      // title
+      tl.fromTo("#h1", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0.1);
+
+      // robot claims "done"
+      tl.fromTo("#robotBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 0.6);
+      tl.fromTo("#robotLabel", { opacity: 0 }, { opacity: 1, ...fade }, 1.15);
+
+      tl.fromTo("#speechBadge", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.9)" }, 1.7);
+      tl.fromTo("#doneLabel", { opacity: 0 }, { opacity: 1, ...fade }, 2.0);
+
+      // WRONG stamp slams down
+      tl.fromTo(
+        "#wrongStamp",
+        { opacity: 0, scale: 2.4, rotation: -25 },
+        { opacity: 1, scale: 1, rotation: -8, duration: 0.5, ease: "back.out(3)" },
+        3.6,
+      );
+      tl.to("#wrongStamp", { scale: 1.06, duration: 0.12, ease: "power1.inOut" }, 4.1);
+      tl.to("#wrongStamp", { scale: 1, duration: 0.15, ease: "power1.inOut" }, 4.22);
+
+      // checklist: CLICK
+      tl.fromTo("#clickBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 5.6);
+      tl.fromTo("#clickLabel", { opacity: 0 }, { opacity: 1, ...fade }, 6.2);
+      tl.fromTo("#clickCheck", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, 6.3);
+
+      // checklist: TEST
+      tl.fromTo("#testBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 7.0);
+      tl.fromTo("#testLabel", { opacity: 0 }, { opacity: 1, ...fade }, 7.6);
+      tl.fromTo("#testCheck", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, 7.7);
+
+      // checklist: ERRORS
+      tl.fromTo("#errBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 8.4);
+      tl.fromTo("#errLabel", { opacity: 0 }, { opacity: 1, ...fade }, 9.0);
+      tl.fromTo("#errCheck", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, 9.1);
+
+      // checklist: BUILD
+      tl.fromTo("#buildBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 9.8);
+      tl.fromTo("#buildLabel", { opacity: 0 }, { opacity: 1, ...fade }, 10.4);
+      tl.fromTo("#buildCheck", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, 10.5);
+
+      // hold final state through the rest of the clip (handled by data-duration windows)
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

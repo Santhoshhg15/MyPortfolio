@@ -1,6 +1,6 @@
 {
   "id": "template-2",
-  "name": "Template 2 \u00e2\u20ac\u201d Cinematic Lime",
+  "name": "Template 2 â€” Cinematic Lime",
   "short": "Template 2",
   "profile": "template-2",
   "createLabel": "Create your portraits",
@@ -8,5 +8,48 @@
   "reference": "templates/template-2",
   "linkedinBuilt": "using React, Vite, Tailwind CSS and GSAP, with AI-generated portraits and cinematic scroll animations, deployed on Vercel",
   "linkedinAttach": "attach your hero portrait (A1) or your intro video (A4)",
-  "emailFields": "(user_name, user_email, user_phone, subject, message)"
+  "emailFields": "(user_name, user_email, user_phone, subject, message)",
+  "_merge_disabled": [
+    {
+      "steps": [
+        "step1",
+        "step2"
+      ],
+      "title": "Create the folder, open Antigravity and set up the project"
+    },
+    {
+      "steps": [
+        "step8"
+      ],
+      "title": "Projects: editorial case-study stories",
+      "join": [
+        [
+          0,
+          1
+        ]
+      ],
+      "names": {
+        "0": "Projects section",
+        "1": "Project cover images"
+      }
+    },
+    {
+      "steps": [
+        "step11",
+        "step12"
+      ],
+      "title": "Put it together, check, polish, browser tab and README",
+      "join": [
+        [
+          0,
+          1
+        ]
+      ],
+      "names": {
+        "0": "Put it together, check, fix and polish",
+        "1": "Browser tab, share preview and README"
+      }
+    }
+  ],
+  "linkedinTags": "#ReactJS #TailwindCSS #GSAP"
 }

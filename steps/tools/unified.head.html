@@ -149,6 +149,8 @@ h2{margin:0;font-family:var(--disp);font-size:clamp(28px,3.6vw,40px);letter-spac
 .step p{color:var(--ink2);margin:14px 0}.step ol,.step ul{color:var(--ink2);padding-left:24px}.step li{margin:6px 0}
 .step h3{font-family:var(--disp);font-size:22px;letter-spacing:-.02em;margin:34px 0 8px}
 .note{background:var(--acc-soft);padding:14px 18px;border-radius:18px;color:var(--ink);font-size:15.5px;margin:18px 0}
+.step p.lede{font-size:19px;line-height:1.5;color:var(--ink);margin:0 0 18px;max-width:62ch}
+.step p.credit{font-size:14.5px;color:var(--mut);margin-top:12px}
 .fin .lead{font-family:var(--disp);font-size:26px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
 
 /* start page */
@@ -290,6 +292,33 @@ ul.feat li::before{content:"";width:6px;height:6px;border-radius:50%;background:
 .lb .x{top:18px;right:20px;width:40px;height:40px;font-size:17px}
 .lb .a{top:50%;transform:translateY(-50%);width:48px;height:48px;font-size:26px;line-height:1}
 .lb .a.l{left:18px}.lb .a.r{right:18px}.lb .go{margin-top:14px}
+
+.step a,.co a,.note a{overflow-wrap:anywhere}
+/* one-click LinkedIn post */
+.lipost{margin:18px 0;padding:6px 0}
+.lipost h3{margin:0 0 4px;font:700 1.5rem var(--disp);letter-spacing:-.02em}
+.lin{display:flex;align-items:center;gap:10px;font:700 1.1rem var(--disp);margin-bottom:12px}.lin span{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--acc);color:var(--onacc);font-size:.9rem}
+.lipre{display:grid;gap:8px;margin-top:6px}.lipb{text-align:left;border:1px solid var(--line2);background:var(--sf2);border-radius:12px;padding:10px 14px;font:inherit;font-size:14.5px;cursor:pointer;color:var(--ink)}.lipb:hover{border-color:var(--acc)}
+.litap{margin-top:14px}.litap summary{cursor:pointer;font-weight:600}.lifix{margin:10px 0 0;font-size:14px;color:var(--mut)}
+a.pill{display:inline-block;text-decoration:none}a.pill:hover{text-decoration:none}
+.liopen{padding:14px 26px;font-size:1.05rem}
+.lisub{margin:0 0 6px;color:var(--ink2)}
+.lipts{display:grid;gap:6px;margin-top:4px}
+.lipt,.lichk{display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding:6px 2px}
+.lipt input,.lichk input{margin-top:.3em;width:18px;height:18px;accent-color:var(--acc);flex:0 0 auto}
+.lichk{margin-top:10px}
+.litext{min-height:300px;line-height:1.5;resize:vertical;font-size:15.5px}
+.licom{min-height:110px;line-height:1.5;resize:vertical}
+.liact{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.liact .pill[disabled]{opacity:.4;cursor:not-allowed}
+.liwarn{margin-top:10px;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,var(--warn,#c45f00) 14%,transparent);color:var(--ink);font-size:14.5px}
+.lidirty{font-weight:500;color:var(--mut);font-size:13px}
+.lilink{margin:10px 0 0;font-size:14px}
+.listeps{margin:8px 0 10px;padding-left:1.3em}.listeps li{margin:6px 0}
+.licomment{margin:14px 0}.licomment summary{cursor:pointer;font-weight:600}.licomment textarea{margin-top:10px}
+.pill{border:0;border-radius:99px;padding:11px 20px;font:600 .95rem var(--font);cursor:pointer;background:var(--acc);color:var(--onacc)}
+.pill.ghost{background:transparent;border:1px solid var(--line2);color:var(--ink)}
+.pill:hover{filter:brightness(1.08)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 @media (prefers-reduced-transparency:reduce){.top,.pn,aside,.co,.q,.tbl,.flow{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}.top,.pn,aside{background:var(--solid)}.q:not(.sec),.co,.tbl{background:var(--solid)}.lb{background:#0d2c3d}}
 </style>

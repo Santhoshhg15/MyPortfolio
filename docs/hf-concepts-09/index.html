@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=3840, height=2160" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <style>
+      :root {
+        --ground: #000000;
+        --ink: #ffffff;
+        --dim: #9a9aa0;
+        --dim2: #6b6b72;
+        --red: #ff2a2a;
+        --panel: #111113;
+        --font-display: "Inter", sans-serif;
+        --c-loop: #22d3ee;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 3840px;
+        height: 2160px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-display);
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .bgfx {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 20% 15%, rgba(255, 42, 42, 0.1), transparent 45%),
+          radial-gradient(circle at 85% 85%, rgba(255, 42, 42, 0.07), transparent 50%);
+      }
+
+      /* ---- title ---- */
+      .h1 {
+        position: absolute;
+        top: 112px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 64px;
+        letter-spacing: -1px;
+      }
+      .h1 em {
+        color: var(--red);
+        font-style: normal;
+      }
+
+      /* ---- badges ---- */
+      .badge-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .badge {
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #242428;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .badge.mid-red {
+        border-color: var(--red);
+        box-shadow: 0 0 40px -14px rgba(255, 42, 42, 0.59);
+      }
+      .badge.glow {
+        border-color: var(--red);
+        box-shadow: 0 0 80px -8px rgba(255, 42, 42, 0.88);
+      }
+      .badge svg {
+        width: 72px;
+        height: 72px;
+      }
+      .ic-white {
+        color: #ffffff;
+      }
+      .ic-red {
+        color: var(--red);
+      }
+      .label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 22px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 22px;
+        letter-spacing: 3px;
+        color: var(--ink);
+        text-align: center;
+      }
+
+      .looplabel {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: var(--c-loop);
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        line-height: 1.5;
+        white-space: nowrap;
+      }
+
+      svg.wires {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      svg.wires path.line {
+        fill: none;
+        stroke-width: 7;
+        stroke-linecap: round;
+      }
+      #line1 {
+        stroke: var(--dim);
+      }
+      #line2 {
+        stroke: var(--red);
+      }
+      #line3 {
+        stroke: var(--red);
+        filter: drop-shadow(0 0 10px rgba(255, 42, 42, 0.65));
+      }
+      #loopArc {
+        fill: none;
+        stroke: var(--c-loop);
+        stroke-width: 5;
+        stroke-dasharray: 16 12;
+        filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.6));
+      }
+      circle.pipedot {
+        fill: #ffffff;
+        filter: drop-shadow(0 0 16px #ffffff) drop-shadow(0 0 32px rgba(255, 255, 255, 0.82));
+      }
+      circle.loopdot {
+        fill: var(--c-loop);
+        filter: drop-shadow(0 0 16px var(--c-loop)) drop-shadow(0 0 32px rgba(34, 211, 238, 0.82));
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="16" data-width="3840" data-height="2160">
+      <div id="stage" style="position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform: scale(2); transform-origin: top left;">
+      <div class="bgfx" data-layout-ignore></div>
+
+      <!-- TITLE: persists whole clip -->
+      <div id="titleGroup" class="clip" data-start="0" data-duration="16" data-track-index="0">
+        <div id="h1" class="h1" style="opacity: 0">Git &amp; <em>CI/CD</em></div>
+      </div>
+
+      <!-- PIPELINE -->
+      <div id="pipeGroup" class="clip" data-start="0" data-duration="16" data-track-index="1">
+        <svg class="wires" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+          <path id="line1" class="line" d="M 325,640 L 655,640" />
+          <path id="line2" class="line" d="M 825,640 L 1155,640" />
+          <path id="line3" class="line" d="M 1325,640 L 1655,640" />
+          <path id="loopArc" d="M 1740,555 C 1740,320 240,320 240,555" style="opacity: 0" />
+        </svg>
+
+        <div id="loopLabel" class="looplabel" style="left: 990px; top: 335px; opacity: 0">AUTO-REDEPLOY<br />ON EVERY PUSH</div>
+
+        <div class="badge-wrap" style="left: 240px; top: 640px">
+          <div id="codeBadge" class="badge">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-code" /></svg>
+          </div>
+          <div id="codeLabel" class="label" style="opacity: 0">CODE</div>
+        </div>
+
+        <div class="badge-wrap" style="left: 740px; top: 640px">
+          <div id="commitBadge" class="badge">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-branch" /></svg>
+          </div>
+          <div id="commitLabel" class="label" style="opacity: 0">COMMIT</div>
+        </div>
+
+        <div class="badge-wrap" style="left: 1240px; top: 640px">
+          <div id="githubBadge" class="badge mid-red">
+            <svg class="ic-red" viewBox="0 0 64 64"><use href="#ic-repo" /></svg>
+          </div>
+          <div id="githubLabel" class="label" style="opacity: 0">GITHUB</div>
+        </div>
+
+        <div class="badge-wrap" style="left: 1740px; top: 640px">
+          <div id="liveBadge" class="badge glow">
+            <svg class="ic-red" viewBox="0 0 64 64"><use href="#ic-deploy" /></svg>
+          </div>
+          <div id="liveLabel" class="label" style="opacity: 0">LIVE</div>
+        </div>
+
+        <!-- dots render above the badges so they stay visible while passing through each node -->
+        <svg class="wires" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+          <circle id="pipeDot" class="pipedot" r="11" cx="240" cy="640" opacity="0" />
+          <circle id="loopDot" class="loopdot" r="9" cx="1740" cy="555" opacity="0" />
+        </svg>
+      </div>
+
+      <!-- icon sprite, no timing -->
+      <svg style="display: none" aria-hidden="true">
+        <defs>
+          <symbol id="ic-code" viewBox="0 0 64 64">
+            <rect x="8" y="12" width="48" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M22 22l-6 6 6 6M34 34h8" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+            <path d="M4 48h56l-5 8H9z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+          </symbol>
+          <symbol id="ic-branch" viewBox="0 0 64 64">
+            <circle cx="18" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="18" cy="52" r="5" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="46" cy="32" r="5" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M18 17v30" stroke="currentColor" stroke-width="3.5" fill="none" />
+            <path d="M18 27a16 16 0 0 0 16 5h7" stroke="currentColor" stroke-width="3.5" fill="none" stroke-linecap="round" />
+          </symbol>
+          <symbol id="ic-repo" viewBox="0 0 64 64">
+            <path d="M32 6 58 20v24L32 58 6 44V20z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+            <path d="M6 20 32 34 58 20M32 34v24" stroke="currentColor" stroke-width="3.5" fill="none" stroke-linejoin="round" />
+          </symbol>
+          <symbol id="ic-deploy" viewBox="0 0 64 64">
+            <path d="M32 6 54 44H10z" fill="currentColor" />
+            <path d="M24 44v10M40 44v10" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+          </symbol>
+        </defs>
+      </svg>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = { duration: 0.45, ease: "back.out(1.9)" };
+      const fade = { duration: 0.4, ease: "power2.out" };
+
+      // prep drawn lines: solid pipeline lines use real path length so the
+      // draw reveal looks continuous; the loop-back arc keeps a literal
+      // dash pattern so it reads as "dashed" once revealed.
+      ["line1", "line2", "line3"].forEach((id) => {
+        const p = document.getElementById(id);
+        const len = p.getTotalLength();
+        p.style.strokeDasharray = `${len} ${len}`;
+        p.style.strokeDashoffset = String(len);
+      });
+      // title
+      tl.fromTo("#h1", { opacity: 0, y: -10 }, { opacity: 1, y: 0, ...fade }, 0.1);
+
+      // CODE
+      tl.fromTo("#codeBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 0.5);
+      tl.fromTo("#codeLabel", { opacity: 0 }, { opacity: 1, ...fade }, 0.75);
+
+      // line1 -> COMMIT
+      tl.to("#line1", { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 1.0);
+      tl.fromTo("#commitBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 1.8);
+      tl.fromTo("#commitLabel", { opacity: 0 }, { opacity: 1, ...fade }, 2.0);
+
+      // line2 -> GITHUB
+      tl.to("#line2", { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 2.3);
+      tl.fromTo("#githubBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 3.1);
+      tl.fromTo("#githubLabel", { opacity: 0 }, { opacity: 1, ...fade }, 3.3);
+
+      // line3 -> LIVE
+      tl.to("#line3", { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 3.6);
+      tl.fromTo("#liveBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 4.4);
+      tl.fromTo("#liveLabel", { opacity: 0 }, { opacity: 1, ...fade }, 4.6);
+
+      // loop-back dashed line + label
+      tl.fromTo("#loopArc", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 5.0);
+      tl.fromTo("#loopLabel", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 5.6);
+
+      // pipeline dot: one deterministic linear pass CODE -> LIVE through all
+      // four nodes, timed so it is still travelling through the final seconds.
+      tl.fromTo("#pipeDot", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.0);
+      const pipe = { t: 0 };
+      const px0 = 240,
+        px1 = 1740,
+        py = 640;
+      tl.to(
+        pipe,
+        {
+          t: 1,
+          duration: 10.0,
+          ease: "none",
+          onUpdate: function () {
+            const x = px0 + (px1 - px0) * pipe.t;
+            const dot = document.getElementById("pipeDot");
+            if (dot) {
+              dot.setAttribute("cx", x.toFixed(2));
+              dot.setAttribute("cy", String(py));
+            }
+          },
+        },
+        6.0,
+      );
+
+      // loop dot: one deterministic pass LIVE -> CODE along the cubic
+      // bezier loop-back curve, same window as the pipeline dot.
+      tl.fromTo("#loopDot", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.0);
+      const loop = { t: 0 };
+      const lp0 = { x: 1740, y: 555 };
+      const lp1 = { x: 1740, y: 320 };
+      const lp2 = { x: 240, y: 320 };
+      const lp3 = { x: 240, y: 555 };
+      tl.to(
+        loop,
+        {
+          t: 1,
+          duration: 10.0,
+          ease: "none",
+          onUpdate: function () {
+            const t = loop.t;
+            const mt = 1 - t;
+            const x = mt * mt * mt * lp0.x + 3 * mt * mt * t * lp1.x + 3 * mt * t * t * lp2.x + t * t * t * lp3.x;
+            const y = mt * mt * mt * lp0.y + 3 * mt * mt * t * lp1.y + 3 * mt * t * t * lp2.y + t * t * t * lp3.y;
+            const dot = document.getElementById("loopDot");
+            if (dot) {
+              dot.setAttribute("cx", x.toFixed(2));
+              dot.setAttribute("cy", y.toFixed(2));
+            }
+          },
+        },
+        6.0,
+      );
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

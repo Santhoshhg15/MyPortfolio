@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=3840, height=2160" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <style>
+      :root {
+        --ground: #000000;
+        --ink: #ffffff;
+        --dim: #9a9aa0;
+        --dim2: #82828a;
+        --red: #ff2a2a;
+        --panel: #111113;
+        --font-display: "Inter", sans-serif;
+        --c-think: #a78bfa;
+        --c-act: #ffb020;
+        --c-observe: #22d3ee;
+        --c-repeat: #ff2a2a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 3840px;
+        height: 2160px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-display);
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .bgfx {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 20% 15%, rgba(255, 42, 42, 0.1), transparent 45%),
+          radial-gradient(circle at 85% 85%, rgba(255, 42, 42, 0.07), transparent 50%);
+      }
+
+      /* ---- title ---- */
+      .h1 {
+        position: absolute;
+        top: 112px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 64px;
+        letter-spacing: -1px;
+      }
+      .h1 em {
+        color: var(--red);
+        font-style: normal;
+      }
+
+      /* ---- badges ---- */
+      .badge-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .badge {
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #242428;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .badge.glow {
+        border-color: var(--red);
+        box-shadow: 0 0 70px -10px rgba(255, 42, 42, 0.68);
+      }
+      .badge.glow-think {
+        border-color: var(--c-think);
+        box-shadow: 0 0 70px -10px rgba(167, 139, 250, 0.71);
+      }
+      .badge.glow-act {
+        border-color: var(--c-act);
+        box-shadow: 0 0 70px -10px rgba(255, 176, 32, 0.71);
+      }
+      .badge.glow-observe {
+        border-color: var(--c-observe);
+        box-shadow: 0 0 70px -10px rgba(34, 211, 238, 0.71);
+      }
+      .badge.glow-repeat {
+        border-color: var(--c-repeat);
+        box-shadow: 0 0 70px -10px rgba(255, 42, 42, 0.71);
+      }
+      .badge svg {
+        width: 72px;
+        height: 72px;
+      }
+      .ic-white {
+        color: #ffffff;
+      }
+      .ic-red {
+        color: var(--red);
+      }
+      .ic-think {
+        color: var(--c-think);
+      }
+      .ic-act {
+        color: var(--c-act);
+      }
+      .ic-observe {
+        color: var(--c-observe);
+      }
+      .ic-repeat {
+        color: var(--c-repeat);
+      }
+      .label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 22px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 22px;
+        letter-spacing: 3px;
+        color: var(--dim);
+        text-align: center;
+      }
+      .label.on {
+        color: var(--ink);
+      }
+
+      .small-badge {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #242428;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .small-badge svg {
+        width: 40px;
+        height: 40px;
+      }
+      .lockbadge {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #000;
+        border: 2px solid var(--red);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .lockbadge svg {
+        width: 28px;
+        height: 28px;
+      }
+
+      .vslabel {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        font-weight: 800;
+        font-size: 34px;
+        color: var(--dim2);
+        letter-spacing: 4px;
+      }
+
+      .loopcenter {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: var(--dim2);
+        font-size: 29px;
+        font-weight: 800;
+        letter-spacing: 4px;
+        line-height: 1.5;
+      }
+
+      svg.arcs {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      svg.arcs path.arc {
+        fill: none;
+        stroke-width: 7;
+        stroke-linecap: round;
+        stroke-dasharray: 1 1;
+        pathLength: 1;
+      }
+      #arc1 {
+        stroke: var(--c-act);
+      }
+      #arc2 {
+        stroke: var(--c-observe);
+      }
+      #arc3 {
+        stroke: var(--c-repeat);
+      }
+      #arc4 {
+        stroke: var(--c-think);
+      }
+      circle.orbitdot {
+        fill: #ffffff;
+        filter: drop-shadow(0 0 20px #ffffff) drop-shadow(0 0 40px rgba(255, 255, 255, 0.7));
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="18" data-width="3840" data-height="2160">
+    <div id="stage" style="position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform: scale(2); transform-origin: top left;">
+      <div class="bgfx" data-layout-ignore></div>
+
+      <!-- TITLE: persists whole clip -->
+      <div id="titleGroup" class="clip" data-start="0" data-duration="18" data-track-index="0">
+        <div id="h1" class="h1" style="opacity: 0">What is an AI <em>Agent</em>?</div>
+      </div>
+
+      <!-- COMPARISON: ChatGPT (sealed) vs Agent (hands) -->
+      <div id="cmpGroup" class="clip" data-start="0.3" data-duration="4.4" data-track-index="1">
+        <div class="badge-wrap" style="left: 620px; top: 460px">
+          <div id="chatBadge" class="badge">
+            <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-chat" /></svg>
+          </div>
+          <div id="chatLock" class="lockbadge" style="position: absolute; top: -8px; right: -8px; opacity: 0">
+            <svg class="ic-red" viewBox="0 0 64 64"><use href="#ic-lock" /></svg>
+          </div>
+          <div id="chatLabel" class="label" style="opacity: 0">CHATGPT</div>
+        </div>
+
+        <div id="vsLabel" class="vslabel" style="left: 960px; top: 460px; opacity: 0">VS</div>
+
+        <div class="badge-wrap" style="left: 1300px; top: 460px">
+          <div id="agentBadge" class="badge glow">
+            <svg class="ic-red" viewBox="0 0 64 64"><use href="#ic-robot" /></svg>
+          </div>
+          <div id="agentLabel" class="label on" style="opacity: 0">AGENT</div>
+        </div>
+
+        <div id="handDoc" class="small-badge" style="position: absolute; left: 1180px; top: 330px; opacity: 0">
+          <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-doc" /></svg>
+        </div>
+        <div id="handKey" class="small-badge" style="position: absolute; left: 1180px; top: 590px; opacity: 0">
+          <svg class="ic-white" viewBox="0 0 64 64"><use href="#ic-keys" /></svg>
+        </div>
+      </div>
+
+      <!-- LOOP DIAGRAM -->
+      <div id="loopGroup" class="clip" data-start="4.0" data-duration="14" data-track-index="2">
+        <svg class="arcs" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+          <path id="arc1" class="arc" d="M 960,410 A 260,260 0 0,1 1220,670" />
+          <path id="arc2" class="arc" d="M 1220,670 A 260,260 0 0,1 960,930" />
+          <path id="arc3" class="arc" d="M 960,930 A 260,260 0 0,1 700,670" />
+          <path id="arc4" class="arc" d="M 700,670 A 260,260 0 0,1 960,410" />
+          <circle id="orbitDot" class="orbitdot" r="11" cx="960" cy="410" opacity="0" />
+        </svg>
+
+        <div class="loopcenter" style="left: 960px; top: 670px; opacity: 0" id="loopLabel">AGENT<br />LOOP</div>
+
+        <div class="badge-wrap" style="left: 960px; top: 410px">
+          <div id="nThink" class="badge glow-think">
+            <svg class="ic-think" viewBox="0 0 64 64"><use href="#ic-brain" /></svg>
+          </div>
+          <div id="lThink" class="label on" style="opacity: 0">THINK</div>
+        </div>
+        <div class="badge-wrap" style="left: 1220px; top: 670px">
+          <div id="nAct" class="badge glow-act">
+            <svg class="ic-act" viewBox="0 0 64 64"><use href="#ic-bolt" /></svg>
+          </div>
+          <div id="lAct" class="label on" style="opacity: 0">ACT</div>
+        </div>
+        <div class="badge-wrap" style="left: 960px; top: 930px">
+          <div id="nObs" class="badge glow-observe">
+            <svg class="ic-observe" viewBox="0 0 64 64"><use href="#ic-eye" /></svg>
+          </div>
+          <div id="lObs" class="label on" style="opacity: 0">OBSERVE</div>
+        </div>
+        <div class="badge-wrap" style="left: 700px; top: 670px">
+          <div id="nRep" class="badge glow-repeat">
+            <svg class="ic-repeat" viewBox="0 0 64 64"><use href="#ic-repeat" /></svg>
+          </div>
+          <div id="lRep" class="label on" style="opacity: 0">REPEAT</div>
+        </div>
+      </div>
+
+      <!-- icon sprite, no timing -->
+      <svg style="display: none" aria-hidden="true">
+        <defs>
+          <symbol id="ic-chat" viewBox="0 0 64 64">
+            <path
+              d="M8 14h48a4 4 0 0 1 4 4v24a4 4 0 0 1-4 4H30l-10 10v-10H8a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linejoin="round"
+            />
+          </symbol>
+          <symbol id="ic-lock" viewBox="0 0 64 64">
+            <rect x="16" y="28" width="32" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M22 28v-6a10 10 0 0 1 20 0v6" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="32" cy="41" r="3" fill="currentColor" />
+          </symbol>
+          <symbol id="ic-robot" viewBox="0 0 64 64">
+            <rect x="12" y="20" width="40" height="30" rx="8" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="24" cy="35" r="4" fill="currentColor" />
+            <circle cx="40" cy="35" r="4" fill="currentColor" />
+            <path d="M32 20v-8" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="32" cy="9" r="3" fill="currentColor" />
+            <path d="M18 50v6M46 50v6" stroke="currentColor" stroke-width="3.5" />
+          </symbol>
+          <symbol id="ic-doc" viewBox="0 0 64 64">
+            <rect x="14" y="8" width="36" height="48" rx="3" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M22 22h20M22 32h20M22 42h12" stroke="currentColor" stroke-width="3.5" />
+          </symbol>
+          <symbol id="ic-keys" viewBox="0 0 64 64">
+            <rect x="8" y="20" width="48" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M16 28h4M26 28h4M36 28h4M46 28h4M16 38h32" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+          </symbol>
+          <symbol id="ic-brain" viewBox="0 0 64 64">
+            <path
+              d="M32 10c-10 0-16 7-16 15 0 5 2 8 2 8-4 2-6 6-6 10 0 7 6 11 12 11h16c6 0 12-4 12-11 0-4-2-8-6-10 0 0 2-3 2-8 0-8-6-15-16-15z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linejoin="round"
+            />
+            <path d="M32 10v44M24 22c4 2 4 6 0 8M40 22c-4 2-4 6 0 8" stroke="currentColor" stroke-width="2.5" fill="none" />
+          </symbol>
+          <symbol id="ic-bolt" viewBox="0 0 64 64">
+            <path d="M36 6 16 36h14l-4 22 24-32H36l4-20z" fill="currentColor" />
+          </symbol>
+          <symbol id="ic-eye" viewBox="0 0 64 64">
+            <path d="M4 32s10-18 28-18 28 18 28 18-10 18-28 18S4 32 4 32z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+            <circle cx="32" cy="32" r="9" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="32" cy="32" r="3" fill="currentColor" />
+          </symbol>
+          <symbol id="ic-repeat" viewBox="0 0 64 64">
+            <path d="M48 24a16 16 0 0 0-16-10 16 16 0 0 0-14 8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M40 10l8 4-4 8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M16 40a16 16 0 0 0 16 10 16 16 0 0 0 14-8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M24 54l-8-4 4-8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+          </symbol>
+        </defs>
+      </svg>
+    </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = { duration: 0.45, ease: "back.out(1.9)" };
+      const fade = { duration: 0.4, ease: "power2.out" };
+
+      // title
+      tl.fromTo("#h1", { opacity: 0, y: -10 }, { opacity: 1, y: 0, ...fade }, 0.1);
+
+      // comparison: ChatGPT sealed
+      tl.fromTo("#chatBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 0.3);
+      tl.fromTo("#chatLabel", { opacity: 0 }, { opacity: 1, ...fade }, 0.55);
+      tl.fromTo("#chatLock", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, ...pop }, 0.75);
+
+      // vs
+      tl.fromTo("#vsLabel", { opacity: 0 }, { opacity: 1, ...fade }, 1.3);
+
+      // agent + hands
+      tl.fromTo("#agentBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 1.6);
+      tl.fromTo("#agentLabel", { opacity: 0 }, { opacity: 1, ...fade }, 1.85);
+      tl.fromTo("#handDoc", { opacity: 0, y: -40, xPercent: -50, yPercent: -50 }, { opacity: 1, y: 0, xPercent: -50, yPercent: -50, duration: 0.5, ease: "power3.out" }, 2.5);
+      tl.fromTo("#handKey", { opacity: 0, y: 40, xPercent: -50, yPercent: -50 }, { opacity: 1, y: 0, xPercent: -50, yPercent: -50, duration: 0.5, ease: "power3.out" }, 2.8);
+
+      // comparison fades out before loop takes over
+      tl.to(["#chatBadge", "#chatLabel", "#chatLock", "#vsLabel", "#agentBadge", "#agentLabel", "#handDoc", "#handKey"], { opacity: 0, duration: 0.5, ease: "power2.in" }, 3.9);
+
+      // loop center label
+      tl.fromTo("#loopLabel", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 4.3);
+
+      // THINK
+      tl.fromTo("#nThink", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, ...pop }, 5.0);
+      tl.fromTo("#lThink", { opacity: 0 }, { opacity: 1, ...fade }, 5.2);
+
+      // arc1 -> ACT
+      tl.fromTo("#arc1", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 5.8);
+      tl.fromTo("#nAct", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, ...pop }, 6.5);
+      tl.fromTo("#lAct", { opacity: 0 }, { opacity: 1, ...fade }, 6.7);
+
+      // arc2 -> OBSERVE
+      tl.fromTo("#arc2", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 7.2);
+      tl.fromTo("#nObs", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, ...pop }, 7.9);
+      tl.fromTo("#lObs", { opacity: 0 }, { opacity: 1, ...fade }, 8.1);
+
+      // arc3 + arc4 -> REPEAT, closes circle
+      tl.fromTo("#arc3", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.55, ease: "power2.inOut" }, 8.6);
+      tl.fromTo("#arc4", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.55, ease: "power2.inOut" }, 9.15);
+      tl.fromTo("#nRep", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, ...pop }, 9.5);
+      tl.fromTo("#lRep", { opacity: 0 }, { opacity: 1, ...fade }, 9.7);
+
+      // orbit dot: continuous, deterministic angle sweep, two full turns over 8s
+      tl.fromTo("#orbitDot", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 10.0);
+      const orbit = { t: 0 };
+      const cx = 960,
+        cy = 670,
+        r = 260;
+      tl.to(
+        orbit,
+        {
+          t: 4 * Math.PI,
+          duration: 8,
+          ease: "none",
+          onUpdate: function () {
+            const ang = orbit.t;
+            const x = cx + r * Math.sin(ang);
+            const y = cy - r * Math.cos(ang);
+            const dot = document.getElementById("orbitDot");
+            if (dot) {
+              dot.setAttribute("cx", x.toFixed(2));
+              dot.setAttribute("cy", y.toFixed(2));
+            }
+          },
+        },
+        10.0,
+      );
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

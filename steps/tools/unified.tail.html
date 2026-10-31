@@ -9,7 +9,7 @@
   <div class="psteps"><span><b>1</b>Preview the designs</span><span><b>2</b>Choose a template</span><span><b>3</b>Fill in your details once</span><span><b>4</b>Copy and paste each prompt</span></div>
  </div>
  <div class="pgrid" id="pgrid"></div>
- <div class="note">Your details are saved once and fill the prompts of every template. Each template keeps its own progress, so you can switch at any time with the <strong>Templates</strong> button at the top.</div>
+ <div class="note"><strong>Your website and your LinkedIn post will credit TAP Academy.</strong> Your details are saved once and fill the prompts of every template. Each template keeps its own progress, so you can switch at any time with the <strong>Templates</strong> button at the top.</div>
 </section>
 
 @@SECTIONS@@
@@ -35,7 +35,7 @@ function v(x){return (x&&String(x).trim())?String(x).trim():'(not provided)'}
 function ind(x){return (x&&x.trim())?'\n'+x.trim().split('\n').map(function(l){return '    '+l}).join('\n'):' (not provided)'}
 @@DETAILSJS@@
 var DETAILS={@@DETAILSMAP@@};
-var DEF={name:'[YOUR NAME]',role:'[YOUR ROLE]',email:'[YOUR EMAIL]',repo:'<my-name>-portfolio',liveurl:'<PASTE YOUR VERCEL URL HERE>',city:'[YOUR CITY]',nameuc:'[YOUR NAME IN CAPITALS]',introurl:'[YOUR INTRO VIDEO LINK]',repourl:'[YOUR GITHUB REPO LINK]',details:'⟨ Your details will appear here once you complete the "Your details" form ⟩'};
+var DEF={name:'[YOUR NAME]',role:'[YOUR ROLE]',email:'[YOUR EMAIL]',repo:'<my-name>-portfolio',liveurl:'<PASTE YOUR VERCEL URL HERE>',city:'[YOUR CITY]',nameuc:'[YOUR NAME IN CAPITALS]',introurl:'[YOUR INTRO VIDEO LINK]',tapwords:'[YOUR OWN WORDS]',repourl:'[YOUR GITHUB REPO LINK]',details:'⟨ Your details will appear here once you complete the "Your details" form ⟩'};
 function val(k){
   if(k==='nameuc') return (P.name||'').trim().toUpperCase();
   if(k==='repo') return P.name?slug(P.name)+'-portfolio':'';
@@ -51,7 +51,7 @@ function fill(){
 }
 $$('[data-bind]').forEach(function(el){
   var k=el.dataset.bind; if(P[k]!=null) el.value=P[k];
-  el.addEventListener('input',function(){P[k]=el.value;saveP();fill();var q=el.closest('.q');if(q)q.classList.remove('err')});
+  el.addEventListener('input',function(){P[k]=el.value;saveP();fill();var q=el.closest('.q');if(q)q.classList.remove('err');$$('[data-bind="'+k+'"]').forEach(function(o){if(o!==el)o.value=el.value})});
 });
 function tplOf(id){var m=/^(t\d+)-/.exec(id);return m?m[1]:null}
 function seq(){return TPLS[cur].seq}
@@ -80,6 +80,7 @@ function show(id){
     $('#brandn').textContent=TPLS[cur].short;
   }
   document.body.classList.remove('nav'); window.scrollTo({top:0});
+  $$('.lipost').forEach(function(r){if(r.update)r.update()});
 }
 function paint(){$$('.ni[data-id]').forEach(function(n){n.classList.toggle('done',!!done[n.dataset.id])})}
 function go(id){if(location.hash.slice(1)===id)show(id);else location.hash=id}
@@ -191,6 +192,71 @@ $('#lbn').addEventListener('click',function(){lbStep(1)});
 lbg.addEventListener('click',function(){lb.classList.remove('on')});
 lb.addEventListener('click',function(e){if(e.target===lb)lb.classList.remove('on')});
 
+
+/* ---------- one-click LinkedIn post (Step 17) ---------- */
+var LIK='portfolio-playbook-li';
+var LICAMP=['#BestInstitute','#BestCoaching','#BestTrainers','#Top1TrainingInstituteinBangalore'];
+function liState(){try{return JSON.parse(localStorage.getItem(LIK))||{}}catch(e){return {}}}
+function liSave(st){localStorage.setItem(LIK,JSON.stringify(st))}
+function liTags(root){
+  var tech=(root.dataset.tags||'').split(/\s+/).filter(Boolean);
+  var brand=['#TAPAcademy','#TAPAcademyBangalore'].concat(LICAMP);
+  var special=['#AugmentedReality','#Animation','#Visualization','#QualityTeaching','#GoodTeaching'];
+  var technical=tech.concat(['#WebDevelopment','#FullStackDeveloper','#SoftwareDevelopment','#Programming','#Coding','#LearnToCode']);
+  var career=['#PlacementTraining','#Freshers','#TechCareers','#CareerGrowth','#Bangalore'];
+  while(brand.length+special.length+technical.length+career.length>20){ if(career.length)career.pop(); else if(technical.length>tech.length)technical.pop(); else break }
+  return brand.concat(special,technical,career).join(' ');
+}
+function initLi(root){
+  var ta=$('.litext',root), com=$('.licom',root), dirty=false, st=liState();
+  var pts=$$('[data-pt]',root), att=$('[data-att]',root), proj=$('[data-li=proj]',root), about=$('[data-li=about]',root), presets=JSON.parse(root.dataset.about);
+  if(st.pt){pts.forEach(function(c){c.checked=!!st.pt[c.dataset.pt]})}
+  if(st.att===false)att.checked=false;
+  proj.value=st.proj||''; about.value=(st.about!=null)?st.about:presets[0];
+  function cur(){return {pt:pts.reduce(function(a,c){a[c.dataset.pt]=c.checked;return a},{}), att:att.checked, proj:proj.value, about:about.value}}
+  function chosen(){var out=[];pts.forEach(function(c){if(c.checked)out.push(c.nextElementSibling.textContent)});var own=(P.tapwords||'').trim();if(own)out.push(own);return out}
+  function end(t){t=t.trim();return /[.!?]$/.test(t)?t:t+'.'}
+  function build(){
+    var nm=(P.name||'').trim(), role=(P.role||'').trim(), city=(P.city||'').trim(), live=(P.liveurl||'').trim(), repo=val('repourl');
+    var L=['My portfolio website is now live!',''];
+    L.push("I'm "+(nm||'[your name]')+(role?', a '+role:'')+(city?' from '+city:'')+'. I built this website '+root.dataset.built+'.');
+    if(about.value.trim())L.push('',end(about.value));
+    if(proj.value.trim())L.push('','My featured project: '+end(proj.value));
+    var c=chosen();
+    L.push('', c.length?'My training at @TAP Academy, Bangalore made this possible. '+c.join(' '):'I built it during my placement training at @TAP Academy, Bangalore.');
+    if(att.checked)L.push('',"I've attached a screen recording so you can see it in action.");
+    var links=[]; if(live)links.push('Website: '+live); if(repo)links.push('Code: '+repo);
+    if(links.length)L.push('',links.join('\n'));
+    L.push('',"Recruiters and engineers, I'd love to connect. Feedback is welcome.",'',liTags(root));
+    var cm='This project was a great learning experience, and I am grateful to @TAP Academy, Bangalore for the training behind it. '+(c.slice(0,2).join(' ')||'I learned by building real projects.')+' Feedback is welcome. #TAPAcademy '+LICAMP.join(' ');
+    return {text:L.join('\n'),comment:cm,live:live};
+  }
+  function setLink(){$('.liopen',root).href='https://www.linkedin.com/feed/?shareActive=true&text='+encodeURIComponent(ta.value)}
+  function warn(){
+    var w=$('.liwarn',root), msg=[];
+    if(!(P.name||'').trim())msg.push('Type your name in box 1, so your name is in the post.');
+    if(!(P.role||'').trim())msg.push('Type your role in box 1.');
+    if(!(P.liveurl||'').trim())msg.push('Add your live website link in box 1 once Vercel has given it to you. You can still post without it.');
+    w.hidden=!msg.length; w.innerHTML=msg.map(function(m){return '<div>'+esc(m)+'</div>'}).join('');
+  }
+  function render(force){
+    var b=build(); if(!dirty||force){ta.value=b.text;dirty=false} com.value=b.comment;
+    $('.lidirty',root)&&($('.lidirty',root).hidden=!dirty); $('.lireset',root).hidden=!dirty;
+    var off=$('.lioffsite',root); off.href='https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(b.live||''); $('.lilink',root).hidden=!b.live;
+    setLink(); warn();
+  }
+  root.update=function(){render(false)};
+  root.addEventListener('change',function(){liSave(cur());render(false)});
+  root.addEventListener('input',function(e){ if(e.target===ta){dirty=true;$('.lireset',root).hidden=false;setLink()} else {liSave(cur());render(false)} });
+  $$('[data-pre]',root).forEach(function(bt){bt.addEventListener('click',function(){about.value=presets[+bt.dataset.pre];liSave(cur());render(false)})});
+  $('.lireset',root).addEventListener('click',function(){render(true)});
+  $('.liopen',root).addEventListener('click',function(){setLink();toast('LinkedIn is opening in a new tab. Add your screen recording and tag TAP Academy, then post.')});
+  function cp(btn,src,msg){copyText(src.value).then(function(){var t=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=t},1500);toast(msg)},function(){toast('Copy did not work. Select the text and press Ctrl+C.')})}
+  $('.licopy',root).addEventListener('click',function(){cp(this,ta,'Post copied. Paste it into LinkedIn.')});
+  $('.licopyc',root).addEventListener('click',function(){cp(this,com,'Comment copied.')});
+  render(true);
+}
+$$('.lipost').forEach(initLi);
 $('#yr').textContent=new Date().getFullYear();
 /* light (TAP Academy blue) / dark (original black and red) switch, remembered in this browser */
 function paintTheme(){var d=document.documentElement.dataset.theme==='dark',b=$('#theme');b.setAttribute('aria-pressed',d);$('.lbl',b).textContent=d?'Light mode':'Dark mode';$('.ic',b).innerHTML=d?'&#9728;':'&#9790;';document.querySelector('meta[name=theme-color]').content=d?'#07070a':'#0d87d4'}

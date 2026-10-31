@@ -1,0 +1,37 @@
+[
+  {
+    "clip": "clip-01.mp4",
+    "poster": "clip-01.jpg",
+    "start": 0.0,
+    "end": 1.6,
+    "note": "title fades in, blank card outline appears"
+  },
+  {
+    "clip": "clip-02.mp4",
+    "poster": "clip-02.jpg",
+    "start": 1.6,
+    "end": 3.0,
+    "note": "GOAL stamp thuds onto top-left corner"
+  },
+  {
+    "clip": "clip-03.mp4",
+    "poster": "clip-03.jpg",
+    "start": 3.0,
+    "end": 4.6,
+    "note": "SPECIFICS color swatch drops into top-right"
+  },
+  {
+    "clip": "clip-04.mp4",
+    "poster": "clip-04.jpg",
+    "start": 4.6,
+    "end": 6.0,
+    "note": "CONSTRAINTS fence stamp slams bottom-left"
+  },
+  {
+    "clip": "clip-05.mp4",
+    "poster": "clip-05.jpg",
+    "start": 6.0,
+    "end": 14.0,
+    "note": "CHECK stamp lands bottom-right, card holds complete"
+  }
+]

@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=3840, height=2160" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <style>
+      :root {
+        --ground: #000000;
+        --ink: #ffffff;
+        --dim: #adadb5;
+        --dim2: #6b6b72;
+        --red: #ff2a2a;
+        --panel: #111113;
+        --font-display: "Inter", sans-serif;
+        --font-mono: "Courier New", monospace;
+        --c-goal: #a78bfa;
+        --c-specifics: #ffb020;
+        --c-constraints: #22d3ee;
+        --c-check: #ff2a2a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 3840px;
+        height: 2160px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-display);
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .bgfx {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 18% 18%, rgba(167, 139, 250, 0.08), transparent 45%),
+          radial-gradient(circle at 85% 85%, rgba(255, 42, 42, 0.06), transparent 50%);
+      }
+
+      /* ---- title ---- */
+      .h1 {
+        position: absolute;
+        top: 112px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 64px;
+        letter-spacing: -1px;
+      }
+      .h1 em {
+        color: var(--red);
+        font-style: normal;
+      }
+
+      /* ---- card ---- */
+      .card-wrap {
+        position: absolute;
+        left: 960px;
+        top: 572px;
+        transform: translate(-50%, -50%);
+      }
+      .card {
+        width: 820px;
+        height: 440px;
+        border-radius: 28px;
+        border: 2.5px dashed #33343a;
+        background: rgba(255, 255, 255, 0.015);
+      }
+
+      /* ---- badges (icon stamps) ---- */
+      .badge-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .badge {
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #242428;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .badge svg {
+        width: 72px;
+        height: 72px;
+      }
+      .stamp {
+        width: 140px;
+        height: 140px;
+      }
+      .stamp svg {
+        width: 58px;
+        height: 58px;
+      }
+      .badge.glow-goal {
+        border-color: var(--c-goal);
+        box-shadow: 0 0 70px -10px rgba(167, 139, 250, 0.71);
+      }
+      .badge.glow-constraints {
+        border-color: var(--c-constraints);
+        box-shadow: 0 0 70px -10px rgba(34, 211, 238, 0.71);
+      }
+      .badge.glow-check {
+        border-color: var(--c-check);
+        box-shadow: 0 0 70px -10px rgba(255, 42, 42, 0.71);
+      }
+      .ic-goal {
+        color: var(--c-goal);
+      }
+      .ic-constraints {
+        color: var(--c-constraints);
+      }
+      .ic-check {
+        color: var(--c-check);
+      }
+
+      .label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 22px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 22px;
+        letter-spacing: 3px;
+        color: var(--ink);
+        text-align: center;
+      }
+
+      /* ---- color swatch (SPECIFICS) ---- */
+      .swatch {
+        width: 118px;
+        height: 118px;
+        border-radius: 18px;
+        background: var(--c-specifics);
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 70px -8px rgba(255, 176, 32, 0.77);
+      }
+      .hexlabel {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 18px);
+        white-space: nowrap;
+        font-family: var(--font-mono);
+        font-weight: 600;
+        font-size: 24px;
+        letter-spacing: 1px;
+        color: var(--dim);
+        text-align: center;
+      }
+      .swatchlabel {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 50px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 22px;
+        letter-spacing: 3px;
+        color: var(--ink);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="14" data-width="3840" data-height="2160">
+    <div id="stage" style="position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform: scale(2); transform-origin: top left;">
+      <div class="bgfx" data-layout-ignore></div>
+
+      <!-- TITLE: persists whole clip -->
+      <div id="titleGroup" class="clip" data-start="0" data-duration="14" data-track-index="0">
+        <div id="h1" class="h1" style="opacity: 0">Anatomy of a Good <em>Prompt</em></div>
+      </div>
+
+      <!-- CARD + 4 STAMPS -->
+      <div id="cardGroup" class="clip" data-start="0.6" data-duration="13.4" data-track-index="1" data-hold>
+        <div class="card-wrap">
+          <div id="card" class="card" style="opacity: 0"></div>
+        </div>
+
+        <!-- GOAL: top-left -->
+        <div class="badge-wrap" style="left: 550px; top: 352px">
+          <div id="nGoal" class="badge stamp glow-goal" style="opacity: 0">
+            <svg class="ic-goal" viewBox="0 0 64 64"><use href="#ic-target" /></svg>
+          </div>
+          <div id="lGoal" class="label" style="opacity: 0">GOAL</div>
+        </div>
+
+        <!-- SPECIFICS: top-right (color swatch) -->
+        <div class="badge-wrap" style="left: 1370px; top: 352px">
+          <div id="nSpec" class="swatch" style="opacity: 0"></div>
+          <div id="hSpec" class="hexlabel" style="opacity: 0" data-layout-ignore>#FFB020</div>
+          <div id="lSpec" class="swatchlabel" style="opacity: 0" data-layout-allow-overflow>SPECIFICS</div>
+        </div>
+
+        <!-- CONSTRAINTS: bottom-left -->
+        <div class="badge-wrap" style="left: 550px; top: 792px">
+          <div id="nCons" class="badge stamp glow-constraints" style="opacity: 0">
+            <svg class="ic-constraints" viewBox="0 0 64 64"><use href="#ic-fence" /></svg>
+          </div>
+          <div id="lCons" class="label" style="opacity: 0" data-layout-allow-overflow>CONSTRAINTS</div>
+        </div>
+
+        <!-- CHECK: bottom-right -->
+        <div class="badge-wrap" style="left: 1370px; top: 792px">
+          <div id="nCheck" class="badge stamp glow-check" style="opacity: 0">
+            <svg class="ic-check" viewBox="0 0 64 64"><use href="#ic-checkcircle" /></svg>
+          </div>
+          <div id="lCheck" class="label" style="opacity: 0">CHECK</div>
+        </div>
+      </div>
+
+      <!-- icon sprite, no timing -->
+      <svg style="display: none" aria-hidden="true">
+        <defs>
+          <symbol id="ic-target" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="32" cy="32" r="16" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="32" cy="32" r="6" fill="currentColor" />
+          </symbol>
+          <symbol id="ic-fence" viewBox="0 0 64 64">
+            <path d="M8 16h48M8 36h48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M16 10v44M28 10v44M40 10v44M52 10v44" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+          </symbol>
+          <symbol id="ic-checkcircle" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M20 33l8 8 18-20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          </symbol>
+        </defs>
+      </svg>
+    </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = { duration: 0.45, ease: "back.out(1.9)" };
+      const slam = { duration: 0.35, ease: "back.out(2.6)" };
+      const fade = { duration: 0.4, ease: "power2.out" };
+      const drop = { duration: 0.5, ease: "power3.out" };
+
+      // title
+      tl.fromTo("#h1", { opacity: 0, y: -10 }, { opacity: 1, y: 0, ...fade }, 0.1);
+
+      // blank card outline appears
+      tl.fromTo("#card", { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }, 0.8);
+
+      // GOAL stamp: thuds top-left, bounce
+      tl.fromTo("#nGoal", { opacity: 0, scale: 0.3, y: -60 }, { opacity: 1, scale: 1, y: 0, ...pop }, 1.6);
+      tl.fromTo("#lGoal", { opacity: 0 }, { opacity: 1, ...fade }, 1.95);
+
+      // SPECIFICS swatch: drops into top-right
+      tl.fromTo("#nSpec", { opacity: 0, scale: 0.6, y: -90 }, { opacity: 1, scale: 1, y: 0, ...drop }, 3.0);
+      tl.fromTo("#hSpec", { opacity: 0 }, { opacity: 1, ...fade }, 3.35);
+      tl.fromTo("#lSpec", { opacity: 0 }, { opacity: 1, ...fade }, 3.55);
+
+      // CONSTRAINTS fence: slams bottom-left
+      tl.fromTo("#nCons", { opacity: 0, scale: 0.3, x: -70 }, { opacity: 1, scale: 1, x: 0, ...slam }, 4.6);
+      tl.fromTo("#lCons", { opacity: 0 }, { opacity: 1, ...fade }, 4.95);
+
+      // CHECK: pops onto bottom-right
+      tl.fromTo("#nCheck", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, ...pop }, 6.0);
+      tl.fromTo("#lCheck", { opacity: 0 }, { opacity: 1, ...fade }, 6.35);
+
+      // hold complete card to the end (card settles ~7.0s, hold through 14s);
+      // a slow, finite, deterministic border breathe keeps the hold from reading as dead
+      tl.to("#card", { borderColor: "#55575f", duration: 1.3, repeat: 3, yoyo: true, ease: "sine.inOut" }, 7.3);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <style>
+      :root {
+        --ground: #000000;
+        --ink: #ffffff;
+        --dim: #9a9aa0;
+        --dim2: #6b6b72;
+        --red: #ff2a2a;
+        --panel: #111113;
+        --font-display: "Inter", sans-serif;
+        --c-agentic: #a78bfa;
+        --c-rules: #22d3ee;
+        --c-secrets: #ffb020;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 3840px;
+        height: 2160px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-display);
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .bgfx {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 20% 15%, rgba(255, 42, 42, 0.1), transparent 45%),
+          radial-gradient(circle at 85% 85%, rgba(255, 42, 42, 0.07), transparent 50%);
+      }
+
+      /* ---- title ---- */
+      .h1 {
+        position: absolute;
+        top: 112px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 64px;
+        letter-spacing: -1px;
+      }
+      .h1 em {
+        color: var(--red);
+        font-style: normal;
+      }
+
+      /* ---- badges ---- */
+      .badge-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .badge {
+        position: relative;
+        width: 190px;
+        height: 190px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #242428;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .badge.glow-agentic {
+        border-color: var(--c-agentic);
+        box-shadow: 0 0 70px -10px rgba(167, 139, 250, 0.72);
+      }
+      .badge.glow-rules {
+        border-color: var(--c-rules);
+        box-shadow: 0 0 70px -10px rgba(34, 211, 238, 0.72);
+      }
+      .badge.glow-secrets {
+        border-color: var(--c-secrets);
+        box-shadow: 0 0 70px -10px rgba(255, 176, 32, 0.72);
+      }
+      .badge svg {
+        width: 78px;
+        height: 78px;
+      }
+      .icon-abs {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 78px;
+        height: 78px;
+      }
+      .ic-white {
+        color: #ffffff;
+      }
+      .ic-red {
+        color: var(--red);
+      }
+      .ic-agentic {
+        color: var(--c-agentic);
+      }
+      .ic-rules {
+        color: var(--c-rules);
+      }
+      .ic-secrets {
+        color: var(--c-secrets);
+      }
+      .label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 34px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: 2px;
+        color: var(--ink);
+        text-align: center;
+      }
+
+      /* ---- arrow between before/after (agentic beat) ---- */
+      .arrow-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .arrow-wrap svg {
+        width: 56px;
+        height: 56px;
+      }
+
+      /* ---- book pages (rules file beat) ---- */
+      .book-pages {
+        position: absolute;
+        inset: 0;
+        perspective: 1100px;
+      }
+      .page {
+        position: absolute;
+        top: 50%;
+        width: 44px;
+        height: 66px;
+        margin-top: -33px;
+        background: rgba(34, 211, 238, 0.16);
+        border: 2px solid var(--c-rules);
+        border-radius: 2px;
+      }
+      .page.left {
+        left: 50%;
+        margin-left: -44px;
+        transform-origin: right center;
+      }
+      .page.right {
+        left: 50%;
+        margin-left: 0;
+        transform-origin: left center;
+      }
+
+      /* ---- lock badge for secrets beat ---- */
+      .lockbadge {
+        position: absolute;
+        width: 76px;
+        height: 76px;
+        left: -8px;
+        top: -8px;
+        border-radius: 50%;
+        background: #000;
+        border: 2px solid var(--c-secrets);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 40px -6px rgba(255, 176, 32, 0.82);
+      }
+      .lockbadge svg {
+        width: 38px;
+        height: 38px;
+      }
+
+      /* ---- warning strip ---- */
+      .warn-wrap {
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .small-badge {
+        position: relative;
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #3a1414;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .small-badge svg {
+        width: 50px;
+        height: 50px;
+      }
+      .warn-label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 18px);
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="17" data-width="3840" data-height="2160">
+      <div id="stage" style="position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform: scale(2); transform-origin: top left;">
+      <div class="bgfx" data-layout-ignore></div>
+
+      <!-- TITLE: persists whole clip -->
+      <div id="titleGroup" class="clip" data-start="0" data-duration="17" data-track-index="0">
+        <div id="h1" class="h1" style="opacity: 0">Agentic AI, Rules &amp; <em>Secrets</em></div>
+      </div>
+
+      <!-- BEAT A: AGENTIC AI -->
+      <div id="agenticGroup" class="clip" data-start="0.7" data-duration="16.3" data-track-index="1">
+        <div class="badge-wrap" style="left: 480px; top: 560px">
+          <div id="agenticBadge" class="badge glow-agentic">
+            <svg id="icManager" class="icon-abs ic-agentic" viewBox="0 0 64 64" style="opacity: 1">
+              <use href="#ic-manager" />
+            </svg>
+            <svg id="icRobotA" class="icon-abs ic-agentic" viewBox="0 0 64 64" style="opacity: 0">
+              <use href="#ic-robot" />
+            </svg>
+          </div>
+          <div id="agenticLabel" class="label" style="opacity: 0">AGENTIC AI</div>
+        </div>
+        <div class="arrow-wrap" style="left: 650px; top: 560px">
+          <svg id="arrowIcon" class="ic-agentic" viewBox="0 0 64 64" style="opacity: 0">
+            <use href="#ic-arrow" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- BEAT B: RULES FILE -->
+      <div id="rulesGroup" class="clip" data-start="3.9" data-duration="13.1" data-track-index="1">
+        <div class="badge-wrap" style="left: 960px; top: 560px">
+          <div id="rulesBadge" class="badge glow-rules">
+            <svg id="icBook" class="icon-abs ic-rules" viewBox="0 0 64 64" style="opacity: 1">
+              <use href="#ic-book" />
+            </svg>
+            <div id="bookPages" class="book-pages" style="opacity: 0">
+              <div id="pageLeft" class="page left"></div>
+              <div id="pageRight" class="page right"></div>
+            </div>
+          </div>
+          <div id="rulesLabel" class="label" style="opacity: 0">RULES FILE</div>
+        </div>
+      </div>
+
+      <!-- BEAT C: SECRETS -->
+      <div id="secretsGroup" class="clip" data-start="7.3" data-duration="9.7" data-track-index="1">
+        <div class="badge-wrap" style="left: 1440px; top: 560px">
+          <div id="secretsBadge" class="badge glow-secrets">
+            <svg class="ic-secrets" viewBox="0 0 64 64">
+              <use href="#ic-key" />
+            </svg>
+          </div>
+          <div id="lockBadge" class="lockbadge" style="opacity: 0">
+            <svg class="ic-secrets" viewBox="0 0 64 64">
+              <use href="#ic-lock" />
+            </svg>
+          </div>
+          <div id="secretsLabel" class="label" style="opacity: 0">SECRETS</div>
+        </div>
+      </div>
+
+      <!-- WARNING STRIP: never commit keys -->
+      <div id="warnGroup" class="clip" data-start="10.9" data-duration="6.1" data-track-index="2">
+        <div class="warn-wrap" style="left: 960px; top: 950px">
+          <div id="warnBadge" class="small-badge" style="opacity: 0">
+            <svg class="ic-white" viewBox="0 0 64 64">
+              <use href="#ic-branch" />
+            </svg>
+            <svg class="ic-red icon-abs" viewBox="0 0 64 64" style="width: 96px; height: 96px">
+              <use href="#ic-blocked" />
+            </svg>
+          </div>
+          <div id="warnLabel" class="warn-label" style="opacity: 0" data-layout-allow-overflow>NEVER COMMIT KEYS</div>
+        </div>
+      </div>
+
+      <!-- icon sprite, no timing -->
+      <svg style="display: none" aria-hidden="true">
+        <defs>
+          <symbol id="ic-manager" viewBox="0 0 64 64">
+            <circle cx="32" cy="16" r="10" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M14 56v-8c0-10 8-16 18-16s18 6 18 16v8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+            <path d="M27 32l5 8 5-8" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+            <path d="M29 32h6l-2 10h-2z" fill="currentColor" />
+          </symbol>
+          <symbol id="ic-robot" viewBox="0 0 64 64">
+            <rect x="12" y="20" width="40" height="30" rx="8" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="24" cy="35" r="4" fill="currentColor" />
+            <circle cx="40" cy="35" r="4" fill="currentColor" />
+            <path d="M32 20v-8" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="32" cy="9" r="3" fill="currentColor" />
+            <path d="M18 50v6M46 50v6" stroke="currentColor" stroke-width="3.5" />
+          </symbol>
+          <symbol id="ic-arrow" viewBox="0 0 64 64">
+            <path d="M8 32h40" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+            <path d="M38 18l16 14-16 14" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+          </symbol>
+          <symbol id="ic-book" viewBox="0 0 64 64">
+            <path
+              d="M8 14c6-4 16-4 24 0v36c-8-4-18-4-24 0V14z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M56 14c-6-4-16-4-24 0v36c8-4 18-4 24 0V14z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linejoin="round"
+            />
+          </symbol>
+          <symbol id="ic-key" viewBox="0 0 64 64">
+            <circle cx="20" cy="22" r="12" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M29 31l25 25M44 46l6-6M50 52l6-6" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+          </symbol>
+          <symbol id="ic-lock" viewBox="0 0 64 64">
+            <rect x="16" y="28" width="32" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M22 28v-6a10 10 0 0 1 20 0v6" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="32" cy="41" r="3" fill="currentColor" />
+          </symbol>
+          <symbol id="ic-branch" viewBox="0 0 64 64">
+            <circle cx="16" cy="14" r="6" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="16" cy="50" r="6" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="48" cy="34" r="6" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M16 20v24" stroke="currentColor" stroke-width="3.5" />
+            <path d="M16 36c0-8 8-10 16-10h10" fill="none" stroke="currentColor" stroke-width="3.5" />
+          </symbol>
+          <symbol id="ic-blocked" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="currentColor" stroke-width="4" />
+            <path d="M14 14l36 36" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+          </symbol>
+        </defs>
+      </svg>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = { duration: 0.45, ease: "back.out(1.9)" };
+      const fade = { duration: 0.4, ease: "power2.out" };
+
+      // title
+      tl.fromTo("#h1", { opacity: 0, y: -10 }, { opacity: 1, y: 0, ...fade }, 0.1);
+
+      // ---- BEAT A: AGENTIC AI ----
+      tl.fromTo("#agenticBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 0.8);
+      tl.fromTo("#agenticLabel", { opacity: 0 }, { opacity: 1, ...fade }, 1.3);
+      tl.fromTo("#arrowIcon", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 2.6);
+      // manager -> robot crossfade (same badge position, no transform conflicts: only opacity tweened)
+      tl.to("#icManager", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 3.1);
+      tl.to("#icRobotA", { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 3.1);
+
+      // ---- BEAT B: RULES FILE ----
+      tl.fromTo("#rulesBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 4.0);
+      tl.fromTo("#rulesLabel", { opacity: 0 }, { opacity: 1, ...fade }, 4.5);
+      tl.to("#icBook", { opacity: 0, duration: 0.3, ease: "power2.inOut" }, 5.6);
+      tl.to("#bookPages", { opacity: 1, duration: 0.3, ease: "power2.inOut" }, 5.6);
+      tl.fromTo("#pageLeft", { rotationY: 0 }, { rotationY: -42, duration: 1.1, ease: "power2.inOut" }, 5.9);
+      tl.fromTo("#pageRight", { rotationY: 0 }, { rotationY: 42, duration: 1.1, ease: "power2.inOut" }, 5.9);
+
+      // ---- BEAT C: SECRETS ----
+      tl.fromTo("#secretsBadge", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, ...pop }, 7.4);
+      tl.fromTo("#secretsLabel", { opacity: 0 }, { opacity: 1, ...fade }, 7.9);
+      tl.fromTo("#lockBadge", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 9.2);
+      // snap-shut shake: finite wiggle, not repeat:-1
+      tl.to("#lockBadge", { x: -10, duration: 0.07, ease: "power1.inOut" }, 9.65);
+      tl.to("#lockBadge", { x: 9, duration: 0.07, ease: "power1.inOut" }, 9.72);
+      tl.to("#lockBadge", { x: -7, duration: 0.07, ease: "power1.inOut" }, 9.79);
+      tl.to("#lockBadge", { x: 5, duration: 0.07, ease: "power1.inOut" }, 9.86);
+      tl.to("#lockBadge", { x: 0, duration: 0.08, ease: "power1.out" }, 9.93);
+
+      // ---- WARNING STRIP: never commit keys ----
+      tl.fromTo("#warnBadge", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 11.0);
+      tl.fromTo("#warnLabel", { opacity: 0 }, { opacity: 1, ...fade }, 11.5);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

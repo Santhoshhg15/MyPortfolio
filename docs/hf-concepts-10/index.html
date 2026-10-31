@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=3840, height=2160" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <style>
+      :root {
+        --ground: #000000;
+        --ink: #ffffff;
+        --dim: #9a9aa0;
+        --dim2: #80808a;
+        --red: #ff2a2a;
+        --panel: #111113;
+        --gold: #ffd23f;
+        --font-display: "Inter", sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 3840px;
+        height: 2160px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-display);
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .bgfx {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 20% 15%, rgba(255, 210, 63, 0.07), transparent 45%),
+          radial-gradient(circle at 85% 85%, rgba(255, 210, 63, 0.05), transparent 50%);
+      }
+
+      /* ---- title ---- */
+      .h1 {
+        position: absolute;
+        top: 112px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 64px;
+        letter-spacing: -1px;
+      }
+      .h1 em {
+        color: var(--red);
+        font-style: normal;
+      }
+
+      /* ---- badge grid ---- */
+      .badge-wrap {
+        position: absolute;
+        width: 170px;
+        height: 170px;
+        transform: translate(-50%, -50%);
+      }
+      .badge {
+        position: absolute;
+        inset: 0;
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .badge svg {
+        width: 72px;
+        height: 72px;
+      }
+      .badge-dim {
+        background: radial-gradient(circle, var(--panel), #000);
+        border: 2px solid #242428;
+      }
+      .badge-lit {
+        background: radial-gradient(circle, #241c0d, #000);
+        border: 2px solid var(--gold);
+        box-shadow: 0 0 82px -6px rgba(255, 210, 63, 0.88), 0 0 150px -16px rgba(255, 210, 63, 0.59);
+        opacity: 0;
+      }
+      .ic-dim {
+        color: var(--dim2);
+      }
+      .ic-lit {
+        color: var(--gold);
+      }
+      .label {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        width: 240px;
+        transform: translate(-50%, 24px);
+        white-space: normal;
+        font-weight: 800;
+        font-size: 28px;
+        line-height: 1.25;
+        letter-spacing: 1.5px;
+        color: var(--dim2);
+        text-align: center;
+        opacity: 0;
+      }
+
+      /* ---- payoff flash ---- */
+      .burst {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: radial-gradient(circle at 50% 50%, rgba(255, 210, 63, 0.55), transparent 70%);
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="16" data-width="3840" data-height="2160">
+      <div id="stage" style="position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform: scale(2); transform-origin: top left">
+      <div class="bgfx" data-layout-ignore></div>
+
+      <!-- TITLE: persists whole clip -->
+      <div id="titleGroup" class="clip" data-start="0" data-duration="16" data-track-index="0">
+        <div id="h1" class="h1">What You Actually <em>Learned</em></div>
+      </div>
+
+      <!-- RECAP GRID: six concept badges, 3x2. Deliberate hold at the end: full lit grid is the payoff. -->
+      <div id="gridGroup" class="clip" data-start="0" data-duration="16" data-track-index="1" data-hold>
+        <!-- a: Agent Loop -->
+        <div class="badge-wrap" style="left: 480px; top: 560px">
+          <div id="loopDim" class="badge badge-dim">
+            <svg class="ic-dim" viewBox="0 0 64 64"><use href="#ic-repeat" /></svg>
+          </div>
+          <div id="loopLit" class="badge badge-lit">
+            <svg class="ic-lit" viewBox="0 0 64 64"><use href="#ic-repeat" /></svg>
+          </div>
+          <div id="loopLabel" class="label">AGENT LOOP</div>
+        </div>
+
+        <!-- b: Good Prompt -->
+        <div class="badge-wrap" style="left: 960px; top: 560px">
+          <div id="targetDim" class="badge badge-dim">
+            <svg class="ic-dim" viewBox="0 0 64 64"><use href="#ic-target" /></svg>
+          </div>
+          <div id="targetLit" class="badge badge-lit">
+            <svg class="ic-lit" viewBox="0 0 64 64"><use href="#ic-target" /></svg>
+          </div>
+          <div id="targetLabel" class="label">GOOD PROMPT</div>
+        </div>
+
+        <!-- c: Context & Hallucination -->
+        <div class="badge-wrap" style="left: 1440px; top: 560px">
+          <div id="brainDim" class="badge badge-dim">
+            <svg class="ic-dim" viewBox="0 0 64 64"><use href="#ic-brain" /></svg>
+          </div>
+          <div id="brainLit" class="badge badge-lit">
+            <svg class="ic-lit" viewBox="0 0 64 64"><use href="#ic-brain" /></svg>
+          </div>
+          <div id="brainLabel" class="label">CONTEXT &amp; HALLUCINATION</div>
+        </div>
+
+        <!-- d: The Harness -->
+        <div class="badge-wrap" style="left: 480px; top: 860px">
+          <div id="carDim" class="badge badge-dim">
+            <svg class="ic-dim" viewBox="0 0 64 64"><use href="#ic-car" /></svg>
+          </div>
+          <div id="carLit" class="badge badge-lit">
+            <svg class="ic-lit" viewBox="0 0 64 64"><use href="#ic-car" /></svg>
+          </div>
+          <div id="carLabel" class="label">THE HARNESS</div>
+        </div>
+
+        <!-- e: MCP -->
+        <div class="badge-wrap" style="left: 960px; top: 860px">
+          <div id="plugDim" class="badge badge-dim">
+            <svg class="ic-dim" viewBox="0 0 64 64"><use href="#ic-plug" /></svg>
+          </div>
+          <div id="plugLit" class="badge badge-lit">
+            <svg class="ic-lit" viewBox="0 0 64 64"><use href="#ic-plug" /></svg>
+          </div>
+          <div id="plugLabel" class="label">MCP</div>
+        </div>
+
+        <!-- f: Verify Everything -->
+        <div class="badge-wrap" style="left: 1440px; top: 860px">
+          <div id="checkDim" class="badge badge-dim">
+            <svg class="ic-dim" viewBox="0 0 64 64"><use href="#ic-check-circle" /></svg>
+          </div>
+          <div id="checkLit" class="badge badge-lit">
+            <svg class="ic-lit" viewBox="0 0 64 64"><use href="#ic-check-circle" /></svg>
+          </div>
+          <div id="checkLabel" class="label">VERIFY EVERYTHING</div>
+        </div>
+      </div>
+
+      <!-- icon sprite, no timing -->
+      <svg style="display: none" aria-hidden="true">
+        <defs>
+          <symbol id="ic-brain" viewBox="0 0 64 64">
+            <path
+              d="M32 10c-10 0-16 7-16 15 0 5 2 8 2 8-4 2-6 6-6 10 0 7 6 11 12 11h16c6 0 12-4 12-11 0-4-2-8-6-10 0 0 2-3 2-8 0-8-6-15-16-15z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linejoin="round"
+            />
+            <path d="M32 10v44M24 22c4 2 4 6 0 8M40 22c-4 2-4 6 0 8" stroke="currentColor" stroke-width="2.5" fill="none" />
+          </symbol>
+          <symbol id="ic-repeat" viewBox="0 0 64 64">
+            <path d="M48 24a16 16 0 0 0-16-10 16 16 0 0 0-14 8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M40 10l8 4-4 8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M16 40a16 16 0 0 0 16 10 16 16 0 0 0 14-8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M24 54l-8-4 4-8" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+          </symbol>
+          <symbol id="ic-target" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <circle cx="32" cy="32" r="4" fill="currentColor" />
+          </symbol>
+          <symbol id="ic-car" viewBox="0 0 64 64">
+            <path d="M8 40l4-14a6 6 0 0 1 6-4h28a6 6 0 0 1 6 4l4 14" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+            <path d="M6 40h52v6a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4v-2H18v2a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4v-6z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+            <circle cx="18" cy="44" r="4" fill="currentColor" />
+            <circle cx="46" cy="44" r="4" fill="currentColor" />
+            <path d="M14 26h12M38 26h12" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          </symbol>
+          <symbol id="ic-plug" viewBox="0 0 64 64">
+            <rect x="14" y="18" width="36" height="28" rx="10" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M24 46v8M40 46v8" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M24 26v8M32 24v12M40 26v8" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          </symbol>
+          <symbol id="ic-check-circle" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="24" fill="none" stroke="currentColor" stroke-width="3.5" />
+            <path d="M21 33l8 8 15-18" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          </symbol>
+        </defs>
+      </svg>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = { duration: 0.45, ease: "back.out(1.9)" };
+
+      // title: present from frame 0 (key image on screen immediately), no fly-in
+      // six concepts, in order, each: [dimId, litId, labelId, startTime]
+      const concepts = [
+        ["loopDim", "loopLit", "loopLabel", 1.0],
+        ["targetDim", "targetLit", "targetLabel", 1.15],
+        ["brainDim", "brainLit", "brainLabel", 1.3],
+        ["carDim", "carLit", "carLabel", 1.45],
+        ["plugDim", "plugLit", "plugLabel", 1.6],
+        ["checkDim", "checkLit", "checkLabel", 1.75],
+      ];
+
+      // place all six badges, dim, in their grid slots early (no flying in)
+      concepts.forEach(([dimId, , labelId, t]) => {
+        tl.fromTo("#" + dimId, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, ...pop }, t);
+        tl.fromTo("#" + labelId, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, t + 0.2);
+      });
+
+      // light-up sequence: one badge checked off at a time
+      const lightTimes = [2.6, 3.9, 5.2, 6.5, 7.8, 9.1];
+      concepts.forEach(([, litId, labelId], i) => {
+        const t = lightTimes[i];
+        // crossfade dim glow to lit gold glow
+        tl.to("#" + litId, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, t);
+        // celebratory scale pulse on the lit badge itself (no static transform on this element)
+        tl.fromTo("#" + litId, { scale: 0.92 }, { scale: 1.12, duration: 0.3, ease: "power2.out" }, t);
+        tl.to("#" + litId, { scale: 1, duration: 0.35, ease: "back.out(2.2)" }, t + 0.3);
+        // label warms from grey to gold
+        tl.to("#" + labelId, { color: "#ffd23f", duration: 0.4, ease: "power2.out" }, t);
+      });
+
+      // final hold: full lit grid, settled, for the last few seconds (grid ends at 16s)
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

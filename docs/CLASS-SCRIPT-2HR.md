@@ -5,32 +5,18 @@
 - **DO:** what to do on screen.
 - **PROMPT:** what to type into Antigravity. Improvise the wording, but keep the details in **bold**.
 - **ASK:** a question for the class, with the answer you're looking for.
+- **PPT:** when to switch to the slide deck and exactly what to click, in order.
 - ⏱ marks the target time. If you're behind, see "Timing safety valves" at the end.
 
 Students should arrive with Node.js, Antigravity, GitHub and Vercel accounts ready, and their portrait saved as `portrait.png`.
 
 ---
 
-## ⚠ Tomorrow's actual format: 1-hour live kickoff, not the full 2 hours
+## The deck
 
-With a large class, the full build won't finish live. Tomorrow you run roughly the **first
-hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
+Open `docs/pptx-build-package/AI-Portfolio-Class-Concepts-ClickPerBeat-v3.pptx` in a second window (or on a projector second screen) before class starts, full-screen it (F5), and leave it parked on slide 1. **Every click plays exactly one small reveal and then stops** — nothing auto-advances, nothing auto-plays through. You click, something appears on screen, you say the line next to it, you click again. That pacing is the whole point: the deck waits for you, not the other way round.
 
-- **Live, instructor-led (~1 hour):** Opening → Block 1 → Block 2 → Block 3 → Block 4 →
-  Checkpoint. Use `docs/concept-visualizer.html` Scenes 1–5 for the "teach while it builds"
-  moments. The Checkpoint (how to ask for a fix) matters most here — it's the one skill
-  students need once they're working without you.
-- **Hand-off, at the ~1 hour mark:** tell students explicitly — *"I've built half live. The
-  rest — Blocks 5 through 8 below, plus going live on Vercel — you complete yourselves,
-  using these exact same prompts. Deploy it, and I'll give you separate instructions for
-  posting it to LinkedIn."*
-- **Self-paced, student-led (Blocks 5–8 below):** everything from Block 5 (Skills and
-  Projects) onward is unchanged — same prompts, same checks. Point students to
-  `docs/concept-visualizer.html` Scenes 6–10 as their own companion for the remaining
-  concepts (MCP, agentic AI/rules/secrets, verification, Git & CI/CD) while they finish on
-  their own.
-- Everything below this note still reads top-to-bottom as one script — only the *live vs.
-  self-paced* split changes, not the content.
+The 10 topics below map 1:1 to the 10 build blocks. Each topic's click table gives you the exact number of clicks, what lands on screen at each one, and a short line to say. Treat the "SAY" column as a starting point, not a script to read verbatim — say it the way you'd actually talk, the same as everywhere else in this document.
 
 ---
 
@@ -53,7 +39,9 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 **SAY:**
 > "Right. But not ChatGPT in a chat window. We're going to use an AI **agent**: an AI that can actually create files, run commands and fix its own errors on our computer. The tool is called Google Antigravity.
 >
-> Now, here's how today works. I'll give the agent an instruction, in plain English. The agent takes a few minutes to build. And instead of us sitting and staring at the screen, I'll use that time to teach you how this actually works: what an agent is, what prompting really means, what MCP is, what a harness is. These are the words every company is talking about right now. By the end, you won't just have a website; you'll understand the technology that built it.
+> I've spent years training developers, and the pattern is always the same: the students who get hired aren't the ones who memorised the most syntax — they're the ones who learned to direct a tool like this and verify what it gives back. That's the actual skill today is built around.
+>
+> Now, here's how today works. I'll give the agent an instruction, in plain English. The agent takes a few minutes to build. And instead of us sitting and staring at the screen, I'll use that time — on the slides next to me — to teach you how this actually works: what an agent is, what prompting really means, what MCP is, what a harness is. These are the words every company is talking about right now. By the end, you won't just have a website; you'll understand the technology that built it.
 >
 > One rule: follow along with me, but don't race ahead. If your agent finishes before mine, read what it wrote. Reading AI output is a skill too.
 >
@@ -81,19 +69,18 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 >
 > When you use ChatGPT, you ask a question and it gives you an answer. That's it. If it gives you code, *you* have to copy it, *you* have to create the file, *you* have to run it, and when there's an error, *you* go back and paste the error. ChatGPT is a brain in a box. It can only talk.
 >
-> An agent is a brain **with hands**. It can create files, run commands in the terminal, read the results and fix its own mistakes."
+> An agent is a brain **with hands**. Let me show you exactly what that loop looks like."
 
-**DO:** Draw a circle on the board with four points: **Think → Act → Observe → Repeat**.
+**PPT: Topic 1 — "What is an AI Agent?" (6 clicks)**
 
-**SAY:**
-> "Every agent works in this loop.
->
-> **Think:** it plans the next step. 'I need to install Tailwind.'
-> **Act:** it uses a tool. It runs `npm install`.
-> **Observe:** it reads what happened. Success? Error?
-> **Repeat:** it goes back to think. 'Install worked, now I need to configure it.'
->
-> It keeps going around this loop until the task is done. That's literally all an agent is: a language model, plus tools, running in a loop."
+| Click | What appears | SAY |
+|---|---|---|
+| 1 | Sealed speech-bubble icon | "ChatGPT: a brain in a box. It can only talk." |
+| 2 | Agent icon; hands pull in a doc and keys | "An agent has hands. It grabs the files, the terminal — it can act on its own." |
+| 3 | Brain badge lands at top of a circle | "**Think.** It plans the next step. 'I need to install Tailwind.'" |
+| 4 | Arc draws; ACT badge lands right | "**Act.** It uses a tool. It runs `npm install`." |
+| 5 | Another arc draws; OBSERVE badge lands bottom | "**Observe.** It reads what happened. Success? Error?" |
+| 6 | Final arc closes; REPEAT badge lands, dot orbits forever | "**Repeat.** It goes back to think. And that circling dot never stops — that's literally what's running on your own screen right now." |
 
 **ASK:** "Suppose the install fails with an error. What will the agent do?"
 → *It reads the error and tries to fix it.* "Exactly. Same loop. Observe the error, think about the fix, act again. That's why it can fix its own mistakes and ChatGPT can't."
@@ -131,20 +118,15 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 **SAY:**
 > "While it's building, let's dissect what I just wrote. This is the most important skill of the day. The quality of what the AI builds depends almost entirely on the quality of your instruction."
 
-**DO:** Put your prompt on screen. Label each part as you speak (draw a table on the board if you like).
+**PPT: Topic 2 — "Anatomy of a Good Prompt" (5 clicks)**
 
-**SAY:**
-> "Look at the parts.
->
-> **Goal:** 'I'm building my personal portfolio.' Now the AI knows what world we're in.
->
-> **Specifics:** I didn't say 'red'. I said `#ff2a2a`. Do you know how many reds there are? Hundreds. A hex code is exactly one colour. No guessing.
->
-> **Structure:** I named every section, in order. The AI doesn't have to invent a layout.
->
-> **Constraints:** 'Use ONLY these colours.' 'Each section in its own file.' Constraints are the fences. Without fences, the AI wanders.
->
-> **How it should behave:** 'Hamburger menu on mobile.' 'Scroll smoothly.' These are things it might otherwise forget."
+| Click | What appears | SAY |
+|---|---|---|
+| 1 | Title + blank card outline | "A real prompt is a brief, not a wish. It has four stamps." |
+| 2 | GOAL stamp thuds onto top-left | "**Goal.** 'I'm building my personal portfolio.' Now the AI knows what world we're in." |
+| 3 | SPECIFICS colour swatch drops into top-right | "**Specifics.** I didn't say 'red'. I said this exact hex code. A hundred reds exist — a hex code is exactly one." |
+| 4 | CONSTRAINTS fence stamp slams bottom-left | "**Constraints.** 'Use ONLY these colours.' Fences. Without them, the AI wanders." |
+| 5 | CHECK stamp lands bottom-right, card holds complete | "**Check.** A way to know it's actually done. Skip any one of these four stamps, and the AI fills the blank itself — with its own guess, not yours." |
 
 **ASK:** "What if I had just typed: 'make me a nice portfolio website'? What would the AI have to guess?"
 → *Colours, sections, fonts, layout, everything.*
@@ -182,18 +164,24 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 > **Interview me** to fill it in. Ask me a few questions at a time. **Do not invent anything.** If I skip something, leave a TODO.
 
 **SAY:**
-> "Now it's going to ask you questions. Answer with your real details. Your real projects, even college projects. Your real internship, if you have one. If you don't have experience yet, that's fine: tell it your training here or your degree."
+> "Now it's going to ask you questions. Answer with your real details. Your real projects, even college projects. Your real internship, if you have one. If you don't have experience yet, that's fine: tell it your training here or your degree.
+>
+> This is exactly the discipline we drill into every batch here: real projects, committed to GitHub, before a single mock interview. Not tutorials you can't explain under pressure."
 
 **DO:** Answer the agent's questions live with your own details. This is engaging; read questions out loud.
 
 ### Teach while students answer: Context and hallucination
 
-**SAY** (once most students are answering):
-> "Two ideas while you type.
->
-> **First: context.** The AI only knows what's in front of it: the conversation and the files it has read. Think of it as the AI's short-term memory, called the **context window**. It does not know you. It does not know your projects. It doesn't remember yesterday's chat. If it's not in the context, it doesn't exist for the AI.
->
-> **Second: hallucination.** What happens when the AI needs something it doesn't know, like your projects? It invents them. And they sound real. 'Built an e-commerce platform serving 10,000 users.' That's called **hallucination**: confident, believable, and false."
+**PPT: Topic 3 — "Context & Hallucination" (6 clicks)** — run this once most students are typing, so the clicks land while they're still answering.
+
+| Click | What appears | SAY |
+|---|---|---|
+| 1 | Context box appears | "Everything inside this box is what the AI actually knows." |
+| 2 | NAME + ROLE icon flies in | "Your real name, your real role." |
+| 3 | REAL PROJECT icon flies in | "A real project — not invented." |
+| 4 | TRAINING icon flies in | "Your real training or degree." |
+| 5 | Ghost icon appears outside the box, dim, glitching | "Now watch what happens the moment a fact is missing." |
+| 6 | Ghost solidifies red, labels HALLUCINATED | "It doesn't say 'I don't know.' It invents something and holds it like it's true. 'Built an e-commerce platform serving 10,000 users.' Confident, believable, and completely false. That's **hallucination**." |
 
 **ASK:** "Would you put a fake internship on your resume?"
 → *No.*
@@ -229,21 +217,22 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 **SAY:**
 > "Here's a question. Antigravity, Cursor, GitHub Copilot, Claude Code: they all use AI models. Some even use the *same* model. So why do they behave so differently?
 >
-> The answer is the **harness**."
+> The answer is the **harness**. And I mean that literally — watch what that word actually means."
 
-**DO:** Draw a car. Label the engine **Model** and the rest of the car **Harness**.
+**PPT: Topic 4 — "The Harness" (10 clicks)**
 
-**SAY:**
-> "The **model** is the engine: Gemini, Claude, GPT. It's the brain that understands language and writes code. But an engine alone can't drive anywhere.
->
-> The **harness** is the rest of the car: the steering, the wheels, the dashboard, the brakes. In AI, the harness is everything built around the model:
->
-> - **Tools:** creating files, running the terminal, opening a browser. Those are the wheels.
-> - **Context:** deciding which files and information the model gets to see. That's the dashboard.
-> - **Permissions:** asking you before doing anything risky. Those are the brakes.
-> - **Instructions:** the hidden rules telling the model how to behave in this app.
->
-> Antigravity is a harness. Cursor is a harness. Same engine, different car, different driving experience."
+| Click | What appears | SAY |
+|---|---|---|
+| 1 | Title + an empty cart fades in, no horse yet | "A harness is literally a set of straps connecting raw pulling power to the thing it operates. Right now, nothing's harnessed to anything." |
+| 2 | The horse trots in, straps snap taut; MODEL badge pops in with a power-up burst | "The **model** — the horse. Gemini, Claude, GPT. Same raw power, every time, no matter which app it's strapped into." |
+| 3 | Current flows down the wire; TOOLS toolbox badge straps onto the cart | "**Tools** — the kit strapped on. Creating files, running the terminal, opening a browser." |
+| 4 | Wire glows toward the horse's head; CONTEXT lantern badge settles in | "**Context** — the lantern. Lighting up only what it's allowed to see." |
+| 5 | Wire glows toward the driver's bench; PERMISSIONS reins badge settles in | "**Permissions** — the reins. Someone's always holding them, ready to pull back." |
+| 6 | Fully harnessed horse and cart hold, then fade out | "One horse, fully harnessed to one cart. That's Antigravity." |
+| 7 | Kicker text: SAME HORSE. DIFFERENT HARNESS. | *(let it read itself for a beat)* |
+| 8 | A light racing cart flashes in — same glowing horse, labeled ANTIGRAVITY | "Same horse. A completely different harness." |
+| 9 | A sturdy farm cart flashes in, labeled CURSOR | "Same horse — Cursor." |
+| 10 | An ornate royal carriage flashes in, labeled CLAUDE CODE; all three hold | "Same horse — Claude Code. Three different harnesses. One constant underneath: the model." |
 
 **ASK:** "Why do you think Antigravity sometimes stops and asks your permission before running a command?"
 → *Safety. So it doesn't delete things or run something dangerous without a human approving.*
@@ -263,20 +252,23 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 **SAY:**
 > "Real talk: the AI is never perfect on the first try. Something on your screen probably looks a bit off. Mine too. So let's learn the most useful skill of all: how to ask for a fix."
 
-**DO:** Pick something imperfect on your screen. If everything looks fine, ask for a deliberate change (for example, a bigger portrait on mobile).
+**PPT: Topic 5 — "How to Ask for a Fix" (5 clicks)** — run this before you touch your own site, so students see the formula once, clean, before applying it themselves.
 
-**SAY:**
-> "Here's how most people ask: 'it looks wrong, fix it.' What does the AI do with that? It guesses what's wrong, and it might change ten things you liked.
->
-> Here's how a professional asks."
+| Click | What appears | SAY |
+|---|---|---|
+| 1 | Phone mockup fades in, overlap bug already visible | "Here's a real bug. The portrait is sitting on top of the Save button." |
+| 2 | Magnifying glass scales in, finds the overlap | "**Where.** Point at it exactly — Hero section, on mobile." |
+| 3 | Warning badge appears, pulses over the overlap | "**What's wrong.** Say it plainly — it overlaps the buttons." |
+| 4 | The fix: portrait physically slides down and shrinks | "**What you want.** Watch it resolve, live — below the buttons, narrower." |
+| 5 | Dashed fence draws around the rest of the screen, locking it | "**The fence.** 'Don't change anything else.' That line is what stops the agent from fixing ten things you liked." |
+
+**DO:** Pick something imperfect on your own screen. If everything looks fine, ask for a deliberate change (for example, a bigger portrait on mobile).
 
 **PROMPT** (adapt to your real issue):
 > In the **Hero section, on mobile**, the portrait **overlaps the buttons**. Move the portrait **below the buttons** and limit its width to **70% of the screen**. **Don't change anything else.**
 
 **SAY:**
-> "Four parts. **Where:** Hero, on mobile. **What's wrong:** overlaps the buttons. **What I want:** below the buttons, 70% width. **The fence:** don't change anything else.
->
-> And even better than words: take a screenshot and paste it into the chat. A picture removes all guessing.
+> "Same four parts you just watched. And even better than words: take a screenshot and paste it into the chat. A picture removes all guessing.
 >
 > Your turn. Find one thing on your site you'd improve, and fix it using these four parts. Two minutes."
 
@@ -299,26 +291,23 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 **SAY:**
 > "Let me ask you something. How many different chargers did you have five years ago? Phone, laptop, earphones, all different. Now? Mostly one: USB-C. One standard plug for everything.
 >
-> AI had the same problem. Every AI app wanted to connect to tools: GitHub, Google Drive, Figma, databases, Slack. And every connection had to be built separately, by hand. Ten AI apps times a hundred tools is a thousand custom connections. A mess.
->
-> So in late 2024, Anthropic, the company behind Claude, released a standard called **MCP: Model Context Protocol**. It's now used by OpenAI, Google, Microsoft and most AI tools. Think of it as **USB-C for AI**."
+> AI had the same problem."
 
-**DO:** Draw on the board: AI app in the middle, MCP plug, and around it GitHub, Figma, Google Drive, a database.
+**PPT: Topic 6 — "MCP: USB-C for AI" (5 clicks)**
 
-**SAY:**
-> "If a tool supports MCP, any AI app that supports MCP can plug into it. Some examples:
->
-> - A **GitHub MCP**: the agent can create repositories and review code for you.
-> - A **Figma MCP**: a designer makes a design, and the agent reads it directly and builds it.
-> - A **database MCP**: you ask in English, 'how many users signed up this week?', and the agent queries the database.
->
-> In about fifteen minutes, we'll push our code to GitHub. With a GitHub MCP connected, the agent could even create the repository for you."
+| Click | What appears | SAY |
+|---|---|---|
+| 1 | Title fades in; MCP hub badge pops in and pulses | "Every AI app wanted to connect to tools: GitHub, Drive, Figma, databases. Every connection built by hand — a mess." |
+| 2 | GitHub spoke draws in, node + label appear, dot starts travelling | "So in late 2024, Anthropic — the company behind Claude — released a standard called **MCP**. A **GitHub MCP** lets the agent create repos and review code for you." |
+| 3 | Figma spoke draws in | "A **Figma MCP** — a designer makes a design, the agent reads it directly and builds it." |
+| 4 | Database spoke draws in | "A **database MCP** — you ask in English, 'how many users signed up this week?', and the agent queries the database for you." |
+| 5 | Drive spoke draws in; all four dots keep travelling | "One plug. Current literally flowing to all of them at once. In about fifteen minutes, with a GitHub MCP connected, the agent could even create our repository for us." |
 
 **ASK:** "If you were building a tool for a company, why would you want it to support MCP?"
 → *So every AI app can use it without custom work.*
 
 **SAY:**
-> "Exactly. Build it once, works everywhere. That's why it spread so fast."
+> "Exactly. Build it once, works everywhere. That's why it spread so fast — it's now used by OpenAI, Google, Microsoft, almost everyone."
 
 **DO:** When done, click a project's buttons and show the one-column layout on phone width.
 
@@ -337,19 +326,24 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 ### Teach while it builds: Agentic AI, rules files and secrets
 
 **SAY:**
-> "Three quick ideas.
->
-> **One: agentic AI.** You've been doing it for an hour. Agentic AI means AI that doesn't just answer, but **completes tasks on its own**. Notice your role today. You're not the coder; you're the **manager**. You set the goal, the agent does the work, and you review it. That's where the industry is heading. Engineers will spend less time typing code and more time directing, reviewing and verifying.
->
-> **Two: rules files.** We've repeated 'use only our colours' and 'read from portfolioData.js' many times. You can save instructions like that permanently in a rules file: Antigravity has rules, Claude Code uses `CLAUDE.md`, many tools read `AGENTS.md`. The agent reads it at the start of every task. Think of it as the company handbook you give a new employee on day one.
->
-> **Three: secrets.** The contact form needs keys from EmailJS. A key is like a password for a service. We put keys in a file called `.env.local`, and we told git to ignore that file, so it never goes to GitHub."
+> "Three quick ideas. Notice your role today — you're not the coder, you're the manager."
+
+**PPT: Topic 7 — "Agentic AI, Rules & Secrets" (6 clicks)**
+
+| Click | What appears | SAY |
+|---|---|---|
+| 1 | Manager icon appears | "**Agentic AI.** You set the goal." |
+| 2 | Crossfades to robot icon | "It completes the task on its own. That's the difference from a chatbot — and where the industry is heading." |
+| 3 | Book appears and opens | "**Rules files.** We've repeated 'use only our colours' many times — you can save that permanently. Antigravity has rules, Claude Code uses `CLAUDE.md`. The agent reads it on every single task, like a company handbook." |
+| 4 | Key appears | "**Secrets.** The contact form needs keys from EmailJS. A key is a password for a service." |
+| 5 | Padlock snaps shut over the key | "We lock it in `.env.local`, and tell git to ignore that file." |
+| 6 | "Never commit keys" warning badge appears | "Bots scan GitHub for leaked keys and find them within minutes. Never paste a real key into a chat, and never commit it." |
 
 **ASK:** "Why does it matter if a key ends up on GitHub?"
 → *Anyone can see it and use your account.*
 
 **SAY:**
-> "Right. There are bots that scan GitHub for leaked keys, and they find them within minutes. People have woken up to huge cloud bills. So the rule: **never paste a real key into a chat, and never commit it.**"
+> "Right. People have woken up to huge cloud bills from exactly this."
 
 **DO:** When done, show the timeline, then submit the contact form to show the email app opening.
 
@@ -373,11 +367,21 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 ### Teach while it builds: Verification
 
 **SAY:**
-> "Here's something nobody tells you about AI. It can be **confidently wrong**. It will say 'Done! Everything works perfectly!' when a button is broken. It's not lying; it just can't always check everything.
->
-> So who checks? You do. That's your job now. Open the site. Click every button. Open it on your phone. Read the error messages. Don't just trust 'done'.
->
-> Two commands help us here. **`lint`** checks code quality, like a grammar checker for code. **`build`** prepares the site for publishing. If `build` fails on your laptop, it will fail on the internet too. So we always run it before going live.
+> "Here's something nobody tells you about AI. It can be **confidently wrong**."
+
+**PPT: Topic 8 — "Verify Everything" (6 clicks)**
+
+| Click | What appears | SAY |
+|---|---|---|
+| 1 | Robot badge appears, claims "DONE" | "It will say 'Done! Everything works perfectly!'" |
+| 2 | Red WRONG stamp slams down over the claim | "...when a button is actually broken. It's not lying — it just can't always check everything. So who checks? You do." |
+| 3 | CLICK checklist icon pops in, green checkmark | "Click every button." |
+| 4 | TEST (phone) icon pops in, green checkmark | "Test it on your actual phone." |
+| 5 | ERRORS (bug search) icon pops in, green checkmark | "Read the error messages." |
+| 6 | BUILD (wrench) icon pops in, green checkmark; final state holds | "Run `lint` and `build`. Every one of these is on you now — that's the real shift in this industry." |
+
+**SAY:**
+> "**`lint`** checks code quality, like a grammar checker for code. **`build`** prepares the site for publishing. If `build` fails on your laptop, it will fail on the internet too. So we always run it before going live.
 >
 > A pro tip: ask the agent to 'test your own work and tell me anything you couldn't verify.' A good agent will be honest about what it didn't check.
 >
@@ -401,9 +405,17 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 ### Teach while it pushes: Git and CI/CD
 
 **SAY:**
-> "**Git** is the save history of your code: every commit is a save point. **GitHub** is the cloud copy of that history, so your code is safe even if your laptop dies, and recruiters can see it.
->
-> Now, Vercel. Watch this."
+> "**Git** is the save history of your code: every commit is a save point. **GitHub** is the cloud copy of that history, so your code is safe even if your laptop dies, and recruiters can see it."
+
+**PPT: Topic 9 — "Git & CI/CD" (5 clicks)**
+
+| Click | What appears | SAY |
+|---|---|---|
+| 1 | CODE node appears | "Your code, on your laptop." |
+| 2 | Line draws to COMMIT node | "A commit — a save point." |
+| 3 | Line draws to GITHUB node | "Pushed to GitHub — the cloud copy." |
+| 4 | Line draws to LIVE node, which glows | "And live, on the internet." |
+| 5 | Loop-back arc draws in; dot travels CODE→LIVE while a second dot loops LIVE→CODE | "Watch that dot keep moving. Every time you push new code, this whole chain replays itself automatically. That's **CI/CD** — continuous integration and continuous deployment." |
 
 **DO:** On screen:
 1. Go to **vercel.com → Add New → Project**.
@@ -412,7 +424,7 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 4. Click **Deploy**.
 
 **SAY** (while it deploys):
-> "Vercel is doing something called **CI/CD: continuous integration and continuous deployment**. Every time you push new code to GitHub, Vercel automatically rebuilds your site and publishes the new version. Nobody uploads files by hand. That's how real companies ship software, sometimes hundreds of times a day."
+> "Nobody uploads files by hand. That's how real companies ship software, sometimes hundreds of times a day."
 
 **DO:** Open the live link. Then open it on your phone and hold it up.
 
@@ -434,19 +446,21 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 >
 > But more important than the website: let's recap what you learned."
 
-**ASK** each one as a question and let students answer before you confirm:
+**PPT: Topic 10 — "What You Actually Learned" (6 clicks)** — ask each question, let students answer, **then** click to light the badge and confirm.
 
-| Ask | Answer |
-|---|---|
-| "What is an agent?" | An AI with tools, working in a loop: think, act, observe, repeat. |
-| "What makes a good prompt?" | Goal, specifics, constraints. The AI isn't a mind reader. |
-| "What's a context window? What's hallucination?" | The AI's short-term memory. When it lacks facts, it invents them. |
-| "What's a harness?" | Everything around the model: tools, context, permissions. The model is the engine; the harness is the car. |
-| "What's MCP?" | USB-C for AI: one standard way to connect AI to tools. |
-| "Who checks the AI's work?" | We do. Verify everything, commit often. |
+| Click | What appears | ASK first, then confirm |
+|---|---|---|
+| 1 | Dim grid appears; Agent Loop badge lights gold | "What is an agent?" → *An AI with tools, working in a loop: think, act, observe, repeat.* |
+| 2 | Good Prompt badge lights gold | "What makes a good prompt?" → *Goal, specifics, constraints. The AI isn't a mind reader.* |
+| 3 | Context & Hallucination badge lights gold | "What's a context window? What's hallucination?" → *The AI's short-term memory. When it lacks facts, it invents them.* |
+| 4 | The Harness badge lights gold | "What's a harness?" → *Everything strapped around the model: tools, context, permissions. The model is the horse; the harness is the cart.* |
+| 5 | MCP badge lights gold | "What's MCP?" → *USB-C for AI: one standard way to connect AI to tools.* |
+| 6 | Verify Everything badge lights gold; full grid holds | "Who checks the AI's work?" → *We do. Verify everything, commit often.* |
 
 **SAY:**
-> "Your homework, to take this from good to great. It's all in the playbook, step by step:
+> "Six ideas. You didn't just build a website today — you now know how every AI tool out there actually works.
+>
+> Your homework, to take this from good to great. It's all in the playbook, step by step:
 >
 > 1. Add the **ID badge that flips into a visiting card** with a QR code, like on my site.
 > 2. Make your **talking intro video** and put it in the hero.
@@ -455,6 +469,8 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 > 5. Submit your site to **Google Search Console**, write your **LinkedIn post**, and upload your **YouTube video**.
 >
 > Put your live link on your resume and your LinkedIn today. Send me your link; I want to see every one of them.
+>
+> This is exactly the kind of project you'd walk into a mock interview with here and actually be able to defend, line by line — because you built every part of it with intent, not by copying a tutorial. That's the whole difference.
 >
 > Any questions?"
 
@@ -472,6 +488,7 @@ hour only** — Opening through Block 4, plus the Checkpoint — then hand off.
 | Site breaks after a change | "Go back to the last commit" is one instruction to the agent. |
 | You're running behind | See the safety valves below. |
 | A student finishes early | Ask them to help neighbours, or start homework item 1. |
+| PPT won't advance / wrong clip plays | Each click = exactly one beat. If you click too fast and skip one, press ← to go back one step, don't restart the slide. |
 
 ## Timing safety valves
 
@@ -479,6 +496,7 @@ If you're behind, cut in this order:
 1. **Block 7 animations:** keep only the phone check and `npm run build`.
 2. **Experience timeline:** fold it into About as a short list.
 3. **Skill icons:** plain text tags are fine.
+4. **PPT click tables:** every topic's clicks can be thinned — skip the slowest-landing clicks (e.g. Harness's three mini-vehicle reveals can collapse to just showing the first one) and talk over the rest from memory.
 
 **Never cut:** the data file (Block 3), the live fix (checkpoint), and going live (Block 8). Those are what students remember.
 
@@ -489,3 +507,4 @@ If you're behind, cut in this order:
 - **When the agent runs a command:** point and say "act, observe: that's the loop".
 - **First three students done in each block:** they help their neighbours.
 - **Off-topic questions:** write them on the board and answer them during Q&A.
+- **Switching to the PPT:** glance at it, click, say the line, glance back at the agent. Don't read the table out loud — it's your cue card, not the students' subtitle.

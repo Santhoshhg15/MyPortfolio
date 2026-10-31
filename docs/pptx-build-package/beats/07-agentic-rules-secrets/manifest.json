@@ -1,0 +1,44 @@
+[
+  {
+    "clip": "clip-01.mp4",
+    "poster": "clip-01.jpg",
+    "start": 0.0,
+    "end": 3.1,
+    "note": "manager icon appears"
+  },
+  {
+    "clip": "clip-02.mp4",
+    "poster": "clip-02.jpg",
+    "start": 3.1,
+    "end": 4.0,
+    "note": "crossfades to robot"
+  },
+  {
+    "clip": "clip-03.mp4",
+    "poster": "clip-03.jpg",
+    "start": 4.0,
+    "end": 7.4,
+    "note": "book appears and opens"
+  },
+  {
+    "clip": "clip-04.mp4",
+    "poster": "clip-04.jpg",
+    "start": 7.4,
+    "end": 9.2,
+    "note": "key appears"
+  },
+  {
+    "clip": "clip-05.mp4",
+    "poster": "clip-05.jpg",
+    "start": 9.2,
+    "end": 11.0,
+    "note": "padlock snaps shut"
+  },
+  {
+    "clip": "clip-06.mp4",
+    "poster": "clip-06.jpg",
+    "start": 11.0,
+    "end": 17.0,
+    "note": "never commit keys warning badge appears"
+  }
+]

@@ -77,7 +77,7 @@ The full playbook covers every homework item step by step.
 - [ ] Keep your finished site open in a tab (the "answer key") and your repo ready to show.
 - [ ] Check classroom Wi-Fi can handle 30+ people downloading packages at once. Plan B: students pair up, two to a laptop.
 - [ ] **Antigravity has usage limits.** If a student runs out, they pair with a neighbour.
-- [ ] Prepare 3 sample slides or whiteboard sketches: agent loop, harness diagram, MCP diagram (see the talks below).
+- [ ] Prepare 3 sample slides or whiteboard sketches: agent loop, harness (horse-and-cart) diagram, MCP diagram (see the talks below).
 
 ---
 
@@ -185,16 +185,15 @@ Answer the agent's questions live with your own details. Students answer with th
 - Read all text from `portfolioData.js`.
 
 **While it builds, teach: the harness.**
-- **Model vs harness:**
-  - The **model** (Gemini, Claude, GPT) is the engine.
-  - The **harness** is the whole car around it: the steering, the dashboard, the brakes.
+- **Model vs harness:** a harness is literally a set of straps connecting raw pulling power to the thing it operates.
+  - The **model** (Gemini, Claude, GPT) is the horse: same raw power every time, no matter which app it's strapped into.
+  - The **harness** is everything strapped onto the cart around it.
   - Antigravity is a harness.
 - **What the harness gives the model:**
-  - **Tools:** read and write files, the terminal, a browser.
-  - **Memory and context:** which files it's allowed to see.
-  - **Permissions:** asks you before risky actions.
-  - **The interface:** you watching and approving.
-- **Same engine, different car:** the same model in a different harness (Cursor, Claude Code, Copilot) behaves differently because it has different tools and instructions.
+  - **Tools:** the kit strapped on — read and write files, the terminal, a browser.
+  - **Context:** the lantern — lighting up only what it's allowed to see.
+  - **Permissions:** the reins — someone's always holding them, ready to pull back.
+- **Same horse, different cart:** the same model in a different harness (Cursor, Claude Code, Copilot) behaves differently because it's strapped to a different cart — different tools and instructions.
 - Ask: "Why does Antigravity ask permission before running some commands?" (Safety, because the harness keeps a human in control.)
 
 **Check:**
@@ -318,7 +317,7 @@ Students: fix one thing on their own site using that formula.
 - An agent is an AI with tools that works in a loop.
 - A good prompt means specific details plus constraints.
 - Context means giving real facts, or the AI makes them up.
-- The harness is everything around the model.
+- The harness is everything strapped around the model, like a cart around a horse.
 - MCP is the standard plug that connects tools to AI.
 - Verify everything, and commit often.
 

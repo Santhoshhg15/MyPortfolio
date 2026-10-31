@@ -31,7 +31,7 @@ def pre_tok(t):
         ('[YOUR INTRO VIDEO LINK]', tk('introurl')),
         ('<My Name>', tk('name')), ('<My Role>', tk('role')),
         ('<my-name>-portfolio', tk('repo')), ('gh repo create <name>', 'gh repo create ' + tk('repo')),
-        ('<MY NAME IN CAPITALS>', tk('nameuc')), ('<PASTE YOUR VERCEL URL HERE>', tk('liveurl')), ('--homepage <url>', '--homepage ' + tk('liveurl')),
+        ('[YOUR OWN WORDS]', tk('tapwords')), ('<MY NAME IN CAPITALS>', tk('nameuc')), ('<PASTE YOUR VERCEL URL HERE>', tk('liveurl')), ('--homepage <url>', '--homepage ' + tk('liveurl')),
         ('(if git user name/email are not set, ask me for them and set them)',
          '(if git user name/email are not set, set them to %s and %s)' % (tk('name'), tk('email'))),
     ]
@@ -58,8 +58,73 @@ def inline(t):
 def input_card(spec):
     key, label, ph, hint = (spec.split('|') + ['', '', ''])[:4]
     return ('<div class="q"><label class="ql" for="f-%s-%s">%s</label><div class="hint">%s</div>'
-            '<input class="in" id="f-%s-%s" data-bind="%s" type="url" placeholder="%s"></div>') % (
-        PFX, key, html.escape(label), html.escape(hint), PFX, key, key, html.escape(ph))
+            '<input class="in" id="f-%s-%s" data-bind="%s" type="%s" placeholder="%s"></div>') % (
+        PFX, key, html.escape(label), html.escape(hint), PFX, key, key, 'text' if key == 'tapwords' else 'url', html.escape(ph))
+
+
+LI_POINTS = [
+    ("TAP Academy teaches with animations and visualization, so even difficult topics become easy to see.", True),
+    ("Learning with augmented reality made the concepts memorable.", True),
+    ("The quality of teaching is very high, and every doubt gets answered patiently.", False),
+    ("I built real, hands-on projects like this one, not just theory.", True),
+    ("The training is placement focused and prepares you for real interviews.", True),
+    ("The trainers are supportive and keep the learning environment motivating.", False),
+    ("In my opinion, TAP Academy is one of the most trusted names in tech training in Bangalore.", False),
+    ("I would recommend TAP Academy to anyone serious about starting a tech career.", False),
+    ("My journey at TAP Academy gave me the confidence to build and publish my own website.", False),
+]
+LI_ABOUT = [
+    "This website is my digital resume. It shows who I am, my skills, my projects and how to contact me, all in one place.",
+    "It features the projects I have built, each with a short description, the technologies I used and links to the live demo and the code.",
+    "I built it step by step with an AI coding agent, which taught me how to plan, give clear instructions and check my own work like a developer.",
+]
+CUR_CFG = {}
+
+LI_HTML = """<div class="lipost" data-key="@@K@@" data-built="@@BUILT@@" data-tags="@@TAGS@@" data-about="@@ABOUT@@">
+<h3>Post on LinkedIn in 3 easy steps</h3>
+<p class="lisub">Fill in the boxes. Your caption, hashtags and links write themselves. Then press the big button.</p>
+<div class="q listep"><div class="lin"><span>1</span> Your details</div>
+<div class="row2"><div><label class="ql" for="li-name-@@K@@">Your name</label><input class="in" id="li-name-@@K@@" data-bind="name" placeholder="e.g. Rahul Kumar" autocomplete="name"></div>
+<div><label class="ql" for="li-role-@@K@@">Your role</label><input class="in" id="li-role-@@K@@" data-bind="role" placeholder="e.g. Java Full Stack Developer"></div></div>
+<div class="row2" style="margin-top:12px"><div><label class="ql" for="li-city-@@K@@">Your city (optional)</label><input class="in" id="li-city-@@K@@" data-bind="city" placeholder="e.g. Bengaluru, India"></div>
+<div><label class="ql" for="li-live-@@K@@">Your live website link</label><input class="in" id="li-live-@@K@@" data-bind="liveurl" type="url" placeholder="https://your-name-portfolio.vercel.app"></div></div></div>
+<div class="q listep"><div class="lin"><span>2</span> Explain your project</div>
+<label class="ql" for="li-proj-@@K@@">Your best project: its name and what it does</label>
+<input class="in" id="li-proj-@@K@@" data-li="proj" placeholder="e.g. Food Delivery App: ordering and live tracking for local restaurants, built with React and Spring Boot">
+<label class="ql" for="li-about-@@K@@" style="margin-top:12px">About your website (2 or 3 sentences)</label>
+<textarea class="in liabout" id="li-about-@@K@@" data-li="about" rows="3" placeholder="What does your website show?"></textarea>
+<div class="hint" style="margin-top:8px">Not sure what to write? Press a sentence to use it:</div>
+<div class="lipre">@@PRESETS@@</div>
+<details class="litap"><summary>Change what you say about TAP Academy (optional)</summary>
+<div class="hint">The first four are plain facts and are ticked for you. Tick the others only if they are true for you.</div><div class="lipts">@@PTS@@</div>
+<label class="ql" for="li-own-@@K@@" style="margin-top:12px">Your own sentence about TAP Academy (optional)</label>
+<input class="in" id="li-own-@@K@@" data-bind="tapwords" placeholder="e.g. My favourite part was building real projects every week."></details></div>
+<div class="q listep"><div class="lin"><span>3</span> Check your post, then open LinkedIn</div>
+<textarea class="in litext" rows="16" aria-label="Your LinkedIn post"></textarea>
+<div class="liwarn" hidden></div>
+<label class="lichk"><input type="checkbox" data-att checked><span>I will attach my screen recording to the post</span></label>
+<p class="lifix">TAP Academy's campaign hashtags <strong>@@CAMP@@</strong> are added to every post.</p>
+<div class="liact"><a class="pill liopen" href="#" target="_blank" rel="noopener">Open LinkedIn with my post</a><button class="pill ghost licopy" type="button">Copy post text</button><button class="pill ghost lireset" type="button" hidden>Reset text</button></div>
+<p class="lilink" hidden><a class="lioffsite" href="#" target="_blank" rel="noopener">Or share only your website link (LinkedIn's own share page)</a></p></div>
+<div class="note"><strong>After LinkedIn opens, do these 3 things:</strong><ol class="listeps"><li>Click <strong>Add media</strong> and attach your screen recording.</li><li>Find <code>@TAP Academy</code> in the text, delete it, type <code>@TAP Academy</code> again and pick the official page from the list so the name turns blue.</li><li>Read the text once, then click <strong>Post</strong>.</li></ol><strong>Nothing opened?</strong> Open this playbook in Chrome or Edge (not the code editor's preview). Or press <strong>Copy post text</strong>, open linkedin.com, click <strong>Start a post</strong> and paste. If you were not signed in, sign in first and press the button again.</div>
+<details class="licomment"><summary>Your first comment (paste it under your own post right after posting)</summary>
+<textarea class="in licom" rows="5" aria-label="Your first comment"></textarea><div class="liact"><button class="pill ghost licopyc" type="button">Copy comment</button></div></details>
+</div>"""
+
+
+def linkedin_builder():
+    """One-click LinkedIn post: caption, hashtags and links are built in the browser from the student's own details."""
+    built = CUR_CFG.get('linkedinBuilt', 'using React, Vite, Tailwind CSS and Framer Motion, deployed on Vercel')
+    tags = CUR_CFG.get('linkedinTags', '#ReactJS #TailwindCSS #FramerMotion')
+    pts = ''.join('<label class="lipt"><input type="checkbox" data-pt="%d"%s><span>%s</span></label>' % (i, ' checked' if d else '', html.escape(t))
+                  for i, (t, d) in enumerate(LI_POINTS))
+    pre = ''.join('<button class="lipb" type="button" data-pre="%d">%s</button>' % (i, html.escape(t)) for i, t in enumerate(LI_ABOUT))
+    out = LI_HTML
+    for k, v in (('@@K@@', PFX), ('@@BUILT@@', html.escape(built, quote=True)), ('@@TAGS@@', html.escape(tags, quote=True)),
+                 ('@@ABOUT@@', html.escape(json.dumps(LI_ABOUT), quote=True)), ('@@PRESETS@@', pre), ('@@PTS@@', pts),
+                 ('@@CAMP@@', '#BestInstitute #BestCoaching #BestTrainers #Top1TrainingInstituteinBangalore')):
+        out = out.replace(k, v)
+    return out
 
 
 COND = re.compile(r"^\{(if|ifnot):([\w|]+)\}\s*")
@@ -75,6 +140,8 @@ def md(lines):
         m = re.match(r"\[\[input:(.+)\]\]$", l.strip())
         if m:
             out.append(input_card(m.group(1))); i += 1; continue
+        if l.strip() == '[[linkedin-post]]':
+            out.append(linkedin_builder()); i += 1; continue
         if l.startswith('|'):
             rows = []
             while i < len(lines) and lines[i].startswith('|'):
@@ -101,7 +168,7 @@ def md(lines):
             out.append('<div class="note">' + inline(' '.join(q)) + '</div>'); continue
         p = []
         while (i < len(lines) and lines[i].strip() and lines[i].strip() != '---'
-               and not lines[i].startswith(('|', '- ', '>', '[[input:')) and not re.match(r"\d+\. ", lines[i])):
+               and not lines[i].startswith(('|', '- ', '>', '[[input:', '[[linkedin')) and not re.match(r"\d+\. ", lines[i])):
             p.append(lines[i]); i += 1
         txt = ' '.join(p)
         cm = COND.match(txt)
@@ -112,6 +179,13 @@ def md(lines):
         m = CALLOUT.match(txt)
         if m:
             k = m.group(1)
+            if k == 'Say to the class':
+                # student-facing playbook: show the note as a plain intro line (no label, no quote marks)
+                intro = m.group(2).strip()
+                if len(intro) > 1 and intro[0] == '"' and intro[-1] == '"':
+                    intro = intro[1:-1]
+                out.append('<p class="lede"%s>%s</p>' % (' data-showif="%s"' % cond if cond else '', inline(intro)))
+                continue
             kind = {'Say to the class': 'say', 'Check': 'check', 'Where': 'where', 'Then': 'then'}.get(k, 'do')
             out.append('<div class="co %s"%s><span class="cl">%s</span><div>%s</div></div>' % (
                 kind, ' data-showif="%s"' % cond if cond else '',
@@ -166,7 +240,8 @@ def parse(lines):
             state['label'] = m.group(1) + ' · ' + m.group(2); i += 1; continue
         if l.startswith('**Prompt (paste'):
             state['label'] = ('Prompt for ChatGPT' if 'ChatGPT' in l or cur['id'] == 'a1'
-                              else 'Prompt for Gemini' if 'Gemini' in l or cur['id'] == 'a2' else 'Prompt')
+                              else 'Prompt for Google Flow' if 'Flow' in l or cur['id'] == 'a2'
+                              else 'Prompt for Gemini' if 'Gemini' in l else 'Prompt')
             i += 1; continue
         m = re.match(r"\*\*(Prompt[^*]*?)\*\*(?:\s*\{(if|ifnot):([\w|]+)\})?", l)
         if m:
@@ -209,6 +284,81 @@ def nice(part):
     return 'Part %s: %s' % (m.group(1), rest)
 
 
+# ---------------------------------------------------------------------------
+# Merging steps: several consecutive steps become one screen, and chosen prompts are joined into ONE prompt.
+# The original prompt text is copied word for word (see check_merge.py). Only a short header and footer are added.
+# ---------------------------------------------------------------------------
+MERGE_LOG = []
+MERGE_ON = True
+
+
+def task_name(label, sec_title, override=None):
+    if override:
+        return override
+    if ' \u2014 ' in label:
+        return label.split(' \u2014 ', 1)[1].strip()
+    return sec_title
+
+
+def join_prompts(items, grp, sec_titles):
+    """items: the combined items of the merged section. grp['join'] = lists of prompt ordinals to join."""
+    pos = [i for i, it in enumerate(items) if it[0] == 'prompt']
+    names = grp.get('names', {})
+    drop, result = set(), {}
+    for g_i, ords in enumerate(grp.get('join', [])):
+        members = [pos[o] for o in ords]
+        assert all(not items[m][3] for m in members), 'conditional prompts cannot be joined'
+        total = len(members)
+        parts, log = [], []
+        for k, m in enumerate(members, 1):
+            it = items[m]
+            nm = task_name(it[1], sec_titles.get(m, ''), names.get('%d' % ords[k - 1]))
+            code = it[2]
+            for old, new in grp.get('replace', []):
+                if old in code:
+                    code = code.replace(old, new)
+            parts.append('TASK %d of %d: %s\n%s' % (k, total, nm, code))
+            log.append({'label': it[1], 'name': nm, 'orig': it[2], 'used': code})
+        head = 'This prompt has %d tasks. Do them one after the other, in order, and do not skip any task.' % total
+        foot = ('WHEN ALL %d TASKS ARE DONE: check every task above against the project files and tell me, for each task, '
+                'DONE or NOT DONE (with the reason). Then run npm run lint and fix any problem.') % total
+        joined = head + '\n\n' + '\n\n'.join(parts) + '\n\n' + foot
+        label = 'Prompt \u2014 ' + ' + '.join(l['name'] for l in log)
+        result[members[0]] = ('prompt', label, joined, '')
+        drop.update(members[1:])
+        MERGE_LOG.append({'group': grp.get('id') or grp['steps'][0], 'tasks': log, 'joined': joined})
+    out = []
+    for i, it in enumerate(items):
+        if i in drop:
+            continue
+        out.append(result.get(i, it))
+    return out
+
+
+def apply_merges(secs, spec):
+    by_id = {x['id']: x for x in secs}
+    member = {sid: g for g in spec for sid in g['steps']}
+    out = []
+    for sec in secs:
+        g = member.get(sec['id'])
+        if not g:
+            out.append(sec)
+            continue
+        if sec['id'] != g['steps'][0]:
+            continue
+        parts = [by_id[i] for i in g['steps']]
+        items, titles = [], {}
+        for part in parts:
+            for it in part['items']:
+                if it[0] == 'prompt':
+                    titles[len(items)] = part['title']
+                items.append(it)
+        items = join_prompts(items, g, titles)
+        tag = parts[0]['tag'] if len(parts) == 1 else parts[0]['tag'] + '-' + parts[-1]['tag']
+        out.append({'id': parts[0]['id'], 'title': g['title'], 'part': parts[0]['part'], 'tag': tag, 'items': items})
+    return out
+
+
 def build(tpl_id):
     """Return the HTML/JS fragments of one template (ids are prefixed with the template key)."""
     global PFX
@@ -216,8 +366,12 @@ def build(tpl_id):
     cfg = json.load(open(os.path.join(base, 'template.json'), encoding='utf8'))
     key = cfg['key']
     PFX = key
+    global CUR_CFG
+    CUR_CFG = cfg
     prof = os.path.join(HERE, 'profiles', cfg['profile'])
     secs = parse(open(os.path.join(base, 'CLASS-PLAYBOOK.md'), encoding='utf8').read().split('\n'))
+    if MERGE_ON and cfg.get('merge'):
+        secs = apply_merges(secs, cfg['merge'])
     # Step 3: prefill the data prompt with the student's form answers
     for sec in secs:
         if sec['id'] == 'step3':
@@ -229,7 +383,7 @@ def build(tpl_id):
     secs.insert([x['id'] for x in secs].index('help'), {
         'id': 'finish', 'title': 'You did it!', 'part': 'Done', 'tag': 'End', 'items': [('text',
             '<div class="fin"><p class="lead">Your portfolio is live and your code is public on GitHub.</p>'
-            '<p>Share your live link with your instructor and keep your LinkedIn post and YouTube video public.</p>'
+            '<p>Share your live link with your trainer and keep your LinkedIn post and YouTube video public.</p>'
             '<div class="note">Stuck on anything? Open <strong>Help</strong> (top bar) for ready-made troubleshooting prompts.</div></div>')]})
     secs.insert(1, {'id': 'profile', 'title': 'Your details', 'part': 'Welcome', 'tag': 'You', 'items': []})
 
@@ -256,6 +410,7 @@ def build(tpl_id):
              '<h1>Build your portfolio website with AI.</h1>'
              '<p>%s works like a form, one step at a time. Tell us about yourself once, and every prompt after that is '
              '<strong>personalised with your answers</strong>. You never type code.</p>'
+             '<p class="credit">Your website and your LinkedIn post will credit TAP Academy.</p>'
              '<div class="flow"><span><b>1</b> Fill your details</span><span><b>2</b> %s</span><span><b>3</b> Paste the prompts</span>'
              '<span><b>4</b> Check the result</span><span><b>5</b> Go live</span><span><b>6</b> Get discovered</span></div></div>%s'
              '<div class="pn"><button class="prev" type="button">Templates</button><button class="next" type="button">Get started</button></div></section>\n') % (
@@ -273,6 +428,10 @@ def build(tpl_id):
 
 
 def main():
+    global MERGE_ON
+    argv = sys.argv[1:]
+    MERGE_ON = '--no-merge' not in argv
+    out_arg = argv[argv.index('--out') + 1] if '--out' in argv else None
     folders = sorted(d for d in os.listdir(STEPS)
                      if os.path.exists(os.path.join(STEPS, d, 'template.json')) and os.path.exists(os.path.join(STEPS, d, 'CLASS-PLAYBOOK.md')))
     built = [build(f) for f in folders]
@@ -287,10 +446,11 @@ def main():
                  '@@TPLS@@': json.dumps(tpls), '@@TEMPLATES@@': json.dumps(picker),
                  '@@DETAILSJS@@': ''.join(b['details'] for b in built), '@@DETAILSMAP@@': ','.join('%s:details_%s' % (b['key'], b['key']) for b in built), '@@SOFTJS@@': ''.join(b['soft'] for b in built)}.items():
         page = page.replace(k, v)
-    out = os.path.join(STEPS, 'playbook.html')
+    out = out_arg or os.path.join(STEPS, 'playbook.html')
     open(out, 'w', encoding='utf8').write(page)
     print('Built %s: %d templates, %d screens' % (os.path.normpath(out), len(built), sum(len(b['all']) for b in built)))
-    build_site(page)
+    if not out_arg:
+        build_site(page)
 
 
 def build_site(page):

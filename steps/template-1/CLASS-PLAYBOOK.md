@@ -1,26 +1,26 @@
 # AI-Driven Class Playbook — Build Your Portfolio Website with Google Antigravity
 
-**How this class works:** nobody types code. For every step you (1) say a few words to the class, (2) copy the prompt, (3) paste it into the **Antigravity agent chat**, (4) check the result in the browser. Installation, libraries, files, Git and deployment are all done *by the AI agent* from the prompts below.
+**How this works:** nobody types code. For every step you (1) read the short intro, (2) copy the prompt, (3) paste it into the **Antigravity agent chat**, (4) check the result in the browser. Installation, libraries, files, Git and deployment are all done *by the AI agent* from the prompts below.
 
-Before you begin, the class needs these free websites open in browser tabs:
+Before you begin, open these free websites in browser tabs:
 
 | Tool | Used for | Link |
 |---|---|---|
 | **Google Antigravity** (the IDE) | Pasting prompts; the agent writes code and runs terminal commands | https://antigravity.google/ |
 | **ChatGPT** (or Gemini) | Turning your photo into the illustrated portrait | https://chatgpt.com/ |
-| **Google Gemini** | Turning that portrait into a short talking video | https://gemini.google.com/ |
+| **Google Flow** | Turning that portrait into a short talking video | https://flow.google.com/ |
 | **GitHub** | Storing the code (public repository) | https://github.com/ |
 | **Vercel** | Publishing the live website | https://vercel.com/ |
 | EmailJS *(Step 9)* | Making the contact form send email | https://www.emailjs.com/ |
 
-> Sign in to all of them with a Google or GitHub account **before class**. A few steps (logins, downloading a generated image/video) are done by clicking in the browser — the playbook tells you exactly when.
+> Sign in to all of them with a Google or GitHub account **before you start**. A few steps (logins, downloading a generated image/video) are done by clicking in the browser — the playbook tells you exactly when.
 
 ## Quick map
 
 | Part | Step | What happens |
 |---|---|---|
 | A. Create assets | A1 | ChatGPT makes your illustrated portrait |
-| | A2 | Gemini makes your talking video (script provided) |
+| | A2 | Google Flow makes your talking video (script provided) |
 | | A3 | You record your self-introduction video (script provided) |
 | | A4 | Project explanation videos (optional) |
 | B. Build | 1 | Create the project folder and open Antigravity |
@@ -49,11 +49,11 @@ Before you begin, the class needs these free websites open in browser tabs:
 
 ## A1 · Your illustrated portrait (ChatGPT or Gemini)
 
-**Say to the class:** "Every portfolio in this class uses the same signature look: you, painted in an illustrated style, sitting at a desk against a red background. We give the AI two pictures: your photo for your face, and our reference image for everything else."
+**Say to the class:** "Every portfolio in this program uses the same signature look: you, painted in an illustrated style, sitting at a desk against a red background. We give the AI two pictures: your photo for your face, and our reference image for everything else."
 
 **Where:** open https://chatgpt.com/ (or https://gemini.google.com/) → new chat → attach **two images, in this order**:
 1. **Your photo:** clear, front-facing, good light, face fully visible, no sunglasses, no filters.
-2. **The reference image:** [reference-portrait.png](starter-kit/reference-portrait.png) (download it from this link, or the instructor shares the file).
+2. **The reference image:** [reference-portrait.png](starter-kit/reference-portrait.png) (download it from this link, or ask your trainer for the file).
 
 Then paste the prompt and send.
 
@@ -96,20 +96,20 @@ When it looks right, **download the image** (it goes to **Downloads**). Don't re
 
 ---
 
-## A2 · Your talking video (Gemini)
+## A2 · Your talking video (Google Flow)
 
-**Say to the class:** "Now we bring the portrait to life. Gemini animates your image and you say one short sentence with real lip movement. The secret to a clean video is: a short script, a camera that doesn't move, and hands that stay still."
+**Say to the class:** "Now we bring the portrait to life. Google Flow animates your image and you say one short sentence with real lip movement. The secret to a clean video is: a short script, a camera that doesn't move, and hands that stay still."
 
-**Where:** open https://gemini.google.com/ → choose **Video** (*Create video with Veo* in the tools menu; needs a Google AI plan with video) → **upload the image from A1** → paste the prompt.
+**Where:** open https://flow.google.com/ and sign in with your Google account (a Google AI plan with Flow credits is needed) → click **New project** → choose the option that starts from an image (**Frames to Video**) → **upload the image from A1** as the first frame → paste the prompt → choose the **Veo** model, **16:9** and **8 seconds**, with **1** video per prompt → click **Generate**.
 
 **Your script (about 14 words is right for an 8-second clip; longer scripts get cut off or rushed):**
 
 > "Hi, I'm **[YOUR NAME]**, a **[YOUR ROLE]** trained at TAP Academy. Welcome to my portfolio!"
 
-**Prompt (paste in Gemini with the A1 image attached):**
+**Prompt (paste in Google Flow with the A1 image uploaded as the first frame):**
 
 ````text
-Animate the attached image into an 8-second video. The attached image is the exact first frame: keep the person, face, outfit, headphones, laptop, desk, red background, art style and colours identical to it for the whole video.
+Animate the uploaded image into an 8-second video. The uploaded image is the exact first frame: keep the person, face, outfit, headphones, laptop, desk, red background, art style and colours identical to it for the whole video.
 
 CAMERA: static locked-off shot on a tripod. No zoom, no pan, no camera movement. Landscape 16:9.
 
@@ -131,7 +131,7 @@ AVOID: subtitles, captions or any on-screen text; changing or morphing the face;
 - **Lips not moving or out of sync?** Shorten the script: `Hi, I'm [YOUR NAME]. Welcome to my portfolio!`
 - **Face changes during the video?** Add at the top: `The face must stay exactly the same as the first frame in every frame.`
 
-**Then:** **download as MP4** (it goes to **Downloads**).
+**Then:** open your best video in Flow, click **Download** and choose the MP4 (it goes to **Downloads**).
 
 **Check:** an 8-second 16:9 MP4 where you say your sentence with matching lip movement and nothing glitches.
 
@@ -777,7 +777,7 @@ Make sure src/App.jsx renders <Preloader /> before <Navbar />, and <Services /> 
 
 **Say to the class:** "A static website cannot send email by itself. EmailJS sends it from the browser. Even without keys the form still works by opening your email app."
 
-**Do on the website (2 minutes, with the instructor):**
+**Do on the website (about 2 minutes):**
 1. Open https://www.emailjs.com/ → sign up (free).
 2. **Email Services → Add New Service → Gmail** → connect → copy the **Service ID**.
 3. **Email Templates → Create New Template**: Subject `Portfolio message from {{first_name}} {{last_name}}`; Content: `From: {{first_name}} {{last_name}} ({{user_email}})` and `{{message}}`; set *To email* to your own email → Save → copy the **Template ID**.
@@ -829,7 +829,7 @@ VITE_EMAILJS_PUBLIC_KEY=...
 ````text
 Add a fluid "splash cursor" effect to the website.
 1. Download the official React Bits SplashCursor component from
-   https://raw.githubusercontent.com/DavidHDev/react-bits/main/src/content/Animations/SplashCursor/SplashCursor.jsx
+   https://raw.githubusercontent.com/DavidHDev/react-bits/3ca46cae7fe8a89dfd3fed5dc419e94e25fc7aac/src/content/Animations/SplashCursor/SplashCursor.jsx
    and save it as src/components/SplashCursor.jsx (use curl, or PowerShell Invoke-WebRequest on Windows). Do not modify its internals, with one exception: change the touchmove listener from
    window.addEventListener('touchmove', handleTouchMove, false);
    to
@@ -909,7 +909,7 @@ Publish this project to GitHub as a PUBLIC repository.
 2. Name the repository `<my-name>-portfolio` in lowercase with hyphens (for example `rahul-kumar-portfolio`). Confirm the name with me before creating.
 3. Before pushing, double-check that `.env.local` and node_modules are NOT tracked.
 4. Create it and push the `main` branch: `gh repo create <name> --public --source=. --remote=origin --push` (rename the branch to main first if needed).
-5. Set the repository description to "Personal portfolio website built with React, Vite and Tailwind CSS during TAP Academy placement training" and add the topics: tap-academy, tap-academy-student, placement-training, augmented-reality, portfolio, portfolio-website, react, vite, tailwindcss, framer-motion, developer-portfolio (use `gh repo edit --add-topic ...`).
+5. Set the repository description to "Personal portfolio website built with React, Vite and Tailwind CSS during TAP Academy placement training, Bangalore" and add the topics: tap-academy, tap-academy-student, tap-academy-bangalore, placement-training, augmented-reality, animation, visualization, quality-teaching, portfolio, portfolio-website, react, vite, tailwindcss, framer-motion, developer-portfolio (use `gh repo edit --add-topic ...`).
 6. Print the repository URL.
 ````
 
@@ -932,7 +932,7 @@ Deploy this project to Vercel and give me the live URL.
 5. Print the final production URL and open it in the browser. Check that the preloader, hero video, all sections and the contact form work on the live site.
 ````
 
-**Check:** a `https://….vercel.app` link opens your portfolio. **Send it to the instructor.**
+**Check:** a `https://….vercel.app` link opens your portfolio. **Send it to your trainer.**
 
 ---
 
@@ -959,7 +959,7 @@ My live website URL is <PASTE YOUR VERCEL URL HERE>. Update everything that stil
 
 **Say to the class:** "A new website is invisible until Google visits it. Search Console tells Google your site exists, so it shows up in search within days instead of weeks."
 
-**Do on the website (with the instructor):**
+**Do on the website:**
 1. Open https://search.google.com/search-console and sign in with your Google account.
 2. **Add property** → choose **URL prefix** → paste your live link (for example `https://your-name-portfolio.vercel.app/`) → **Continue**.
 3. Under **Other verification methods**, open **HTML tag** and **copy the whole `<meta name="google-site-verification" ...>` tag**. Keep this tab open.
@@ -982,31 +982,73 @@ My verification tag:
 
 ---
 
-## Step 17 · LinkedIn launch post
+## Step 17 · LinkedIn launch: profile, post and first comment
 
-**Say to the class:** "Recruiters search LinkedIn every day, and Google shows LinkedIn posts in its results. Your launch post is how people find your new website."
+**Say to the class:** "Recruiters search LinkedIn every day, and Google shows LinkedIn posts in its results. Your launch takes one click: your caption, hashtags and links are already written below, and LinkedIn opens with your post typed. Read it once, add your screen recording, tag TAP Academy and post."
 
-**Where:** open https://chatgpt.com/ → paste the prompt → copy the version you like → open https://www.linkedin.com/ → **Start a post** → paste → attach your talking video (A2) or your portrait (A1) → where the text says @TAP Academy, retype `@TAP Academy` and pick the official page from the list so it gets tagged → **Post**.
+**Do:** open the TAP Academy page https://www.linkedin.com/company/thetapacademy/ and click **Follow**. You will tag this page in your post.
 
-**Prompt (paste in ChatGPT):**
+**Do:** record your website with your screen recorder, scrolling from the top to the bottom (about 30 to 60 seconds), the way you learned in class. You will attach it to your post.
+
+**Do (for more reach):** post on the same day as your classmates, keep #TAPAcademy and #QualityTeaching in your post, tag the TAP Academy page, and comment on your classmates' posts in the first hour. LinkedIn decides what trends, but a shared hashtag posted together by the whole batch gives everyone the best chance.
+
+[[linkedin-post]]
+
+**Optional: want the AI to write your profile text (headline, About, Education) and more post versions?** Open your project in **Google Antigravity**, paste the prompt below into the agent chat, then **read each question the agent asks and answer it in the chat**. Reply with a number when it shows a list. **In a hurry?** Reply `use defaults for everything` and the agent uses a ready-made set of TAP Academy points. You can still read and change the text before you post.
+
+**Prompt — LinkedIn launch kit** *(paste in the Antigravity agent chat)*:
 
 ````text
-Write a LinkedIn post announcing my new portfolio website. Write it in my own natural voice, in simple professional English, 90–130 words, first person, no exaggerated claims, at most 2 emojis.
+You are my LinkedIn launch coach. My portfolio website is finished and live. Help me create my LinkedIn launch text by interviewing me. Use simple English, ask ONE group of questions at a time, show choices as numbered lists, and wait for my answer before you move on. Never invent facts, numbers or achievements.
 
-Facts to use:
-- My name: [YOUR NAME]
-- My role: [YOUR ROLE]
-- My city: [YOUR CITY]
-- What I built: a personal portfolio website using React, Vite, Tailwind CSS and Framer Motion, with an AI-generated portrait and a talking intro video, deployed on Vercel
-- Where: during the placement training program at TAP Academy (write "@TAP Academy" exactly once in the text so I can tag the page)
-- Live website: <PASTE YOUR VERCEL URL HERE>
-- Source code: [YOUR GITHUB REPO LINK]
+SHORTCUT: if I reply "default" or "skip" to any question, do not ask it again and use the default for that question (the defaults are written below). If I reply "use defaults for everything", stop asking and use every default.
 
-Structure: a 1-line hook, 2–3 short sentences about what I built and learned, the two links on separate lines, one line inviting recruiters to connect, then these hashtags on the last line: #TAPAcademy #PlacementTraining #PortfolioWebsite #ReactJS #WebDevelopment #OpenToWork
-Give me 2 different versions so I can choose.
+STEP 1 - What you can already find out
+Read package.json, README.md and src/data/portfolioData.js, and run `git remote get-url origin`. Show me what you found: my name, my role, my city, what I built (the tech stack), my live website link and my GitHub repository link. Then ask: "Is this correct? Tell me anything to change or add." If the live website link is missing, ask me for it.
+Default: accept what you found.
+
+STEP 2 - My learning at TAP Academy, Bangalore
+Ask: "Which of these are true for you? Reply with the numbers (for example 1, 3, 4), or type your own sentence, or both."
+1. TAP Academy teaches with animations and visualization, so even difficult topics become easy to see.
+2. Learning with augmented reality made the concepts memorable. I could actually see how things work.
+3. The quality of teaching is very high, and every doubt gets answered patiently.
+4. I built real, hands-on projects, like this portfolio website, not just theory.
+5. The training is placement focused and prepares you for real interviews.
+6. The trainers are supportive and the learning environment keeps me motivated.
+7. In my opinion, TAP Academy is one of the most trusted names in tech training in Bangalore.
+8. I would recommend TAP Academy to anyone serious about starting a tech career.
+9. My journey at TAP Academy gave me the confidence to build and publish my own website.
+10. I want to write my own sentence.
+If I choose 10, ask me for my sentence and use it word for word.
+Default (if I skip, reply "default", or do not choose): use points 1, 2, 4 and 5. These four are plain facts about the training. Use points 3, 6, 7, 8 and 9 (opinions and recommendations) only if I choose them myself.
+
+STEP 3 - Style
+Ask these three questions together:
+a) "How should the post sound? 1) Professional  2) Friendly  3) Excited and energetic"
+b) "Do you want to thank a trainer or mention anyone by name in the post? (optional, type the name or say no)"
+c) "Will you attach a screen recording of your website to the post? (yes or no)"
+Defaults: a) 1 (Professional), b) no, c) yes.
+
+STEP 4 - Write the text
+After my answers, write all three parts. Use only the TAP Academy points I confirmed. Write opinions as my own experience, for example "In my experience...".
+A) PROFILE: 2 headline options (maximum 220 characters: my role, "Student at TAP Academy" and two of my skill keywords, separated by " | "); an ABOUT text (maximum 90 words) that ends with my website link on its own line; and a description (35 to 50 words) for an Education or Training entry called "TAP Academy, Bangalore".
+B) LAUNCH POST: 2 different versions (120 to 160 words each, not counting the hashtag line) in the style I chose, first person, at most 3 emojis. Include a 1-line hook, what I built and learned, my TAP Academy experience, a mention of the screen recording if I said yes, my website link and my GitHub link on separate lines, one line inviting recruiters and engineers to connect, and "@TAP Academy" written exactly once so I can tag the page. End with ONE final line of 15 to 20 hashtags, in this order, written exactly like this:
+   1. Brand: #TAPAcademy #TAPAcademyBangalore #BestInstitute #BestCoaching #BestTrainers #Top1TrainingInstituteinBangalore. These campaign hashtags are required in every post.
+   2. What makes the teaching special: #AugmentedReality #Animation #Visualization #QualityTeaching #GoodTeaching
+   3. Technical reach: choose up to 6 that fit what I built from #WebDevelopment #FullStackDeveloper #SoftwareDevelopment #SoftwareEngineer #Programming #Coding #LearnToCode #DSA #DataStructures #GenerativeAI #AI #OpenToWork, and add up to 3 hashtags for the technologies that really appear in my project (read package.json and the skills in src/data/portfolioData.js), for example #ReactJS #JavaScript #TailwindCSS #Java #SpringBoot #Python #NodeJS #FramerMotion. Never add a technology I did not use.
+   4. Career reach: #PlacementTraining #Freshers #TechCareers #CareerGrowth #Bangalore #BengaluruTech
+   If the total is more than 20, remove hashtags from group 4 first, then from group 3. Never remove group 1 or group 2.
+C) FIRST COMMENT: 3 different versions (35 to 55 words each), first person, at most 1 emoji. Use natural words such as great, amazing or awesome only where they fit what I confirmed. Use "I recommend it to everyone" (or any recommendation) ONLY if I chose point 8. Write "@TAP Academy" once and end with #TAPAcademy #BestInstitute #BestCoaching #BestTrainers #Top1TrainingInstituteinBangalore.
+
+STEP 5 - Save and review
+Save all of it to a file named linkedin-launch.md in the project root, add linkedin-launch.md to .gitignore, and also show the full text in the chat. Then ask which versions I like and offer to change the tone or length.
 ````
 
-**Check:** your post is live, the TAP Academy page is tagged (shown as a blue name) and both links are clickable.
+**Where (posting):** open https://www.linkedin.com/ → **Start a post** → paste your favourite launch post → click **Add media** and attach your screen recording → where the text says @TAP Academy, delete those words, type `@TAP Academy` again and pick the official page from the list so it turns blue → **Post**.
+
+**Then:** right after posting, paste your favourite comment as the first comment under your own post, retyping `@TAP Academy` the same way. Finally, update your profile: paste the headline into **Edit profile → Headline**, the About text into **About**, and the Education entry under **Add profile section → Education** with the school name TAP Academy.
+
+**Check:** your post is live with your screen recording, TAP Academy is tagged (blue name), the hashtags and both links work, and your first comment is under it. Your headline now says "Student at TAP Academy".
 
 ---
 
@@ -1031,7 +1073,7 @@ Live portfolio: <PASTE YOUR VERCEL URL HERE>
 Source code: [YOUR GITHUB REPO LINK]
 TAP Academy: https://thetapacademy.com/
 
-#TAPAcademy #PlacementTraining #Portfolio
+#TAPAcademy #BestInstitute #BestCoaching #BestTrainers #Top1TrainingInstituteinBangalore #PlacementTraining #Portfolio
 ````
 
 **Tags** *(in the upload form: Show more → Tags)*:

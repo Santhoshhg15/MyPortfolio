@@ -1,11 +1,11 @@
 <<<INTRO>>>
 # AI-Driven Class Playbook — Template 3: Signal HUD (GSAP + three.js)
 
-**How this class works:** nobody types code. For every step you (1) say a few words to the class, (2) copy the prompt, (3) paste it into the **Antigravity agent chat**, (4) check the result in the browser. Installation, libraries, files, Git and deployment are all done *by the AI agent* from the prompts below.
+**How this works:** nobody types code. For every step you (1) read the short intro, (2) copy the prompt, (3) paste it into the **Antigravity agent chat**, (4) check the result in the browser. Installation, libraries, files, Git and deployment are all done *by the AI agent* from the prompts below.
 
 **What you are building:** a dark, technical, motion-led developer portfolio with a "heads-up display" feel. A fixed HUD bar with a live local clock and rotating status line, a huge name that decodes from random characters, a live 3D wireframe "signal core" you can drag to rotate, buttery smooth scrolling, count-up stats, a pinned horizontal project gallery, a timeline that fills as you scroll, a terminal-style contact form and a custom crosshair cursor. Near-black, warm off-white and one signal-orange (#FF5B1F) accent; Space Grotesk + JetBrains Mono.
 
-Before you begin, the class needs these free websites open in browser tabs:
+Before you begin, open these free websites in browser tabs:
 
 | Tool | Used for | Link |
 |---|---|---|
@@ -15,7 +15,7 @@ Before you begin, the class needs these free websites open in browser tabs:
 | **Vercel** | Publishing the live website | https://vercel.com/ |
 | EmailJS *(Step 9)* | Making the contact form send email | https://www.emailjs.com/ |
 
-> Sign in to all of them with a Google or GitHub account **before class**. A few steps (logins, downloading a generated image) are done by clicking in the browser — the playbook tells you exactly when.
+> Sign in to all of them with a Google or GitHub account **before you start**. A few steps (logins, downloading a generated image) are done by clicking in the browser — the playbook tells you exactly when.
 
 <<<QUICKMAP>>>
 ## Quick map
@@ -474,7 +474,7 @@ Add explanation videos to the project cards. Only projects whose `video` field i
 
 **Say to the class:** "A static website cannot send email by itself. EmailJS sends it from the browser. Even without keys the form still works by opening your email app."
 
-**Do on the website (2 minutes, with the instructor):**
+**Do on the website (about 2 minutes):**
 1. Open https://www.emailjs.com/ → sign up (free).
 2. **Email Services → Add New Service → Gmail** → connect → copy the **Service ID**.
 3. **Email Templates → Create New Template**: Subject `Portfolio message from {{user_name}}`; Content: `From: {{user_name}} ({{user_email}})` and `{{message}}`; set *To email* to your own email → Save → copy the **Template ID**.

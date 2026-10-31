@@ -1,8 +1,104 @@
 {
   "id": "template-1",
-  "name": "Template 1 \u00e2\u20ac\u201d Red Studio",
+  "name": "Template 1 â€” Red Studio",
   "short": "Template 1",
   "profile": "template-1",
   "createLabel": "Create portrait &amp; video",
-  "key": "t1"
+  "key": "t1",
+  "_merge_disabled": [
+    {
+      "steps": [
+        "step1",
+        "step2"
+      ],
+      "title": "Create the folder, open Antigravity and set up the project"
+    },
+    {
+      "steps": [
+        "step5"
+      ],
+      "title": "Navbar and Footer",
+      "join": [
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "steps": [
+        "step6"
+      ],
+      "title": "Hero, About, visiting card and intro video",
+      "join": [
+        [
+          1,
+          2
+        ]
+      ]
+    },
+    {
+      "steps": [
+        "step7"
+      ],
+      "title": "Skills, Projects, Experience, Leadership, Soft Skills",
+      "join": [
+        [
+          0,
+          1
+        ],
+        [
+          3,
+          4,
+          5,
+          6
+        ]
+      ],
+      "names": {
+        "0": "Technical Skills",
+        "1": "Projects"
+      }
+    },
+    {
+      "steps": [
+        "step8"
+      ],
+      "title": "Preloader and \"My Process\"",
+      "join": [
+        [
+          1,
+          2
+        ]
+      ],
+      "names": {
+        "1": "My Process",
+        "2": "Add them to App.jsx"
+      }
+    },
+    {
+      "steps": [
+        "step9",
+        "step10"
+      ],
+      "title": "Contact form, your keys and the fluid cursor"
+    },
+    {
+      "steps": [
+        "step11",
+        "step12"
+      ],
+      "title": "Check, polish, browser tab and README",
+      "join": [
+        [
+          0,
+          1
+        ]
+      ],
+      "names": {
+        "0": "Check, fix and polish",
+        "1": "Browser tab, share preview and README"
+      }
+    }
+  ],
+  "linkedinTags": "#ReactJS #TailwindCSS #FramerMotion"
 }

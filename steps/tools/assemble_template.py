@@ -46,8 +46,9 @@ def assemble(folder):
     cd = cd.replace(
         'using React, Vite, Tailwind CSS and Framer Motion, with an AI-generated portrait and a talking intro video, deployed on Vercel',
         cfg.get('linkedinBuilt', 'using React, Vite and Tailwind CSS, with an AI-generated portrait, deployed on Vercel'))
-    cd = cd.replace('attach your talking video (A2) or your portrait (A1)', cfg.get('linkedinAttach', 'attach your portrait (A1)'))
-    out.append(cd.rstrip() + '\n\n' + parts['DONE'] + '\n---\n')
+    built = cfg.get('linkedinBuilt', 'using React, Vite and Tailwind CSS, deployed on Vercel')
+    step18 = parts.get('STEP18', '').replace('@@BUILT@@', built)
+    out.append(cd.rstrip() + '\n\n' + (step18 + '\n' if step18 else '') + parts['DONE'] + '\n---\n')
 
     tr = slice_t1('# Troubleshooting Prompts', '**T7 ·')
     tr = tr.replace('(first_name, last_name, user_email, message)', cfg.get('emailFields', '(user_name, user_email, message)'))

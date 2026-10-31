@@ -1,11 +1,11 @@
 <<<INTRO>>>
 # AI-Driven Class Playbook — Template 2: Cinematic Dark Portfolio (GSAP)
 
-**How this class works:** nobody types code. For every step you (1) say a few words to the class, (2) copy the prompt, (3) paste it into the **Antigravity agent chat**, (4) check the result in the browser. Installation, libraries, files, Git and deployment are all done *by the AI agent* from the prompts below.
+**How this works:** nobody types code. For every step you (1) read the short intro, (2) copy the prompt, (3) paste it into the **Antigravity agent chat**, (4) check the result in the browser. Installation, libraries, files, Git and deployment are all done *by the AI agent* from the prompts below.
 
 **What you are building:** a cinematic, editorial developer portfolio. A huge metallic "PORTFOLIO" headline that scrambles in letter by letter, your full-body portrait rising from the bottom of the screen, a word-by-word scroll-reveal intro, a scrolling skills ticker, a full-width electric-lime services accordion, large editorial project stories, a premium contact form and a cinematic footer. Black, white and gray, with a single electric-lime (#CCFF00) accent.
 
-Before you begin, the class needs these free websites open in browser tabs:
+Before you begin, open these free websites in browser tabs:
 
 | Tool | Used for | Link |
 |---|---|---|
@@ -15,7 +15,7 @@ Before you begin, the class needs these free websites open in browser tabs:
 | **Vercel** | Publishing the live website | https://vercel.com/ |
 | EmailJS *(Step 9)* | Making the contact form send email | https://www.emailjs.com/ |
 
-> Sign in to all of them with a Google or GitHub account **before class**. A few steps (logins, downloading a generated image) are done by clicking in the browser — the playbook tells you exactly when.
+> Sign in to all of them with a Google or GitHub account **before you start**. A few steps (logins, downloading a generated image) are done by clicking in the browser — the playbook tells you exactly when.
 
 <<<QUICKMAP>>>
 ## Quick map
@@ -602,7 +602,7 @@ Add explanation videos to the project blocks. Only projects whose `video` field 
 
 **Say to the class:** "A static website cannot send email by itself. EmailJS sends it from the browser. Even without keys the form still works by opening your email app."
 
-**Do on the website (2 minutes, with the instructor):**
+**Do on the website (about 2 minutes):**
 1. Open https://www.emailjs.com/ → sign up (free).
 2. **Email Services → Add New Service → Gmail** → connect → copy the **Service ID**.
 3. **Email Templates → Create New Template**: Subject `Portfolio message: {{subject}}`; Content: `From: {{user_name}} ({{user_email}}, {{user_phone}})` and `{{message}}`; set *To email* to your own email → Save → copy the **Template ID**.
